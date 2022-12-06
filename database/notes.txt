@@ -1,0 +1,9 @@
+Create Indexes in database to allow filtering by name
+
+db.virtual_machines.createIndex({"name": "text"})
+db.getCollection("virtual_machines").createIndex({"name": "text"})
+
+
+
+drop index 
+db.virtual_machines.dropIndex("name_text")

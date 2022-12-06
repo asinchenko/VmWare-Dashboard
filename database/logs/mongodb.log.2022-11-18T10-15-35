@@ -1,0 +1,2 @@
+Unrecognized option: net.bindIP
+try '/usr/local/opt/mongodb-community/bin/mongod --help' for more information
