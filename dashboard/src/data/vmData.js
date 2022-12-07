@@ -34,19 +34,18 @@ export const vmGrid = [
       
     },
     { headerText: '  State',
-      width: '120',
+      width: '60',
       template: customerGridStatus,
       field: 'state'
     },
     { field: 'cpu',
       headerText: '  CPU',
-      width: '40',
+      width: '60',
       },
   
     { field: 'ram',
       headerText: '  RAM',
-      width: '80',
-      textAlign: 'Center' },
+      width: '60',},
     
     { field: 'storage',
       template: gridStorageProfile,
@@ -61,15 +60,3 @@ export const vmGrid = [
 
 
 
-const gridVMProfile = (props) => (
-    <div className="flex items-center gap-2">
-        <p>{props.Name}</p>
-    </div>
-);
-
-const gridVMCountry = (props) => (
-    <div className="flex items-center justify-center gap-2">
-        <GrLocation />
-        <span>{props.Country}</span>
-    </div>
-);

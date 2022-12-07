@@ -1,11 +1,17 @@
 import React from 'react'
+import { useNavigate, Link } from "react-router-dom";
 import {MainChart, ResourcePool} from '../components';
 import {hardwareEquipmentData} from '../data/hardwareGroup';
 import {useStateContext} from '../contexts/ContextProvider';
+
 import { GiCoinsPile } from 'react-icons/gi';
 
 const Ecommerce = () => {
-
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `newPath`; 
+    navigate(path);
+  };
   function formatBytes(kbytes, decimals = 2, value=0) {
     if (!+kbytes) return '0 B'
 
@@ -265,11 +271,12 @@ const Ecommerce = () => {
             key={item.title} className="bg-white 
             dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56
             p-4 pt-9 rounded 2xl flex flex-col items-center">
-            <button type="button" 
+            <Link to={'../orders/'+item.filter}><button type="button" 
             style={{color:item.iconColor, backgroundColor:item.iconBg}}
             className="text-3xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl hover:text-2xl">
             {item.icon}
             </button>
+            </Link>
             <p className="mt-3">
               <span className="text-lg font-semibold ">{item.amount}</span>
               <span className={`text-sm text-${item.pcColor} ml-2`}>{item.percentage}</span>
