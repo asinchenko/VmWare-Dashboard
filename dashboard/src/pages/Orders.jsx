@@ -1,4 +1,5 @@
 import React from 'react'
+import { useParams } from 'react-router-dom';
 import {GridComponent, ColumnsDirective, ColumnDirective, Resize, Sort, 
   ContextMenu, Filter, Page, ExcelExport, PdfExport, Edit, Inject} from '@syncfusion/ej2-react-grids'
 import HP from '../data/hp.png'
@@ -12,6 +13,7 @@ const url_get = 'http://localhost:4000/api/img/description/'
 
 const Orders = () => {
   const {hardWareDevices} = useStateContext();
+  const params = useParams()
   const getImage = async (description) => {
     try {
       let response = await axios.get(url_get+description);
@@ -19,18 +21,31 @@ const Orders = () => {
     }catch(e){
       console.log(e)
     }
+  };
+  let filterOptions;
+  if (params.param === "all"){
+    filterOptions ={};
+  }else {
+    filterOptions = {
+      columns: [
+          { field: 'type', matchCase: false,
+              operator: 'startswith', predicate: 'and', value: String(params.param)
+          }
+      ]
+    };
   }
+  
   const gridOrderImage = (props) => {
       if (props.vendor.toLowerCase() === "hp"){
-        return <div><img src={HP} alt=""/></div>
+        return <div><img src={HP} alt="" className="rounded-full"/></div>
       }else if (props.vendor.toLowerCase() === "hpe"){
-        return <div><img src={HPE} alt="" className="object-scale-down"/></div>
+        return <div><img src={HPE} alt="" className="rounded-full"/></div>
       } else if (props.vendor.toLowerCase() === "dell"){
-        return <div><img src={DELL} alt=""/></div>
+        return <div><img src={DELL} alt="" className="rounded-full"/></div>
       } else if (props.vendor.toLowerCase() === "cisco"){
-        return <div><img src={CISCO} alt=""/></div>
+        return <div><img src={CISCO} alt="" className="rounded-full"/></div>
       } else if (props.vendor.toLowerCase() === "hp"){
-        return <div><img src={HP} alt=""/></div>
+        return <div><img src={HP} alt="" className="rounded-full"/></div>
       }
   };
   const gridOrderStatus = (props) => (
@@ -43,7 +58,7 @@ const Orders = () => {
   );
   const ordersGrid = [
     { field: 'vendor',
-      headerText: 'Image',
+      headerText: '',
       template: gridOrderImage,
       width: '60',
     },
@@ -56,6 +71,10 @@ const Orders = () => {
     { field: 'hwName',
       headerText: 'Device Name',
       width: '150',
+    },
+    { field: 'type',
+      headerText: 'Type',
+      width: '100',
     },
     {
       headerText: 'Status',
@@ -79,7 +98,7 @@ const Orders = () => {
       width: '150',
     },
   ];
-
+  
   if (hardWareDevices.length == 0){
     return (
       <div>
@@ -92,6 +111,8 @@ const Orders = () => {
           <GridComponent id="gridcomp"
           allowPaging
           allowSorting
+          allowFiltering
+          filterSettings={filterOptions}
           dataSource={hardWareDevices}>
             <ColumnsDirective >
             {ordersGrid.map((item, index) => (

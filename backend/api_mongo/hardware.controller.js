@@ -32,13 +32,15 @@ export default class HWsController {
     try {
         const vendor = req.body.vendor;
         const hwName = req.body.name;
+        const type = req.body.type;
         const description = req.body.description;
         const status = req.body.status;
         const cpu = req.body.cpu;
         const ram = req.body.ram;
         const hwPost = await HardWare.addHW(
             vendor,
-            hwName, 
+            hwName,
+            type, 
             description, 
             status,
             cpu, 

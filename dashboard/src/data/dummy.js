@@ -496,7 +496,7 @@ export const links = [
       },
       {
         name: 'Оборудование',
-        url: 'orders',
+        url: 'orders/all',
         icon: <RiContactsLine />,
       },
     ],

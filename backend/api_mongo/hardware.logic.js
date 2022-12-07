@@ -51,13 +51,14 @@ export default class HardWare {
     }
     };
 
-    static async addHW(vendor,hwName, description, status,cpu,ram){
+    static async addHW(vendor,hwName, type, description, status,cpu,ram){
         try{
             
             let date = new Date();
             const addDoc = {
                 vendor,
                 hwName, 
+                type,
                 description, 
                 status,
                 cpu, 
