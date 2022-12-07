@@ -5,6 +5,7 @@ import axios from 'axios';
 import https from 'https';
 import vmsRouter from "./routes/vms.route.js";
 import hwRouter from "./routes/hw.route.js";
+import imgRouter from "./routes/img.route.js";
 import usersRouter from "./routes/users.route.js";
 import VirtualMachines from './api_mongo/vms.logic.js';
 import vcenterGetVMData from './api_vcenter/vms.vcenter.js'
@@ -63,10 +64,6 @@ const headers = {
     responseType: 'json',
 }
 
-app.get("/hello", (req, res) => {
-    res.send("Hello World!");
-});
-
 app.get("/token", (req, res) => {
     // replace with a custom URL as required
     //const backendUrl = "https://192.168.88.50/rest/vcenter/vm";
@@ -89,9 +86,6 @@ app.get("/token", (req, res) => {
 app.get("/data", (req, res) => {
     // replace with a custom URL as required
     const backendUrl = "https://192.168.88.50/rest/vcenter/vm";
-    
-    //const backendUrl = "https://192.168.88.50/rest/com/vmware/cis/session"
-    // return the data without modification
     axios.get(backendUrl,headers
     ).then(response => res.send(response.data));
 });
@@ -135,6 +129,7 @@ app.get("/fetch", (req, res) => {
 
 app.use('/api/vms', vmsRouter);
 app.use('/api/hw', hwRouter);
+app.use('/api/img', imgRouter);
 app.use('/api/users', usersRouter);
 app.use('*',(req, res) => res.status(404).json({error: "not Found"}));
 

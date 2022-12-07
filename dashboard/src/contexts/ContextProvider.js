@@ -46,7 +46,7 @@ export const ContextProvider = ({children}) => {
 
     const [hardWareDevices, setHardWareDevices] = useState([]);
 
-
+    const [postImage, setPostImage] = useState({myFile : ""});
 
     return (
         <StateContext.Provider
@@ -69,7 +69,9 @@ export const ContextProvider = ({children}) => {
             storageTotalFCAmount, setStorageTotalFCAmount,
             storageTotalNLAmount, setStorageTotalNLAmount,
 
-            hardWareDevices, setHardWareDevices
+            hardWareDevices, setHardWareDevices,
+
+            postImage, setPostImage
         }}>
             {children}
         </StateContext.Provider>
