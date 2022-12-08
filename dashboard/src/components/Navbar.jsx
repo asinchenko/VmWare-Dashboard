@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {AiOutlineMenu} from 'react-icons/ai';
 import {FiShoppingCart} from 'react-icons/fi';
+import { Link } from "react-router-dom";
 import {BsChatLeft} from 'react-icons/bs';
 import {RiNotification3Line} from 'react-icons/ri'; 
 import {MdKeyboardArrowDown} from 'react-icons/md';
@@ -47,6 +48,18 @@ const Navbar = () => {
         !prevActiveMenu)} 
         color={currentColor}  icon={<AiOutlineMenu/>}/>
         <div className="flex">
+          <Link to="/login">
+            <NavButton 
+            title="Sign In"
+            color={currentColor}
+            />
+          </Link>
+          <Link to="/signup">
+            <NavButton 
+            title="Sign Up"
+            color={currentColor}
+            />
+          </Link>
           <NavButton 
           title="Cart" 
           customFunc={() => handleClick('cart')} 

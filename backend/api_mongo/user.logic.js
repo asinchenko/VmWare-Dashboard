@@ -1,6 +1,7 @@
 import mongodb from "mongodb";
 const ObjectId = mongodb.ObjectId;
 import bcrypt from "bcrypt";
+import validator from "validator";
 let user;
 export default class User {
     static async injectDB(conn) {
@@ -111,17 +112,24 @@ export default class User {
     };
 
     static async signupUserHashPassword(email, password){
-        const exists = await user.findOne({email:email})
+        const exists = await user.findOne({email})
+
+        //validator
+        if (!email || !password){
+            throw Error('All fields must be filled')
+        };
+        if (!validator.isEmail(email)){
+            throw Error('Email is not vaild')
+        };
+        if (!validator.isStrongPassword(password)){
+            throw Error('Password is not strong enough')
+        };
         if (exists) {
             throw Error('Email already in use')
         };
-
         if (!email.includes("vehi.kz")){
             throw Error('Email domain is not vaild')
-        }
-        if (!password.includes("vehi.kz")){
-            throw Error('Email domain is not vaild')
-        }
+        };
         //Hash password using bcrypt
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
@@ -132,6 +140,23 @@ export default class User {
             date,
         }
         return await user.insertOne(addDoc)
-         
+    };
+    static async loginUser(email, password){
+        if (!email || !password){
+            throw Error('All fields must be filled')
+        };
+        const userLogin = await user.findOne({email})
+
+        if (!userLogin){
+            throw Error('Incorect email')
+        };
+
+        const match = await  bcrypt.compare(password, userLogin.password);
+
+        if (!match){
+            throw Error('Incorrect password')
+        };
+
+        return userLogin
     }
 }

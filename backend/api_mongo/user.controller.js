@@ -1,9 +1,22 @@
 import mongodb from "mongodb";
 import User from './user.logic.js'
+import jwt from 'jsonwebtoken'
+import bcrypt from "bcrypt";
+
+const createToken = (_id) => {
+    return jwt.sign({_id}, process.env.SECRET, {expiresIn: '30d'})
+}
 
 export default class UserController {
     static async apiLoginUser(req, res){
-        res.json({mssg:"login User"})
+        const {email, password} = req.body;
+        try {
+            const loginUser = await User.loginUser(email, password);
+            const token = createToken(loginUser._id)
+            res.status(200).json({email, token})
+        }catch(e){
+            res.status(400).json({error:e.message})
+        }
     };
 
     static async apiSignupUser(req, res){
@@ -11,7 +24,9 @@ export default class UserController {
         try {
             const newUser = await User.signupUserHashPassword(email, password)
             
-            res.status(200).json({email, newUser})
+            //create token
+            const token = createToken(newUser._id)
+            res.status(200).json({email, token})
         }catch(e){
             res.status(400).json({error:e.message})
         }

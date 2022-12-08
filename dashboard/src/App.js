@@ -3,13 +3,12 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {FiSettings} from 'react-icons/fi';
 import {TooltipComponent} from '@syncfusion/ej2-react-popups';
 import {Navbar, Footer, Sidebar, ThemeSettings} from './components';
-import {Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Area, Line, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor} from './pages';
+import {Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Area, Line, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, Login, Signup} from './pages';
 import {useStateContext} from './contexts/ContextProvider';
 import VMsDataService from "./services/vms";
 import HWDataService from "./services/hws";
 import './App.css'
 //1c7050c916f9fed3227a2b12f49e380e
-const access_token = '7ccda3f22e2079db97b3c8d135e4ba05';
 //const src = "https://192.168.88.50/rest/vcenter/vm"
 const src = "http://localhost:4000/fetch"
 
@@ -122,6 +121,8 @@ const App = () => {
             <Route path="/color" element={<ColorMapping/>}/>
             <Route path="/pyramid" element={<Pyramid/>}/>
             <Route path="/stacked" element={<Stacked/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/signup" element={<Signup/>}/>
           </Routes>
         </div>
       </div>
