@@ -6,7 +6,7 @@ import https from 'https';
 import vmsRouter from "./routes/vms.route.js";
 import hwRouter from "./routes/hw.route.js";
 import imgRouter from "./routes/img.route.js";
-import usersRouter from "./routes/users.route.js";
+import usersRouter from "./routes/user.route.js";
 import VirtualMachines from './api_mongo/vms.logic.js';
 import vcenterGetVMData from './api_vcenter/vms.vcenter.js'
 // enable CORS
@@ -130,7 +130,7 @@ app.get("/fetch", (req, res) => {
 app.use('/api/vms', vmsRouter);
 app.use('/api/hw', hwRouter);
 app.use('/api/img', imgRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/user', usersRouter);
 app.use('*',(req, res) => res.status(404).json({error: "not Found"}));
 
 
