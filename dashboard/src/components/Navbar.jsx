@@ -9,6 +9,7 @@ import {TooltipComponent} from '@syncfusion/ej2-react-popups';
 import avatar from '../data/avatar.jpg';
 import {Cart, Chat, Notification, UserProfile} from '.';
 import {useStateContext} from '../contexts/ContextProvider';
+import {useLogout} from '../services/useLogout'
 
 const NavButton = ({title, customFunc, icon, color, dotColor}) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -22,6 +23,7 @@ const NavButton = ({title, customFunc, icon, color, dotColor}) => (
 )
 
 const Navbar = () => {
+  const {logout} = useLogout();
   const {activeMenu, setActiveMenu, isClicked, setIsClicked,
   handleClick, screenSize, setScreenSize, currentColor} = useStateContext();
   useEffect(()=> {
@@ -91,6 +93,7 @@ const Navbar = () => {
               <MdKeyboardArrowDown className="text-gray-400 text-14"/>
             </div>
           </TooltipComponent>
+          <div><button onClick={logout}>Logout</button></div>
           {isClicked.cart && <Cart/>}
           {isClicked.chat && <Chat/>}  
           {isClicked.notification && <Notification/>}  
