@@ -10,6 +10,7 @@ import avatar from '../data/avatar.jpg';
 import {Cart, Chat, Notification, UserProfile} from '.';
 import {useStateContext} from '../contexts/ContextProvider';
 import {useLogout} from '../services/useLogout'
+import {useAuthContext} from '../services/useAuthContext'
 
 const NavButton = ({title, customFunc, icon, color, dotColor}) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -23,6 +24,7 @@ const NavButton = ({title, customFunc, icon, color, dotColor}) => (
 )
 
 const Navbar = () => {
+  const {user} = useAuthContext();
   const {logout} = useLogout();
   const {activeMenu, setActiveMenu, isClicked, setIsClicked,
   handleClick, screenSize, setScreenSize, currentColor} = useStateContext();
@@ -49,19 +51,7 @@ const Navbar = () => {
         setActiveMenu((prevActiveMenu) => 
         !prevActiveMenu)} 
         color={currentColor}  icon={<AiOutlineMenu/>}/>
-        <div className="flex">
-          <Link to="/login">
-            <NavButton 
-            title="Sign In"
-            color={currentColor}
-            />
-          </Link>
-          <Link to="/signup">
-            <NavButton 
-            title="Sign Up"
-            color={currentColor}
-            />
-          </Link>
+        {user && (<div className="flex">
           <NavButton 
           title="Cart" 
           customFunc={() => handleClick('cart')} 
@@ -98,7 +88,20 @@ const Navbar = () => {
           {isClicked.chat && <Chat/>}  
           {isClicked.notification && <Notification/>}  
           {isClicked.userProfile && <UserProfile/>}     
-        </div>
+        </div>)}
+        {!user && (
+        <div className="flex gap-4">
+          <Link to="/login">
+            <button 
+            color={currentColor}
+            >Sign In</button>
+          </Link>
+          <Link to="/signup">
+            <button 
+            color={currentColor}
+            >Sign Up</button>
+          </Link>
+        </div>)}        
     </div>
   )
 }

@@ -15,7 +15,7 @@ export const useSignup = () => {
         await axios.post('http://localhost:4000/api/user/signup', {
             email, password
         }).then(res => {
-            let result = res.data;
+            let result = JSON.stringify(res.data);
             localStorage.setItem('user', result)
             dispatch({type:'LOGIN', payload: result})
             setIsLoading(false)

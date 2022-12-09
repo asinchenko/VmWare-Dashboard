@@ -159,4 +159,9 @@ export default class User {
 
         return userLogin
     }
+
+    static async findUser(_id){
+        const find = await user.findOne({_id: ObjectId(_id)})
+        return find
+    }
 }

@@ -1,6 +1,9 @@
 import express from "express";
 const router = express.Router();
 import HWsController from "../api_mongo/hardware.controller.js"
+import requireAuth from '../middleware/requireAuth.js'
+
+router.use(requireAuth)
 
 router.route('/').get(HWsController.apiGetHWs);
 router.route("/id/:id").get(HWsController.apiGetHWById)
