@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import {FiSettings} from 'react-icons/fi';
 import {TooltipComponent} from '@syncfusion/ej2-react-popups';
 import {Navbar, Footer, Sidebar, ThemeSettings} from './components';
@@ -34,7 +34,7 @@ const App = () => {
 
     var clientResourcesArray = [];
     const retrieveResults = () => {
-      if (user) {
+      
       getLatest()
         .then(response => {
             let updatedResponse = response.data[0].vmList;
@@ -52,23 +52,17 @@ const App = () => {
         .then(response => {
           setHardWareDevices(response.data.hardWare)
         })
-      }else {
-        throw Error("You must be logged in")
-      }
     }
   useEffect(() => {
-    if (searchLatestVM.length == 0 || latestTimeUpdate === 0 ){
-      retrieveResults();
-      setCPUTotalAmount(128);
-      setRAMTotalAmount(1024);
-      setStoragaTotalSSDAmount(960);
-      setStorageTotalFCAmount(50);
-      setStorageTotalNLAmount(1024);
-  }});
-  // useEffect(() => {
-
-  // });
-
+    if (user) {
+      if (searchLatestVM.length == 0 || latestTimeUpdate === 0 ){
+        retrieveResults();
+        setCPUTotalAmount(128);
+        setRAMTotalAmount(1024);
+        setStoragaTotalSSDAmount(960);
+        setStorageTotalFCAmount(50);
+        setStorageTotalNLAmount(1024);
+  }}});
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
       <BrowserRouter>
@@ -108,28 +102,29 @@ const App = () => {
           {themeSettings && <ThemeSettings />}
           <Routes>
             {/* Dashboard  */}
-            <Route path="/" element={<Ecommerce/>}/>
-            <Route path="/ecommerce" element={<Ecommerce/>}/>
+            <Route path="/" element={user ? <Ecommerce/> : <Navigate to="/login"/>}/>
+            <Route path="/ecommerce" element={user ? <Ecommerce/> : <Navigate to="/login"/>}/>
             {/* Pages */}
-            <Route path="/orders/:param" element={<Orders/>}/>
-            <Route path="/employees" element={<Employees/>}/>
-            <Route path="/customers" element={<Customers/>}/>
+            <Route path="/orders/:param" element={user ? <Orders/> : <Navigate to="/login"/>}/>
+            <Route path="/employees" element={user ? <Employees/> : <Navigate to="/login"/>}/>
+            <Route path="/customers" element={user ? <Customers/> : <Navigate to="/login"/>}/>
             {/* Apps */}
-            <Route path="/kanban" element={<Kanban/>}/>
-            <Route path="/editor" element={<Editor/>}/>
-            <Route path="/calendar" element={<Calendar/>}/>
-            <Route path="/color-picker" element={<ColorPicker/>}/>
+            <Route path="/kanban" element={user ? <Kanban/> : <Navigate to="/login"/>}/>
+            <Route path="/editor" element={user ? <Editor/> : <Navigate to="/login"/>}/>
+            <Route path="/calendar" element={user ? <Calendar/> : <Navigate to="/login"/>}/>
+            <Route path="/color-picker" element={user ? <ColorPicker/> : <Navigate to="/login"/>}/>
             {/* Charts */}
-            <Route path="/line" element={<Line/>}/>
-            <Route path="/area" element={<Area/>}/>
-            <Route path="/bar" element={<Bar/>}/>
-            <Route path="/pie" element={<Pie/>}/>
-            <Route path="/financial" element={<Financial/>}/>
-            <Route path="/color" element={<ColorMapping/>}/>
-            <Route path="/pyramid" element={<Pyramid/>}/>
-            <Route path="/stacked" element={<Stacked/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/signup" element={<Signup/>}/>
+            <Route path="/line" element={user ? <Line/> : <Navigate to="/login"/>}/>
+            <Route path="/area" element={user ? <Area/> : <Navigate to="/login"/>}/>
+            <Route path="/bar" element={user ? <Bar/> : <Navigate to="/login"/>}/>
+            <Route path="/pie" element={user ? <Pie/> : <Navigate to="/login"/>}/>
+            <Route path="/financial" element={user ? <Financial/> : <Navigate to="/login"/>}/>
+            <Route path="/color" element={user ? <ColorMapping/> : <Navigate to="/login"/>}/>
+            <Route path="/pyramid" element={user ? <Pyramid/> : <Navigate to="/login"/>}/>
+            <Route path="/stacked" element={user ? <Stacked/> : <Navigate to="/login"/>}/>
+
+            <Route path="/login" element={user ? <Login/> : <Navigate to="/"/>}/>
+            <Route path="/signup" element={user ? <Signup/> : <Navigate to="/"/>}/>
           </Routes>
         </div>
       </div>
