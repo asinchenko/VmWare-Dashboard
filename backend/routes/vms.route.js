@@ -1,8 +1,9 @@
 import express from "express";
 const router = express.Router();
-import VM from '../models/vm.model.js';
 import VMsController from "../api_mongo/vms.controller.js"
+import requireAuth from '../middleware/requireAuth.js'
 
+router.use(requireAuth)
 
 router.route('/').get(VMsController.apiGetVMs);
 router.route("/id/:id").get(VMsController.apiGetVMById)

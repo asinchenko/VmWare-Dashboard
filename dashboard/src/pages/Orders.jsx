@@ -99,7 +99,7 @@ const Orders = () => {
     },
   ];
   
-  if (hardWareDevices.length == 0){
+  if (hardWareDevices === []){
     return (
       <div>
       </div>

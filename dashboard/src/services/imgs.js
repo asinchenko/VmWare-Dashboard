@@ -1,26 +1,14 @@
-import http from "../http-axios";
+import React from "react";
+import useAxios from "./useAxios";
 
-class IMGDataService {
-    
-    getAll(page=0){
-        return http.get(`img/?page=${page}`);
-    }
+const IMGDataService = () => {
+  const http = useAxios();
 
-    post(data){
-        return http.post(`img/pic`,data)
-    }
+  const getAll = (page = 0) => {
+    return http.get(`img/?page=${page}`);
+  };
 
-    getById(id){
-        return http.get(`img/id/${id}`)
-    }
+  return {getAll};
+};
 
-    find(query, by="name", page=0){
-        return http.get(`img/?${by}=${query}&page=${page}`)
-    }
-    
-    getLatest(){
-        return http.get(`img/latest`);
-    }
-}
-
-export default new IMGDataService();
+export default IMGDataService;

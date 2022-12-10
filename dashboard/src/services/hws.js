@@ -1,22 +1,17 @@
-import http from "../http-axios";
+import React from "react";
+import useAxios from "./useAxios";
 
-class HWDataService {
-    
-    getAll(page=0){
-        return http.get(`hw/?page=${page}`);
-    }
+const HWDataService = () => {
+  const http = useAxios();
 
-    getById(id){
-        return http.get(`hw/id/${id}`)
-    }
+  const getById = (id) => {
+    return http.get(`hw/id/${id}`)
+  };
+  const getAll = (page = 0) => {
+    return http.get(`hw/`);
+  };
 
-    find(query, by="name", page=0){
-        return http.get(`hw/?${by}=${query}&page=${page}`)
-    }
-    
-    getLatest(){
-        return http.get(`hw/latest`);
-    }
-}
+  return {getById, getAll};
+};
 
-export default new HWDataService();
+export default HWDataService;

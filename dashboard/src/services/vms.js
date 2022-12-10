@@ -1,21 +1,14 @@
-import http from "../http-axios";
+import React from "react";
+import useAxios from "./useAxios";
 
-class VMsDataService {
-    getAll(page=0){
-        return http.get(`vms/?page=${page}`);
-    }
+const VMsDataService = () => {
+  const http = useAxios();
 
-    get(id){
-        return http.get(`vms/id/${id}`)
-    }
+  const getLatest = (page = 0) => {
+    return http.get(`vms/latest`);
+  };
 
-    find(query, by="name", page=0){
-        return http.get(`vms/?${by}=${query}&page=${page}`)
-    }
-    
-    getLatest(){
-        return http.get(`vms/latest`);
-    }
-}
+  return {getLatest};
+};
 
-export default new VMsDataService();
+export default VMsDataService;

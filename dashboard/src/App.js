@@ -7,6 +7,7 @@ import {Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kan
 import {useStateContext} from './contexts/ContextProvider';
 import VMsDataService from "./services/vms";
 import HWDataService from "./services/hws";
+import {useAuthContext} from './services/useAuthContext'
 import './App.css'
 //1c7050c916f9fed3227a2b12f49e380e
 //const src = "https://192.168.88.50/rest/vcenter/vm"
@@ -26,12 +27,15 @@ const App = () => {
     storageTotalNLAmount, setStorageTotalNLAmount,
     hardWareDevices, setHardWareDevices
   } = useStateContext();
+  const {user} = useAuthContext();
 
-  
+    const {getLatest} = VMsDataService();
+    const {getAll} = HWDataService();
 
     var clientResourcesArray = [];
     const retrieveResults = () => {
-      VMsDataService.getLatest()
+      if (user) {
+      getLatest()
         .then(response => {
             let updatedResponse = response.data[0].vmList;
             updatedResponse.map((value) =>{
@@ -42,12 +46,15 @@ const App = () => {
             setlatestTimeUpdate(latestDate);
             setResourcesToCustomers(clientResourcesArray);
         }).catch(e => {
-            console.log(e);
+            console.log(e, "getLatest function");
         });
-        HWDataService.getAll()
-          .then(response => {
-            setHardWareDevices(response.data.hardWare)
-          })
+      getAll()
+        .then(response => {
+          setHardWareDevices(response.data.hardWare)
+        })
+      }else {
+        throw Error("You must be logged in")
+      }
     }
   useEffect(() => {
     if (searchLatestVM.length == 0 || latestTimeUpdate === 0 ){
