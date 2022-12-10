@@ -9,7 +9,6 @@ import {TooltipComponent} from '@syncfusion/ej2-react-popups';
 import avatar from '../data/avatar.jpg';
 import {Cart, Chat, Notification, UserProfile} from '.';
 import {useStateContext} from '../contexts/ContextProvider';
-import {useLogout} from '../services/useLogout'
 import {useAuthContext} from '../services/useAuthContext'
 
 const NavButton = ({title, customFunc, icon, color, dotColor}) => (
@@ -25,7 +24,6 @@ const NavButton = ({title, customFunc, icon, color, dotColor}) => (
 
 const Navbar = () => {
   const {user} = useAuthContext();
-  const {logout} = useLogout();
   const {activeMenu, setActiveMenu, isClicked, setIsClicked,
   handleClick, screenSize, setScreenSize, currentColor} = useStateContext();
   useEffect(()=> {
@@ -44,7 +42,21 @@ const Navbar = () => {
       setActiveMenu(true);
     }
   }, [screenSize])
-
+ if (!user){
+  return (
+    <div className="flex gap-4">
+      <Link to="/login">
+        <button 
+        color={currentColor}
+        >Sign In</button>
+      </Link>
+      <Link to="/signup">
+        <button 
+        color={currentColor}
+        >Sign Up</button>
+      </Link>
+    </div>)
+ }
   return (
     <div className="flex justify-between mt-2 p-2 md:mx-6 relative">
       <NavButton title="Menu" customFunc={() => 
@@ -70,38 +82,12 @@ const Navbar = () => {
           customFunc={() => handleClick('notification')} 
           color={currentColor}  
           icon={<RiNotification3Line/>}/>
-          <TooltipComponent content="Profile" position="BottomCenter">
-            <div className="flex items-center gap-2 
-            cursor-pointer p-1 hover:bg-light-gray 
-            rounded-1g"
-            onClick={()=> handleClick('userProfile')}>
-              <img src={avatar} className="rounded-full w-8 h-8"/>
-              <p>
-                <span className="text-gray-400 text-14">Hi, </span> {' '}
-                <span className="text-gray-400 font-bold ml-1 text-4">Michael</span>
-              </p>
-              <MdKeyboardArrowDown className="text-gray-400 text-14"/>
-            </div>
-          </TooltipComponent>
-          <div><button onClick={logout}>Logout</button></div>
+          <UserProfile/>
           {isClicked.cart && <Cart/>}
           {isClicked.chat && <Chat/>}  
           {isClicked.notification && <Notification/>}  
-          {isClicked.userProfile && <UserProfile/>}     
-        </div>)}
-        {!user && (
-        <div className="flex gap-4">
-          <Link to="/login">
-            <button 
-            color={currentColor}
-            >Sign In</button>
-          </Link>
-          <Link to="/signup">
-            <button 
-            color={currentColor}
-            >Sign Up</button>
-          </Link>
-        </div>)}        
+            
+        </div>)}       
     </div>
   )
 }

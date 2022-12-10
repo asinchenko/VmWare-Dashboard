@@ -63,6 +63,9 @@ const App = () => {
         setStorageTotalFCAmount(50);
         setStorageTotalNLAmount(1024);
   }}});
+  if (!user) {
+    return (<div><Login/></div>)
+  }
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
       <BrowserRouter>
