@@ -64,7 +64,15 @@ const App = () => {
         setStorageTotalNLAmount(1024);
   }}});
   if (!user) {
-    return (<div><Signup/></div>)
+    return (<div>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={!user ? <Login/> : <Navigate to="/"/>}/>
+        <Route path="/signup" element={!user ? <Signup/> : <Navigate to="/"/> }/>
+        <Route path="*" element={<Login/>}/>
+      </Routes>
+      </BrowserRouter>
+    </div>)
   }
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
@@ -125,9 +133,10 @@ const App = () => {
             <Route path="/color" element={user ? <ColorMapping/> : <Navigate to="/login"/>}/>
             <Route path="/pyramid" element={user ? <Pyramid/> : <Navigate to="/login"/>}/>
             <Route path="/stacked" element={user ? <Stacked/> : <Navigate to="/login"/>}/>
-
+            <Route path="*" element={user ? <Dashboard/> : <Navigate to="/"/>}/>
             <Route path="/login" element={!user ? <Login/> : <Navigate to="/"/>}/>
-            <Route path="/signup" element={!user ? <Signup/> : <Navigate to="/"/>}/>
+            <Route path="/signup" element={!user ? <Signup/> : <Navigate to="/"/> }/>
+
           </Routes>
         </div>
       </div>
