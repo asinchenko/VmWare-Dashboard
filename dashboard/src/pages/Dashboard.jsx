@@ -271,7 +271,7 @@ const Dashboard = () => {
             key={item.title} className="bg-white 
             dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56
             p-4 pt-9 rounded 2xl flex flex-col items-center">
-            <Link to={'../orders/'+item.filter}><button type="button" 
+            <Link to={'../equipment/'+item.filter}><button type="button" 
             style={{color:item.iconColor, backgroundColor:item.iconBg}}
             className="text-3xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl hover:text-2xl">
             {item.icon}
