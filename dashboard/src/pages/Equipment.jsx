@@ -8,20 +8,11 @@ import HPE from '../data/HPE.jpeg'
 import CISCO from '../data/CISCO.jpeg'
 import {Header} from '../components';
 import {useStateContext} from '../contexts/ContextProvider';
-import axios from 'axios'
 const url_get = 'http://localhost:4000/api/img/description/'
 
 const Equipment = () => {
   const {hardWareDevices} = useStateContext();
   const params = useParams()
-  const getImage = async (description) => {
-    try {
-      let response = await axios.get(url_get+description);
-      return response
-    }catch(e){
-      console.log(e)
-    }
-  };
   let filterOptions;
   if (params.param === "all"){
     filterOptions ={};
@@ -107,8 +98,8 @@ const Equipment = () => {
   }else {
     return (
       <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
-        <Header category="Page" title="Orders"></Header>
-          <GridComponent id="gridcomp"
+        <Header category="Page" title="Equipment"></Header>
+          <GridComponent id="equipmentgrid"
           allowPaging
           allowSorting
           allowFiltering

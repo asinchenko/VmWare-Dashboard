@@ -64,7 +64,7 @@ const App = () => {
         setStorageTotalNLAmount(1024);
   }}});
   if (!user) {
-    return (<div><Login/></div>)
+    return (<div><Signup/></div>)
   }
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>

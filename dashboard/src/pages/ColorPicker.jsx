@@ -1,5 +1,5 @@
 import React from 'react'
-import avatar from '../data/avatar.jpg'
+import avatar from '../data/defaultProfile.png'
 import {useStateContext} from '../contexts/ContextProvider';
 import IMGDataService from '../services/imgs'
 import axios from 'axios'
