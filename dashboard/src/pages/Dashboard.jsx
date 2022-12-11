@@ -6,7 +6,7 @@ import {useStateContext} from '../contexts/ContextProvider';
 
 import { GiCoinsPile } from 'react-icons/gi';
 
-const Ecommerce = () => {
+const Dashboard = () => {
   let navigate = useNavigate(); 
   const routeChange = () =>{ 
     let path = `newPath`; 
@@ -437,4 +437,4 @@ function correctChartData(anyChart, props) {
 
 
 
-export default Ecommerce
+export default Dashboard

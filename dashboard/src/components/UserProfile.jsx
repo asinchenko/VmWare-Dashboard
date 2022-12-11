@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {MdKeyboardArrowDown} from 'react-icons/md';
 import {TooltipComponent} from '@syncfusion/ej2-react-popups';
-import avatar from '../data/avatar.jpg';
+import avatar from '../data/defaultProfile.png';
 import {useStateContext} from '../contexts/ContextProvider';
 import {useAuthContext} from '../services/useAuthContext'
 import {useLogout} from '../services/useLogout'

@@ -1,7 +1,6 @@
 import React from 'react'
 import {ScheduleComponent, Day, 
   Week, WorkWeek, Month, Agenda, Inject, Resize, DragAndDrop} from '@syncfusion/ej2-react-schedule';
-import {scheduleData} from '../data/dummy';
 import {Header} from '../components';
 const Calendar = () => {
   return (
@@ -9,7 +8,7 @@ const Calendar = () => {
       <Header category="App" title="Calendar"/>
       <ScheduleComponent
       height="850px"
-      eventSettings={{dataSource:scheduleData}}
+      // eventSettings={{dataSource:scheduleData}}
       >
         <Inject services={[Day, Week, WorkWeek, Month, Agenda, Resize, DragAndDrop]}/>
       </ScheduleComponent>

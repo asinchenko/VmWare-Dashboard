@@ -96,10 +96,12 @@ const getVMData = async (url, headers, res) => {
         vmWareToken = await getVMWareToken();
         const date = new Date();
         const result = await vcenterGetVMData(url, headers);
-        const vmPost = await VirtualMachines.addVM(
-            result,
-            date,
-        );
+        if (result){
+            const vmPost = await VirtualMachines.addVM(
+                result,
+                date,
+            );
+        }
     }catch(e) {
         console.log(e)
     };

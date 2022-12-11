@@ -64,7 +64,7 @@ const Navbar = () => {
         !prevActiveMenu)} 
         color={currentColor}  icon={<AiOutlineMenu/>}/>
         {user && (<div className="flex">
-          <NavButton 
+          {/* <NavButton 
           title="Cart" 
           customFunc={() => handleClick('cart')} 
           color={currentColor} 
@@ -75,7 +75,7 @@ const Navbar = () => {
           dotColor="#03C9D7" 
           customFunc={() => handleClick('chat')} 
           color={currentColor} 
-          icon={<BsChatLeft/>}/>   
+          icon={<BsChatLeft/>}/>    */}
 
           <NavButton 
           title="Notifications" 

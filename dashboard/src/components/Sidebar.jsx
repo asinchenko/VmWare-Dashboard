@@ -4,6 +4,7 @@ import {SiApache} from 'react-icons/si';
 import {MdOutlineCancel} from 'react-icons/md';
 import {TooltipComponent} from '@syncfusion/ej2-react-popups';
 import {useStateContext} from '../contexts/ContextProvider'
+import vehi from '../data/VEHsidebar.png'
 import {links} from '../data/dummy';
 import {useAuthContext} from '../services/useAuthContext'
 
@@ -29,7 +30,7 @@ const Sidebar = () => {
           className="items-center gap-3 ml-3 mt-4 flex text-xl 
           font-extrabold tracking-tight 
           dark:text-white text-slate-900">
-            <SiApache /> <span>STC</span>
+            <img src={vehi}/>
           </Link>
           <TooltipComponent content="Menu" position="BottomCenter">
             <button type="button"

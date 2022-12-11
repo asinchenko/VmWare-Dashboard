@@ -3,7 +3,7 @@ import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import {FiSettings} from 'react-icons/fi';
 import {TooltipComponent} from '@syncfusion/ej2-react-popups';
 import {Navbar, Footer, Sidebar, ThemeSettings} from './components';
-import {Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Area, Line, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, Login, Signup} from './pages';
+import {Dashboard, Equipment, Calendar, VMs, Stacked, Pyramid, Customers, Kanban, Area, Line, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, Login, Signup} from './pages';
 import {useStateContext} from './contexts/ContextProvider';
 import VMsDataService from "./services/vms";
 import HWDataService from "./services/hws";
@@ -105,11 +105,11 @@ const App = () => {
           {themeSettings && <ThemeSettings />}
           <Routes>
             {/* Dashboard  */}
-            <Route path="/" element={user ? <Ecommerce/> : <Navigate to="/login"/>}/>
-            <Route path="/ecommerce" element={user ? <Ecommerce/> : <Navigate to="/login"/>}/>
+            <Route path="/" element={user ? <Dashboard/> : <Navigate to="/login"/>}/>
+            <Route path="/dashboard" element={user ? <Dashboard/> : <Navigate to="/login"/>}/>
             {/* Pages */}
-            <Route path="/orders/:param" element={user ? <Orders/> : <Navigate to="/login"/>}/>
-            <Route path="/employees" element={user ? <Employees/> : <Navigate to="/login"/>}/>
+            <Route path="/equipment/:param" element={user ? <Equipment/> : <Navigate to="/login"/>}/>
+            <Route path="/vms" element={user ? <VMs/> : <Navigate to="/login"/>}/>
             <Route path="/customers" element={user ? <Customers/> : <Navigate to="/login"/>}/>
             {/* Apps */}
             <Route path="/kanban" element={user ? <Kanban/> : <Navigate to="/login"/>}/>

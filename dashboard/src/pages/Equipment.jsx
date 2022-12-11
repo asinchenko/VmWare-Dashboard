@@ -11,7 +11,7 @@ import {useStateContext} from '../contexts/ContextProvider';
 import axios from 'axios'
 const url_get = 'http://localhost:4000/api/img/description/'
 
-const Orders = () => {
+const Equipment = () => {
   const {hardWareDevices} = useStateContext();
   const params = useParams()
   const getImage = async (description) => {
@@ -60,7 +60,7 @@ const Orders = () => {
     { field: 'vendor',
       headerText: '',
       template: gridOrderImage,
-      width: '60',
+      width: '40',
     },
     {
       field: 'vendor',
@@ -127,4 +127,4 @@ const Orders = () => {
   
 }
 
-export default Orders
+export default Equipment
