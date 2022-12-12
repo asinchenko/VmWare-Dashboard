@@ -56,11 +56,11 @@ const App = () => {
     if (user) {
       if (searchLatestVM.length == 0 || latestTimeUpdate === 0 ){
         retrieveResults();
-        setCPUTotalAmount(128);
-        setRAMTotalAmount(1024);
-        setStoragaTotalSSDAmount(960);
-        setStorageTotalFCAmount(50);
-        setStorageTotalNLAmount(1024);
+        setCPUTotalAmount(496);
+        setRAMTotalAmount(2432);
+        setStoragaTotalSSDAmount(155000);
+        setStorageTotalFCAmount(71000);
+        setStorageTotalNLAmount(386000);
   }}});
   if (!user) {
     return (<div>
@@ -164,7 +164,49 @@ function segmentClients(value, clientResourcesArray){
     value.ram_contract = 10;
     value.storage_contract = {ssd: 0, fc: 0, nl:10};
     calculateResources(value, clientResourcesArray);
-  }
+  } else if (value.name.includes("BA") || value.name.includes("PA-VM")) {
+    value.customer = "Business Algorithm";
+    value.cpu_contract = 8;
+    value.ram_contract = 24;
+    value.storage_contract = {ssd: 180, fc: 0, nl:0};
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.includes("kaztol")) {
+    value.customer = "KazAvtoZhol";
+    value.cpu_contract = 188;
+    value.ram_contract = 2008;
+    value.storage_contract = {ssd: 8192, fc: 0, nl:261872};
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.includes("frp")) {
+    value.customer = "Фонд Развития";
+    value.cpu_contract = 8;
+    value.ram_contract = 12;
+    value.storage_contract = {ssd: 100, fc: 0, nl:30000};
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.includes("Megacam") || value.name.includes("mikrotik-")) {
+    value.customer = "Перспектива";
+    value.cpu_contract = 0;
+    value.ram_contract = 0;
+    value.storage_contract = {ssd: 0, fc: 0, nl:0};
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.toLowerCase().includes("smax") || value.name.includes("OPB-age")) {
+    value.customer = "SMAX";
+    value.cpu_contract = 0;
+    value.ram_contract = 0;
+    value.storage_contract = {ssd: 0, fc: 0, nl:0};
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.includes("cuba") || value.name.includes("tovma") || value.name.includes("TB-ege") || value.name.includes("db-srv")) {
+    value.customer = "Tovma";
+    value.cpu_contract = 0;
+    value.ram_contract = 0;
+    value.storage_contract = {ssd: 0, fc: 0, nl:0};
+    calculateResources(value, clientResourcesArray);
+  } else {
+    value.customer = "Остальные";
+    value.cpu_contract = 0;
+    value.ram_contract = 0;
+    value.storage_contract = {ssd: 0, fc: 0, nl:0};
+    calculateResources(value, clientResourcesArray);
+  } 
 }
 
 function calculateResources(value, clientResourcesArray){

@@ -17,8 +17,8 @@ app.use(express.json());
 // important to read from environment variable if deploying
 
 
-const USERNAME = process.env.USERNAME
-const PASSWORD = process.env.PASSWORD
+const USERNAME = 'a.sinchenko@dc-astana.local'
+const PASSWORD = 'Propro123a$d'
 const token = `${USERNAME}:${PASSWORD}`;
 const encodedToken = Buffer.from(token).toString('base64');
 const httpsAgent = new https.Agent({
