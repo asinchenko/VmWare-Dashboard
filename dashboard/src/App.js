@@ -9,8 +9,7 @@ import VMsDataService from "./services/vms";
 import HWDataService from "./services/hws";
 import {useAuthContext} from './services/useAuthContext'
 import './App.css'
-//1c7050c916f9fed3227a2b12f49e380e
-//const src = "https://192.168.88.50/rest/vcenter/vm"
+
 const src = "http://localhost:4000/fetch"
 
 
