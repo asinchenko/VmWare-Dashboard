@@ -109,7 +109,7 @@ const ResourcePool = ({
                 </div>
               </div>
             </div>
-            {usedSSD != undefined ? <div className="border-r-1 border-color pr-4">
+            {usedSSD != undefined ? <div className="border-r-1 border-color pr-12">
                   <PieChart
                   id={idpie}
                   height={heightpie}

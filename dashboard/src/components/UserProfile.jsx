@@ -36,7 +36,7 @@ export default function UserProfile() {
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-3xl font-semibold">
-                    Are you sure you want to logout?
+                    Вы уверены, что хотите выйти?
                   </h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -61,7 +61,7 @@ export default function UserProfile() {
                       setShowModal(false);
                     }}
                   >
-                    Close
+                    Закрыть
                   </button>
                   <button
                     className="bg-red-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -71,7 +71,7 @@ export default function UserProfile() {
                       logout();  
                     }}
                   >
-                    Logout
+                    Выйти
                   </button>
                 </div>
               </div>
