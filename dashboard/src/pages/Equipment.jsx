@@ -11,7 +11,7 @@ import {useStateContext} from '../contexts/ContextProvider';
 import {useUploadEquipment} from '../services/useUploadEquipment'
 
 const Equipment = () => {
-  const {upload, error, isLoading} = useUploadEquipment()
+  const {upload, error, isLoading, setError} = useUploadEquipment()
   const {hardWareDevices, currentColor} = useStateContext();
   const [deviceForm, setDeviceForm] = useState(false);
   const [vendor, setVendor] = useState('');
@@ -28,8 +28,11 @@ const Equipment = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await upload(vendor, type, status, cpu, ram, description)
-    setDeviceForm(false)
+    if (vendor, type, status, cpu, ram, description) {
+      await upload(vendor, type, status, cpu, ram, description)
+    }else {
+      setError(true)
+    }
 }
 
   let filterOptions;
@@ -133,61 +136,67 @@ const Equipment = () => {
           <div className="mb-8">
             <div className="flex justify-between mb-4">
               <div className="">
+                <a className="text-gray-500">Vendor</a>
                 <input
                   type="text"
                   className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
                   '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
-                  placeholder="Vendor"
+                  placeholder="ex. Dell, Cisco, HP"
                   onChange={(e) => setVendor(e.target.value)}
                   value={vendor} 
                 />
               </div>
               <div className="">
+              <a className="text-gray-500">Device Type</a>
                 <input
                   type="text"
                   className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
                   '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-400 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
-                  placeholder="Device Type"
+                  placeholder="ex. Server, Router, Firewall"
                   onChange={(e) => setType(e.target.value)}
                   value={type} 
                 />
               </div>
               <div className="">
+              <a className="text-gray-500">Device Status</a>
                 <input
                   type="text"
                   className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
                   '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
-                  placeholder="Status"
+                  placeholder="ex. Active, Not Active"
                   onChange={(e) => setStatus(e.target.value)}
                   value={status} 
                 />
               </div>
               <div className="">
+              <a className="text-gray-500">Device CPU</a>
                 <input
                   type="text"
                   className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
                   '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
-                  placeholder="CPU"
+                  placeholder="ex. 4"
                   onChange={(e) => setCPU(e.target.value)}
                   value={cpu} 
                 />
               </div>
               <div className="">
+              <a className="text-gray-500">Device RAM in GB</a>
                 <input
                   type="text"
                   className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
                   '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
-                  placeholder="RAM"
+                  placeholder="ex. 1024"
                   onChange={(e) => setRAM(e.target.value)}
                   value={ram} 
                 />
               </div>
               <div className="">
+              <a className="text-gray-500">Device Description</a>
                 <input
                   type="text"
                   className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
                   '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
-                  placeholder="Description"
+                  placeholder="ex. Rack: 2 Unit: 16"
                   onChange={(e) => setDescription(e.target.value)}
                   value={description} 
                 />
@@ -201,7 +210,7 @@ const Equipment = () => {
                 style={{backgroundColor:currentColor}}
                 onClick={handleSubmit}
                 >
-                Add device
+                Upload
                 </button>
             </div>
           </div> : ''}

@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
-import axios from 'axios'
+import useAxios from "./useAxios";
 
 export const useUploadEquipment = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(null);
-
+    const http = useAxios();
 
     const upload = async(vendor, type, status, cpu, ram, description) => {
         setIsLoading(true);
         setError(null);
 
-        await axios.post(`http://${process.env.REACT_APP_BACKEND_API}:4000/api/hw/add`, {
+        await http.post(`/hw/device`, {
             vendor, type, status, cpu, ram, description
         }).then(res => {
             setIsLoading(false)
@@ -20,5 +20,5 @@ export const useUploadEquipment = () => {
             setError(e.response.data.error)
     });
     } 
-    return {upload, isLoading, error}
+    return {upload, isLoading, error, setError}
 }
