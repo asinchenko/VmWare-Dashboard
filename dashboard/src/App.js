@@ -10,8 +10,6 @@ import HWDataService from "./services/hws";
 import {useAuthContext} from './services/useAuthContext'
 import './App.css'
 
-const src = "http://localhost:4000/fetch"
-
 
 const App = () => {
   const {searchLatestVM, setLatestVM, 
@@ -27,7 +25,6 @@ const App = () => {
     hardWareDevices, setHardWareDevices
   } = useStateContext();
   const {user} = useAuthContext();
-
     const {getLatest} = VMsDataService();
     const {getAll} = HWDataService();
 
@@ -252,9 +249,9 @@ function calculateResources(value, clientResourcesArray){
 function formatBytes(bytes, decimals = 2) {
 
   if (!+bytes) return '0'
-  const k = 1024
+  const k = 1024*1024*1024
   const dm = decimals < 0 ? 0 : decimals
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return parseInt(`${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))}`)
+  const i = Math.floor(bytes/k)
+  return parseInt(`${parseFloat(i.toFixed(dm))}`)
 }
 export default App

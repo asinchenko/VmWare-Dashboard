@@ -1,13 +1,16 @@
-import React from 'react'
+
 
 export function CalculateMainPageResources(
     cpu, ram, ssd, fc, nl,
     cpu_total, ram_total, ssd_total, fc_total, nl_total){
     // [(percentage 1 + percentage 2) / (sample size 1 + sample size 2)] x 100
+    ram = ram/1024;
     let cpuPercentage = cpu/cpu_total;
     let ramPercentage = ram/ram_total;
     let ssdPercentage = ssd/ssd_total;
     let fcPercentage = fc/fc_total;
     let nlPercentage = nl/nl_total;
-    return (cpuPercentage+ ramPercentage + ssdPercentage + fcPercentage + nlPercentage)
+    //console.log(cpu,cpu_total,'|',ram/1024, ram_total, '|',ssd, ssd_total,'|',fc, fc_total,'|',nl, nl_total)
+    console.log(cpuPercentage+ ramPercentage + ssdPercentage + fcPercentage + nlPercentage)
+    return ((cpuPercentage+ ramPercentage + ssdPercentage + fcPercentage + nlPercentage)/5*100)
 }

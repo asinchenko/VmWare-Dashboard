@@ -52,7 +52,7 @@ const Dashboard = () => {
   //from GB into Formated GB/TB
   var ramTotalAmountFormated = formatBytes(ramTotalAmount*1024);
   var ramConsumedAmountFormated = formatBytes(ramConsumedAmount)
-  var ramEmptyAmountFormated = formatBytes(ramConsumedAmount, 2, ramTotalAmount)
+  var ramEmptyAmountFormated = formatBytes(ramTotalAmount*1024 - ramConsumedAmount)
   //from GB into Formated GB/TB
   var storageTotalSSDAmountFormated = formatBytes(storageTotalSSDAmount*1024);
   var storageTotalFCAmountFormated = formatBytes(storageTotalFCAmount*1024);
@@ -235,8 +235,8 @@ const Dashboard = () => {
   const storagePrimaryYAxis = {
     lineStyle: { width: 0 },
     minimum: 0,
-    maximum: 2000,
-    interval: 200,
+    maximum: 10000,
+    interval: 1000,
     majorTickLines: { width: 0 },
     majorGridLines: { width: 1 },
     minorGridLines: { width: 1 },

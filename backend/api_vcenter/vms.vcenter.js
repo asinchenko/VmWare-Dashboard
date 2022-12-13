@@ -33,7 +33,7 @@ const vcenterGetVMData = async (backendUrl, headers) => {
                 virtual_machine.ram = item[key]
             } else if (key === "vm"){
                 try{
-                    let request = await vcenerFetchVMDetails("https://192.168.88.50/rest/vcenter/vm/"+item[key], headers);
+                    let request = await vcenerFetchVMDetails(`https://${process.env.VCENTER}/rest/vcenter/vm/`+item[key], headers);
                     virtual_machine.details = request;
                     virtual_machine.vm = item[key];
                 }catch(e){

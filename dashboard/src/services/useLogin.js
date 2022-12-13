@@ -12,7 +12,7 @@ export const useLogin = () => {
         setIsLoading(true);
         setError(null);
 
-        await axios.post('http://localhost:4000/api/user/login', {
+        await axios.post(`http://${process.env.REACT_APP_BACKEND_API}:4000/api/user/login`, {
             email, password
         }).then(res => {
             let result = JSON.stringify(res.data);

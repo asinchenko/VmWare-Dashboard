@@ -20,6 +20,5 @@
     "validator": "^13.7.0"
   },
   "main": "index.js",
-  "type": "module",
-  "proxy": "http://localhost:4000"
+  "type": "module"
 }

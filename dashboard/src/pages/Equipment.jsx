@@ -8,7 +8,6 @@ import HPE from '../data/HPE.jpeg'
 import CISCO from '../data/CISCO.jpeg'
 import {Header} from '../components';
 import {useStateContext} from '../contexts/ContextProvider';
-const url_get = 'http://localhost:4000/api/img/description/'
 
 const Equipment = () => {
   const {hardWareDevices} = useStateContext();

@@ -9,16 +9,19 @@ import imgRouter from "./routes/img.route.js";
 import usersRouter from "./routes/user.route.js";
 import VirtualMachines from './api_mongo/vms.logic.js';
 import vcenterGetVMData from './api_vcenter/vms.vcenter.js'
+import dotenv from "dotenv";
+dotenv.config();
 // enable CORS
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({limit: '30mb'}));
+app.use(express.urlencoded({limit: '30mb'}));
 // set the port on which our app wil run
 // important to read from environment variable if deploying
 
 
-const USERNAME = 'a.sinchenko@dc-astana.local'
-const PASSWORD = 'Propro123a$d'
+const USERNAME = `${process.env.USERNAME}`
+const PASSWORD = `${process.env.PASSWORD}`
 const token = `${USERNAME}:${PASSWORD}`;
 const encodedToken = Buffer.from(token).toString('base64');
 const httpsAgent = new https.Agent({
@@ -34,7 +37,7 @@ var vmWareToken = await getVMWareToken();
 async function getVMWareToken(){
     // replace with a custom URL as required
     //const backendUrl = "https://192.168.88.50/rest/vcenter/vm";
-    const backendUrl = "https://192.168.88.50/api/session"
+    const backendUrl = `https://${process.env.VCENTER}/api/session`
     // return the data without modification
     let vmWareToken = await axios.post(backendUrl,
         {   
@@ -67,7 +70,7 @@ const headers = {
 app.get("/token", (req, res) => {
     // replace with a custom URL as required
     //const backendUrl = "https://192.168.88.50/rest/vcenter/vm";
-    const backendUrl = "https://192.168.88.50/api/session"
+    const backendUrl = `https://${process.env.VCENTER}/api/session`
     // return the data without modification
     axios.post(backendUrl,
         {   
@@ -85,7 +88,7 @@ app.get("/token", (req, res) => {
 
 app.get("/data", (req, res) => {
     // replace with a custom URL as required
-    const backendUrl = "https://192.168.88.50/rest/vcenter/vm";
+    const backendUrl = `https://${process.env.VCENTER}/rest/vcenter/vm`;
     axios.get(backendUrl,headers
     ).then(response => res.send(response.data));
 });
@@ -108,8 +111,8 @@ const getVMData = async (url, headers, res) => {
 };
 
 var interval = setInterval(function() {
-    getVMData("https://192.168.88.50/rest/vcenter/vm", headers)
-    }, 3600000);
+    getVMData(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers)
+    }, 36000000);
     
 
 const helloRequest = async (url, headers, res) => {
@@ -117,16 +120,16 @@ const helloRequest = async (url, headers, res) => {
     };
 
 var helloRequestInterval = setInterval(function() {
-        helloRequest("https://192.168.88.50/rest/vcenter/vm", headers)
+        helloRequest(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers)
     }, 30000);
 
 //clearInterval(interval);
 app.get("/fetch", (req, res) => {
     // replace with a custom URL as required
-    const backendUrl = "https://192.168.88.50/rest/vcenter/vm";
+    const backendUrl = `https://${process.env.VCENTER}/rest/vcenter/vm`;
     //const backendUrl = "https://192.168.88.50/rest/com/vmware/cis/session"
     // return the data without modification
-    getVMData("https://192.168.88.50/rest/vcenter/vm", headers, res)
+    getVMData(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers, res)
 })
 
 app.use('/api/vms', vmsRouter);
