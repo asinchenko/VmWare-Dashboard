@@ -1,4 +1,6 @@
 database/*
 .DS_Store
+.env
 dasbhoard/.env
 backend/.env
+!database/config
