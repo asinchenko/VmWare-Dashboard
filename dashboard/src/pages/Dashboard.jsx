@@ -298,7 +298,7 @@ const Dashboard = () => {
           idstacked="cpuStacked"
           widthstacked="260px"
           heightstacked="360px"
-          maintitle="CPU"
+          maintitle="vCPU"
           totalamount={cpuTotalAmount}
           freeamount={cpuTotalAmount - cpuConsumedAmount}
           usedamount={cpuConsumedAmount}

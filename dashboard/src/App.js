@@ -53,7 +53,7 @@ const App = () => {
     if (user) {
       if (searchLatestVM.length == 0 || latestTimeUpdate === 0 ){
         retrieveResults();
-        setCPUTotalAmount(496);
+        setCPUTotalAmount(17400);
         setRAMTotalAmount(2432);
         setStoragaTotalSSDAmount(155000);
         setStorageTotalFCAmount(71000);
