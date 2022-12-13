@@ -1,3 +1,4 @@
+.gitignore
 database/*
 .DS_Store
 .env

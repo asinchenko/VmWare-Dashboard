@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useParams } from 'react-router-dom';
 import {GridComponent, ColumnsDirective, ColumnDirective, Resize, Sort, 
   ContextMenu, Filter, Page, ExcelExport, PdfExport, Edit, Inject} from '@syncfusion/ej2-react-grids'
@@ -8,10 +8,30 @@ import HPE from '../data/HPE.jpeg'
 import CISCO from '../data/CISCO.jpeg'
 import {Header} from '../components';
 import {useStateContext} from '../contexts/ContextProvider';
+import {useUploadEquipment} from '../services/useUploadEquipment'
 
 const Equipment = () => {
-  const {hardWareDevices} = useStateContext();
+  const {upload, error, isLoading} = useUploadEquipment()
+  const {hardWareDevices, currentColor} = useStateContext();
+  const [deviceForm, setDeviceForm] = useState(false);
+  const [vendor, setVendor] = useState('');
+  const [type, setType] = useState('');
+  const [status, setStatus] = useState('');
+  const [cpu, setCPU] = useState('');
+  const [ram, setRAM] = useState('');
+  const [description, setDescription] = useState('');
   const params = useParams()
+
+  const handleClick = () => {
+    setDeviceForm(!deviceForm)
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await upload(vendor, type, status, cpu, ram, description)
+    setDeviceForm(false)
+}
+
   let filterOptions;
   if (params.param === "all"){
     filterOptions ={};
@@ -97,7 +117,94 @@ const Equipment = () => {
   }else {
     return (
       <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
-        <Header category="Page" title="Equipment"></Header>
+        <div className="flex justify-between mb-6">
+          <Header category="Page" title="Equipment"></Header>
+          <div className="flex items-center">
+          <button 
+            className="hover:bg-gray-50 text-white py-2 px-4 rounded text-3xl"
+            style={{color:currentColor}}
+            onClick={handleClick}
+            >
+            +
+            </button>
+          </div>
+        </div>
+          {deviceForm ?
+          <div className="mb-8">
+            <div className="flex justify-between mb-4">
+              <div className="">
+                <input
+                  type="text"
+                  className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
+                  '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
+                  placeholder="Vendor"
+                  onChange={(e) => setVendor(e.target.value)}
+                  value={vendor} 
+                />
+              </div>
+              <div className="">
+                <input
+                  type="text"
+                  className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
+                  '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-400 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
+                  placeholder="Device Type"
+                  onChange={(e) => setType(e.target.value)}
+                  value={type} 
+                />
+              </div>
+              <div className="">
+                <input
+                  type="text"
+                  className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
+                  '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
+                  placeholder="Status"
+                  onChange={(e) => setStatus(e.target.value)}
+                  value={status} 
+                />
+              </div>
+              <div className="">
+                <input
+                  type="text"
+                  className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
+                  '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
+                  placeholder="CPU"
+                  onChange={(e) => setCPU(e.target.value)}
+                  value={cpu} 
+                />
+              </div>
+              <div className="">
+                <input
+                  type="text"
+                  className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
+                  '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
+                  placeholder="RAM"
+                  onChange={(e) => setRAM(e.target.value)}
+                  value={ram} 
+                />
+              </div>
+              <div className="">
+                <input
+                  type="text"
+                  className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
+                  '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
+                  placeholder="Description"
+                  onChange={(e) => setDescription(e.target.value)}
+                  value={description} 
+                />
+              </div>
+            </div>
+            <div className="flex justify-end">
+                <button
+                type="submit"
+                disable={isLoading}
+                className="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                style={{backgroundColor:currentColor}}
+                onClick={handleSubmit}
+                >
+                Add device
+                </button>
+            </div>
+          </div> : ''}
           <GridComponent id="equipmentgrid"
           allowPaging
           allowSorting
