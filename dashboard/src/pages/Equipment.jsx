@@ -27,7 +27,7 @@ const Equipment = () => {
   const handleClick = () => {
     setDeviceForm(!deviceForm)
   }
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (vendor, type, status, cpu, ram, description) {
@@ -54,7 +54,7 @@ const Equipment = () => {
       ]
     };
   }
-  
+
   const gridOrderImage = (props) => {
       if (props.vendor.toLowerCase() === "hp"){
         return <div><img src={HP} alt="" className="rounded-full"/></div>
