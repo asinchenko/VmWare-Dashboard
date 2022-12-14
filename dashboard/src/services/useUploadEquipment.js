@@ -6,13 +6,16 @@ export const useUploadEquipment = () => {
     const [isLoading, setIsLoading] = useState(null);
     const http = useAxios();
 
-    const upload = async(vendor, type, status, cpu, ram, description) => {
+    const upload = async(vendor, name, type, status, cpu, ram, description) => {
         setIsLoading(true);
         setError(null);
 
         await http.post(`/hw/device`, {
-            vendor, type, status, cpu, ram, description
-        }).then(res => {
+            vendor, name, type, status, cpu, ram, description
+        }, {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }}).then(res => {
             setIsLoading(false)
         }).catch(e => {
             console.log(e.response.data.error)

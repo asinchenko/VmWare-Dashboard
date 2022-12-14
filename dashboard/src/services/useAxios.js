@@ -14,7 +14,7 @@ const useAxios = () => {
       return axios.create({
         baseURL: `http://${process.env.REACT_APP_BACKEND_API}:4000/api/`,
         headers: {
-          "Content-type": "application/json",
+          'Content-Type': 'application/x-www-form-urlencoded',
           "Authorization": `Bearer ${user.token}`,
         },
       });

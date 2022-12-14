@@ -15,6 +15,7 @@ const Equipment = () => {
   const {hardWareDevices, currentColor} = useStateContext();
   const [deviceForm, setDeviceForm] = useState(false);
   const [vendor, setVendor] = useState('');
+  const [name, setName] = useState('');
   const [type, setType] = useState('');
   const [status, setStatus] = useState('');
   const [cpu, setCPU] = useState('');
@@ -29,7 +30,12 @@ const Equipment = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (vendor, type, status, cpu, ram, description) {
-      await upload(vendor, type, status, cpu, ram, description)
+      try {
+        await upload(vendor, name, type, status, cpu, ram, description)
+        setVendor(''); setName(''); setType(''); setStatus(''); setCPU(''); setRAM(''); setDescription('');
+      }catch(e){
+        setError(true)
+      }
     }else {
       setError(true)
     }
@@ -64,7 +70,7 @@ const Equipment = () => {
   const gridOrderStatus = (props) => (
     <button
       type="button"
-      className={props.status === "active"?"text-white py-1 px-2 capitalize rounded-2xl text-md bg-green-400" :"text-white py-1 px-2 capitalize rounded-2xl text-md bg-red-400"}
+      className={props.status.toLowerCase() === "active"?"text-white py-1 px-2 capitalize rounded-2xl text-md bg-green-400" :"text-white py-1 px-2 capitalize rounded-2xl text-md bg-red-400"}
     >
       {props.status}
     </button>
@@ -147,6 +153,17 @@ const Equipment = () => {
                 />
               </div>
               <div className="">
+                <a className="text-gray-500">Device Name</a>
+                <input
+                  type="text"
+                  className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
+                  '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
+                  placeholder="ex. Proliant 360G8"
+                  onChange={(e) => setName(e.target.value)}
+                  value={name} 
+                />
+              </div>
+              <div className="">
               <a className="text-gray-500">Device Type</a>
                 <input
                   type="text"
@@ -202,10 +219,12 @@ const Equipment = () => {
                 />
               </div>
             </div>
-            <div className="flex justify-end">
+            
+            <div className= {error? "flex justify-between":"flex justify-end"}>
+            {error ? <p className="text-red-400 text-semibold">Не удалось загрузить данные на сервер. Убедитесь что все поля заполнены либо обратитесь к администратору</p>:""}
                 <button
                 type="submit"
-                disable={isLoading}
+                disabled={isLoading}
                 className="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 style={{backgroundColor:currentColor}}
                 onClick={handleSubmit}

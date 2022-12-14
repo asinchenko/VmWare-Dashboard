@@ -28,12 +28,23 @@ const httpsAgent = new https.Agent({
     rejectUnauthorized: false,
     },
   )
-
 // basic string route to prevent Glitch error
 axios.defaults.httpsAgent = httpsAgent
 axios.defaults.auth = {'username': USERNAME, 'password': PASSWORD}
 
-var vmWareToken = await getVMWareToken();
+var vmWareToken;
+var helloTimeout;
+var requestTimeout;
+if (process.env.NODE_ENV === 'dev'){
+    vmWareToken = "";
+    helloTimeout = 150000000;
+    requestTimeout = 432000000;
+}else {
+    vmWareToken = await getVMWareToken();
+    helloTimeout = 150000;
+    requestTimeout = 43200000;
+}
+
 async function getVMWareToken(){
     // replace with a custom URL as required
     //const backendUrl = "https://192.168.88.50/rest/vcenter/vm";
@@ -112,7 +123,7 @@ const getVMData = async (url, headers, res) => {
 
 var interval = setInterval(function() {
     getVMData(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers)
-    }, 36000000);
+    }, requestTimeout);
     
 
 const helloRequest = async (url, headers, res) => {
@@ -121,7 +132,7 @@ const helloRequest = async (url, headers, res) => {
 
 var helloRequestInterval = setInterval(function() {
         helloRequest(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers)
-    }, 30000);
+    }, helloTimeout);
 
 //clearInterval(interval);
 app.get("/fetch", (req, res) => {

@@ -10,7 +10,5 @@ export function CalculateMainPageResources(
     let ssdPercentage = ssd/ssd_total;
     let fcPercentage = fc/fc_total;
     let nlPercentage = nl/nl_total;
-    //console.log(cpu,cpu_total,'|',ram/1024, ram_total, '|',ssd, ssd_total,'|',fc, fc_total,'|',nl, nl_total)
-    console.log(cpuPercentage+ ramPercentage + ssdPercentage + fcPercentage + nlPercentage)
     return ((cpuPercentage+ ramPercentage + ssdPercentage + fcPercentage + nlPercentage)/5*100)
 }
