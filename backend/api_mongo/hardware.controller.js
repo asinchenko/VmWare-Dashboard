@@ -30,7 +30,6 @@ export default class HWsController {
 
     static async apiPostHW(req, res, next) {
     try {
-        console.log(req.body)
         const vendor = req.body.vendor;
         const hwName = req.body.name;
         const type = req.body.type;

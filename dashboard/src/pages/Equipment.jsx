@@ -4,8 +4,10 @@ import {GridComponent, ColumnsDirective, ColumnDirective, Resize, Sort,
   ContextMenu, Filter, Page, ExcelExport, PdfExport, Edit, Inject} from '@syncfusion/ej2-react-grids'
 import HP from '../data/hp.png'
 import DELL from '../data/DELL.png'
-import HPE from '../data/HPE.jpeg'
-import CISCO from '../data/CISCO.jpeg'
+import HPE from '../data/HPE.png'
+import CISCO from '../data/CISCO.png'
+import HUAWEI from '../data/HUAWEI.png'
+import UNKNOWN from '../data/UNKNOWN.png'
 import {Header} from '../components';
 import {useStateContext} from '../contexts/ContextProvider';
 import {useUploadEquipment} from '../services/useUploadEquipment'
@@ -22,7 +24,6 @@ const Equipment = () => {
   const [ram, setRAM] = useState('');
   const [description, setDescription] = useState('');
   const params = useParams()
-
   const handleClick = () => {
     setDeviceForm(!deviceForm)
   }
@@ -63,8 +64,10 @@ const Equipment = () => {
         return <div><img src={DELL} alt="" className="rounded-full"/></div>
       } else if (props.vendor.toLowerCase() === "cisco"){
         return <div><img src={CISCO} alt="" className="rounded-full"/></div>
-      } else if (props.vendor.toLowerCase() === "hp"){
-        return <div><img src={HP} alt="" className="rounded-full"/></div>
+      } else if (props.vendor.toLowerCase() === "huawei"){
+        return <div><img src={HUAWEI} alt="" className="rounded-full"/></div>
+      } else {
+        return <div><img src={UNKNOWN} alt="" className="rounded-full"/></div>
       }
   };
   const gridOrderStatus = (props) => (
@@ -240,8 +243,8 @@ const Equipment = () => {
           filterSettings={filterOptions}
           dataSource={hardWareDevices}>
             <ColumnsDirective >
-            {ordersGrid.map((item, index) => (
-              <ColumnDirective key={index} {...item} />
+            {ordersGrid.map((item) => (
+              <ColumnDirective key={item._id} {...item} />
               ))}
             </ColumnsDirective>
             <Inject services={[Resize, Sort, ContextMenu, Filter, Page, ExcelExport, PdfExport]}/>
