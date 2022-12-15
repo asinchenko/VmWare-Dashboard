@@ -23,5 +23,19 @@ export const useUploadEquipment = () => {
             setError(e.response.data.error)
     });
     } 
-    return {upload, isLoading, error, setError}
+    const deleteHW = async(_id) => {
+        setIsLoading(true);
+        setError(null);
+        await http.delete(`/hw/${_id}`, {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }}).then(res => {
+            setIsLoading(false)
+        }).catch(e => {
+            console.log(e.response.data.error)
+            setIsLoading(false);
+            setError(e.response.data.error)
+    });
+    }
+    return {upload, isLoading, error, setError, deleteHW}
 }

@@ -15,21 +15,22 @@ router.
     .post(HWsController.apiPostHW)
     .put(HWsController.apiUpdateHW)
     .delete(HWsController.apiDeleteHW)
+    
 
 router.route('/:id').get((req, res) => {
-    HW.findById(req.params.id)
+    HWsController.findById(req.params.id)
         .then(HWs => res.json(HWs))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').delete((req, res) => {
-    HW.findByIdAndDelete(req.params.id)
+    HWsController.apiDeleteHWById(req)
         .then(HWs => res.json(HWs))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/update/:id').post((req, res) => {
-    HW.findById(req.params.id)
+    HWsController.findById(req.params.id)
         .then(HWs => {
             HWs.name = req.body.name;
             HWs.description = req.body.description;
@@ -43,5 +44,4 @@ router.route('/update/:id').post((req, res) => {
         })
         .catch(err => res.status(400).json('Error: ' + err));
 });
-
 export default router

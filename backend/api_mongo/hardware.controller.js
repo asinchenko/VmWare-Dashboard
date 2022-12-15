@@ -101,6 +101,7 @@ export default class HWsController {
         static async apiDeleteHW(req, res, next) {
             try {
                 const hwId = req.body._id;
+                console.log(req.body)
                 console.log(hwId)
         
                 const hwUpdate = await HardWare.deleteHW(
@@ -109,6 +110,21 @@ export default class HWsController {
                 res.json({status:"success"})
             }catch(e) {
                 res.status(500).json({error: e.message});
+            }
+        };
+
+        static async apiDeleteHWById(req, res,next){
+            try {
+                console.log(req.params.id)
+                let id = req.params.id || {}
+                let hw_list = await HardWare.deleteHW(id)
+                if (!hw_list) {
+                    res.status(404).json({error: "Not found!"})
+                    return
+                }
+            }catch(e) {
+                console.log(`api, ${e}`)
+                res.status(500).json({error:e})
             }
         };
 

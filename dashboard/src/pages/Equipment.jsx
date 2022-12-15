@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import {GridComponent, ColumnsDirective, ColumnDirective, Resize, Sort, 
-  ContextMenu, Filter, Page, ExcelExport, PdfExport, Edit, Inject} from '@syncfusion/ej2-react-grids'
+  ContextMenu, Filter, Page, ExcelExport, PdfExport, Edit, Inject, Selection} from '@syncfusion/ej2-react-grids'
 import HP from '../data/hp.png'
 import DELL from '../data/DELL.png'
 import HPE from '../data/HPE.png'
@@ -11,11 +11,14 @@ import UNKNOWN from '../data/UNKNOWN.png'
 import {Header} from '../components';
 import {useStateContext} from '../contexts/ContextProvider';
 import {useUploadEquipment} from '../services/useUploadEquipment'
+import { useNavigate } from "react-router-dom";
 
 const Equipment = () => {
-  const {upload, error, isLoading, setError} = useUploadEquipment()
+  const navigate = useNavigate();
+  const {upload, error, isLoading, setError, deleteHW} = useUploadEquipment()
   const {hardWareDevices, currentColor} = useStateContext();
   const [deviceForm, setDeviceForm] = useState(false);
+  const [deleteDeviceForm, setDeleteDeviceForm] = useState(false);
   const [vendor, setVendor] = useState('');
   const [name, setName] = useState('');
   const [type, setType] = useState('');
@@ -23,24 +26,49 @@ const Equipment = () => {
   const [cpu, setCPU] = useState('');
   const [ram, setRAM] = useState('');
   const [description, setDescription] = useState('');
+  const [deleteError, setDeleteError] = useState(false)
+  const [_id, setID] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [deleteHardwareName, setDeleteHardwareName] = useState('')
   const params = useParams()
   const handleClick = () => {
     setDeviceForm(!deviceForm)
   }
-  
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (vendor, type, status, cpu, ram, description) {
       try {
         await upload(vendor, name, type, status, cpu, ram, description)
         setVendor(''); setName(''); setType(''); setStatus(''); setCPU(''); setRAM(''); setDescription('');
+        navigate(0);
       }catch(e){
         setError(true)
       }
     }else {
       setError(true)
     }
-}
+  }
+  const handleDelete = async (e) => {
+    if (_id) {
+      try {
+        setShowModal(true)
+      }catch(e){
+        setDeleteError(false)
+      }
+    }else {
+      setDeleteError(true)
+    }
+  }
+  
+  const rowSelected = (grid) => {
+    if (grid){
+      setDeleteDeviceForm(true)
+      setID(grid.data._id)
+      setDeleteHardwareName(grid.data.hwName)
+    }else {
+      setDeleteDeviceForm(false)
+    }
+  };
 
   let filterOptions;
   if (params.param === "all"){
@@ -237,18 +265,91 @@ const Equipment = () => {
             </div>
           </div> : ''}
           <GridComponent id="equipmentgrid"
+          rowSelected={rowSelected}
           allowPaging
           allowSorting
           allowFiltering
+          allowEditing   
           filterSettings={filterOptions}
           dataSource={hardWareDevices}>
             <ColumnsDirective >
-            {ordersGrid.map((item) => (
-              <ColumnDirective key={item._id} {...item} />
+            {ordersGrid.map((item, index) => (
+              <ColumnDirective key={index} {...item} />
               ))}
             </ColumnsDirective>
-            <Inject services={[Resize, Sort, ContextMenu, Filter, Page, ExcelExport, PdfExport]}/>
+            <Inject services={[Selection, Edit, Resize, Sort, ContextMenu, Filter, Page, ExcelExport, PdfExport, ]}/>
           </GridComponent>
+          <div className="flex justify-between mt-4">
+            <div>
+              {deleteError?<p>Can not delete item</p> : <p></p>}
+            </div>
+            {deleteDeviceForm?<button
+                  type="button"
+                  disabled={isLoading}
+                  className="hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  style={{backgroundColor:'red'}}
+                  onClick={handleDelete}
+                  >
+                  Delete
+            </button>:""}
+            {showModal ? (
+        <>
+          <div
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+          >
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">
+                    Вы уверены, что хотите удалить запись?
+                  </h3>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}
+                  >
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="relative p-6 flex-auto">
+                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                  Запись об оборудовании: {deleteHardwareName} будет удалена
+                  </p>
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <button
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => {
+                      setShowModal(false);
+                    }}
+                  >
+                    Закрыть
+                  </button>
+                  <button
+                    className="bg-red-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => {
+                      setShowModal(false);
+                      deleteHW(_id);  
+                      navigate(0);
+                    }}
+                  >
+                    Удалить
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
+          </div>
       </div>
     )
   }

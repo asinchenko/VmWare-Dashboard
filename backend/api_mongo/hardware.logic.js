@@ -92,7 +92,7 @@ export default class HardWare {
             )
             return deleteHW
         }catch (e) {
-            console.error(`Unable to delee a HW: ${e}`)
+            console.error(`Unable to delete a HW: ${e}`)
             return {error: e}
         };
     };
@@ -104,7 +104,7 @@ export default class HardWare {
             )
             return findHW
         }catch (e) {
-            console.error(`Unable to delee a HW: ${e}`)
+            console.error(`Unable to delete a HW: ${e}`)
             return {error: e}
         };
     };
