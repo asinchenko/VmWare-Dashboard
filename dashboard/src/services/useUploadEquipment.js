@@ -37,5 +37,22 @@ export const useUploadEquipment = () => {
             throw Error(e.response.data.error)
     });
     }
-    return {upload, isLoading, error, setError, deleteHW}
+    const update = async(_id, vendor, name, type, status, cpu, ram, description) => {
+        setIsLoading(true);
+        setError(null);
+
+        await http.put(`/hw/device`, {
+            _id, vendor, name, type, status, cpu, ram, description
+        }, {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }}).then(res => {
+            setIsLoading(false)
+        }).catch(e => {
+            console.log(e.response.data.error)
+            setIsLoading(false);
+            setError(e.response.data.error)
+    });
+    } 
+    return {upload, isLoading, error, setError, deleteHW, update}
 }

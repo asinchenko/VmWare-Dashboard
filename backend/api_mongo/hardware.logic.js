@@ -72,11 +72,13 @@ export default class HardWare {
         };
     };
 
-    static async updateHW(hwId, descripion,date){
+    static async updateHW(hwId,vendor, name, type, status, cpu, ram, description,date){
         try{
+            console.log(hwId,vendor, name, type, status, cpu, ram, description,date)
             const updateHW = await hws.updateOne(
                 {_id: ObjectId(hwId)},
-                {$set: {descripion: descripion, date: date}},
+                {$set: {
+                    hwId,vendor, hwName:name, type, status, cpu, ram, description,date,}},
             )
             return updateHW
         }catch (e) {

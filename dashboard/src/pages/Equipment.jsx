@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 const Equipment = () => {
   const navigate = useNavigate();
-  const {upload, error, isLoading, setError, deleteHW} = useUploadEquipment()
+  const {upload, error, isLoading, setError, deleteHW, update} = useUploadEquipment()
   const {hardWareDevices, currentColor} = useStateContext();
   const [deviceForm, setDeviceForm] = useState(false);
   const [deleteDeviceForm, setDeleteDeviceForm] = useState(false);
@@ -29,7 +29,7 @@ const Equipment = () => {
   const [deleteError, setDeleteError] = useState(false)
   const [_id, setID] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [deleteHardwareName, setDeleteHardwareName] = useState('')
+  const [deleteHardwareDetails, setDeleteHardwareDetails] = useState('')
   const params = useParams()
   const handleClick = () => {
     setDeviceForm(!deviceForm)
@@ -54,9 +54,21 @@ const Equipment = () => {
   const handleDelete = async (e) => {
     if (_id) {
       try {
-        setShowModal(true)
+        setShowModal("delete")
       }catch(e){
         setDeleteError(false)
+      }
+    }else {
+      setDeleteError("delete")
+    }
+  }
+
+  const handleUpdate = async (e) => {
+    if (_id) {
+      try {
+        setShowModal("update")
+      }catch(e){
+        setDeleteError("update")
       }
     }else {
       setDeleteError(true)
@@ -67,7 +79,7 @@ const Equipment = () => {
     if (grid){
       setDeleteDeviceForm(true)
       setID(grid.data._id)
-      setDeleteHardwareName(grid.data.hwName)
+      setDeleteHardwareDetails(grid.data)
     }else {
       setDeleteDeviceForm(false)
     }
@@ -76,7 +88,7 @@ const Equipment = () => {
     if(grid){
       setDeleteDeviceForm(false)
       setID(false)
-      setDeleteHardwareName("")
+      setDeleteHardwareDetails("")
     }
   }
 
@@ -158,7 +170,7 @@ const Equipment = () => {
       width: '150',
     },
   ];
-  
+  const editOptions = { allowEditing: true, allowAdding: true, allowDeleting: true }
   if (hardWareDevices === []){
     return (
       <div>
@@ -280,7 +292,7 @@ const Equipment = () => {
           allowPaging
           allowSorting
           allowFiltering
-          allowEditing
+          editSettings={editOptions}
           filterSettings={filterOptions}
           dataSource={hardWareDevices}>
             <ColumnsDirective >
@@ -294,15 +306,24 @@ const Equipment = () => {
             <div>
               {deleteError?<p>Can not delete item</p> : <p></p>}
             </div>
-            {deleteDeviceForm?<button
-                  type="button"
-                  disabled={isLoading}
-                  className="hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                  style={{backgroundColor:'red'}}
-                  onClick={handleDelete}
-                  >
-                  Delete
-            </button>:""}
+            <div className="flex gap-4">
+              {deleteDeviceForm?<button
+                    type="button"
+                    disabled={isLoading}
+                    className="hover:bg-yellow-700 bg-yellow-500 text-white font-bold py-2 px-4 rounded"
+                    onClick={handleUpdate}
+                    >
+                    Update
+              </button>:""}
+              {deleteDeviceForm?<button
+                    type="button"
+                    disabled={isLoading}
+                    className="hover:bg-red-700 bg-red-500 text-white font-bold py-2 px-4 rounded"
+                    onClick={handleDelete}
+                    >
+                    Delete
+              </button>:""}
+            </div>
             {showModal ? (
         <>
           <div
@@ -313,9 +334,12 @@ const Equipment = () => {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">
+                  {showModal==="delete" ? <h3 className="text-3xl font-semibold">
                     Вы уверены, что хотите удалить запись?
-                  </h3>
+                  </h3> :""}
+                  {showModal==="update" ? <h3 className="text-3xl font-semibold">
+                    Вы уверены, что хотите обновить запись?
+                  </h3> :""}
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => setShowModal(false)}
@@ -327,14 +351,23 @@ const Equipment = () => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                  Запись об оборудовании: {deleteHardwareName} будет удалена
-                  </p>
+                  {showModal==="delete"?<p className="my-4 text-slate-500 text-lg leading-relaxed">
+                  Запись об оборудовании: {deleteHardwareDetails.hwName} будет удалена
+                  </p>:""}
+                  {showModal==="update"?<div className="my-4 text-slate-500 text-lg leading-relaxed">
+                  <p>Vendor: {deleteHardwareDetails.vendor}</p>
+                  <p>Name: {deleteHardwareDetails.hwName}</p>
+                  <p>Type: {deleteHardwareDetails.type}</p>
+                  <p>Status: {deleteHardwareDetails.status}</p>
+                  <p>RAM: {deleteHardwareDetails.ram}</p>
+                  <p>CPU: {deleteHardwareDetails.cpu}</p>
+                  <p>Description: {deleteHardwareDetails.description}</p>
+                  </div>:""}
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                   <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-gray-500 hover:text-gray-300 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => {
                       setShowModal(false);
@@ -342,7 +375,7 @@ const Equipment = () => {
                   >
                     Закрыть
                   </button>
-                  <button
+                  {showModal==="delete" ? <button
                     className="bg-red-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => {
@@ -352,7 +385,18 @@ const Equipment = () => {
                     }}
                   >
                     Удалить
-                  </button>
+                  </button>:""}
+                  {showModal==="update" ? <button
+                    className="bg-yellow-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => {
+                      setShowModal(false);
+                      update(deleteHardwareDetails._id, deleteHardwareDetails.vendor, deleteHardwareDetails.hwName, deleteHardwareDetails.type, deleteHardwareDetails.status, deleteHardwareDetails.ram, deleteHardwareDetails.cpu, deleteHardwareDetails.description);  
+                      navigate(0);
+                    }}
+                  >
+                    Обновить
+                  </button>:""}
                 </div>
               </div>
             </div>

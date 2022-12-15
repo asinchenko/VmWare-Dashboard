@@ -74,12 +74,18 @@ export default class HWsController {
     static async apiUpdateHW(req, res, next) {
         try {
             const hwId = req.body._id;
+            const vendor = req.body.vendor;
+            const name = req.body.name;
+            const type = req.body.type;
+            const status = req.body.status;
+            const cpu = req.body.cpu;
+            const ram = req.body.ram;
             const description = req.body.description;
             const date = new Date();
     
             const hwUpdate = await HardWare.updateHW(
                 hwId,
-                description,
+                vendor, name, type, status, cpu, ram, description,
                 date,
             );
             
