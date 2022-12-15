@@ -32,9 +32,9 @@ export const useUploadEquipment = () => {
             }}).then(res => {
             setIsLoading(false)
         }).catch(e => {
-            console.log(e.response.data.error)
             setIsLoading(false);
             setError(e.response.data.error)
+            throw Error(e.response.data.error)
     });
     }
     return {upload, isLoading, error, setError, deleteHW}
