@@ -34,11 +34,14 @@ const Equipment = () => {
   const handleClick = () => {
     setDeviceForm(!deviceForm)
   }
+  const capitalize = (word) => {
+   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  }
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (vendor, type, status, cpu, ram, description) {
       try {
-        await upload(vendor, name, type, status, cpu, ram, description)
+        await upload(capitalize(vendor), capitalize(name), capitalize(type), capitalize(status), cpu, ram, capitalize(description))
         setVendor(''); setName(''); setType(''); setStatus(''); setCPU(''); setRAM(''); setDescription('');
         navigate(0);
       }catch(e){
@@ -69,6 +72,13 @@ const Equipment = () => {
       setDeleteDeviceForm(false)
     }
   };
+  const rowDeselected = (grid) => {
+    if(grid){
+      setDeleteDeviceForm(false)
+      setID(false)
+      setDeleteHardwareName("")
+    }
+  }
 
   let filterOptions;
   if (params.param === "all"){
@@ -266,10 +276,11 @@ const Equipment = () => {
           </div> : ''}
           <GridComponent id="equipmentgrid"
           rowSelected={rowSelected}
+          rowDeselected={rowDeselected}
           allowPaging
           allowSorting
           allowFiltering
-          allowEditing   
+          allowEditing
           filterSettings={filterOptions}
           dataSource={hardWareDevices}>
             <ColumnsDirective >
