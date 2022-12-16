@@ -1,6 +1,7 @@
 // packages import
 import app from "./server.js";
 import mongodb from "mongodb";
+import clnt from "./api_mongo/client.logic.js"
 import vms from "./api_mongo/vms.logic.js"
 import hws from "./api_mongo/hardware.logic.js"
 import imgs from "./api_mongo/images.logic.js"
@@ -21,7 +22,7 @@ MongoClient.connect(
     process.exit(1)
 })
 .then(async client => {
-    
+    await clnt.injectDB(client)
     await vms.injectDB(client)
     await hws.injectDB(client)
     await imgs.injectDB(client)

@@ -107,9 +107,6 @@ export default class HWsController {
         static async apiDeleteHW(req, res, next) {
             try {
                 const hwId = req.body._id;
-                console.log(req.body)
-                console.log(hwId)
-        
                 const hwUpdate = await HardWare.deleteHW(
                     hwId, 
                 );
@@ -121,7 +118,6 @@ export default class HWsController {
 
         static async apiDeleteHWById(req, res,next){
             try {
-                console.log(req.params.id)
                 let id = req.params.id || {}
                 let hw_list = await HardWare.deleteHW(id)
                 if (!hw_list) {

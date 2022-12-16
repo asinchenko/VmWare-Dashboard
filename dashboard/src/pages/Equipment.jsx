@@ -41,7 +41,7 @@ const Equipment = () => {
     e.preventDefault()
     if (vendor, type, status, cpu, ram, description) {
       try {
-        await upload(capitalize(vendor), capitalize(name), capitalize(type), capitalize(status), cpu, ram, capitalize(description))
+        await upload(capitalize(vendor), name, capitalize(type), capitalize(status), cpu, ram, capitalize(description))
         setVendor(''); setName(''); setType(''); setStatus(''); setCPU(''); setRAM(''); setDescription('');
         navigate(0);
       }catch(e){

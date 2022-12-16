@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
 import https from 'https';
+import clientRouter from "./routes/client.route.js";
 import vmsRouter from "./routes/vms.route.js";
 import hwRouter from "./routes/hw.route.js";
 import imgRouter from "./routes/img.route.js";
@@ -143,6 +144,7 @@ app.get("/fetch", (req, res) => {
     getVMData(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers, res)
 })
 
+app.use('/api/client', clientRouter);
 app.use('/api/vms', vmsRouter);
 app.use('/api/hw', hwRouter);
 app.use('/api/img', imgRouter);
