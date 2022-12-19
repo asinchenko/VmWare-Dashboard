@@ -5,40 +5,40 @@ import requireAuth from '../middleware/requireAuth.js'
 
 router.use(requireAuth)
 
-router.route('/').get(HWsController.apiGetHWs);
-router.route("/id/:id").get(HWsController.apiGetHWById)
-router.route("/latest").get(HWsController.apiGetHWByDate)
+router.route('/').get(ClientController.apiGetClients);
+router.route("/id/:id").get(ClientController.apiGetClientById)
+router.route("/latest").get(ClientController.apiGetClientByDate)
 
 router.
     route('/client')
-    .post(HWsController.apiPostHW)
-    .put(HWsController.apiUpdateHW)
-    .delete(HWsController.apiDeleteHW)
+    .post(ClientController.apiPostClient)
+    .put(ClientController.apiUpdateClient)
+    .delete(ClientController.apiDeleteClient)
     
 
 router.route('/:id').get((req, res) => {
-    HWsController.findById(req.params.id)
-        .then(HWs => res.json(HWs))
+    ClientController.findById(req.params.id)
+        .then(Clients => res.json(Clients))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').delete((req, res) => {
-    HWsController.apiDeleteHWById(req)
-        .then(HWs => res.json(HWs))
+    ClientController.apiDeleteClientById(req)
+        .then(Clients => res.json(Clients))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/update/:id').post((req, res) => {
-    HWsController.findById(req.params.id)
-        .then(HWs => {
-            HWs.name = req.body.name;
-            HWs.description = req.body.description;
-            HWs.status = req.body.status;
-            HWs.cpu = req.body.cpu;
-            HWs.ram = req.body.ram;
+    ClientController.findById(req.params.id)
+        .then(Clients => {
+            Clients.name = req.body.name;
+            Clients.description = req.body.description;
+            Clients.status = req.body.status;
+            Clients.cpu = req.body.cpu;
+            Clients.ram = req.body.ram;
             
-            HWs.save()
-                .then(() => res.json('HW Updated'))
+            Clients.save()
+                .then(() => res.json('Client Updated'))
                 .catch(err => res.status(400).json('Error: ' +err));
         })
         .catch(err => res.status(400).json('Error: ' + err));

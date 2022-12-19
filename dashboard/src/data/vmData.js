@@ -6,6 +6,7 @@ const gridStorageProfile = (props) => (
       <p>NL: {props.storage.nl}</p>
   </div>
 );
+
 const customerGridStatus = (props) => (
   props.state === "POWERED_ON" ? <div>
     <button
@@ -34,7 +35,7 @@ export const vmGrid = [
       
     },
     { headerText: '  State',
-      width: '60',
+      width: '110',
       template: customerGridStatus,
       field: 'state'
     },
@@ -50,11 +51,11 @@ export const vmGrid = [
     { field: 'storage',
       template: gridStorageProfile,
       headerText: '  Storage',
-      width: '80',
+      width: '100',
       },
     { field: 'details',
       headerText: '  Details',
-      width: '80',
+      width: '100',
       },
   ];
 

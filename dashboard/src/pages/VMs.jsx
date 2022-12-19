@@ -17,6 +17,16 @@ const Employees = () => {
 
     }
   };
+  function exportQueryCellInfo(args) { //pdfExcelQueryCellInfo event
+    if (args.column.headerText.includes("torage")) {
+      args.value = "SSD :" + args.data.storage.ssd + "\n"  + "FC :" + args.data.storage.fc + "\n"  + "NL :" + args.data.storage.nl; //here we can set our customized value based on our requirement
+    }
+    if (args.column.headerText.includes("etails")) {
+      console.log(args.data.details.value)
+      args.value = "OS: " + "\n" + args.data.details.value.guest_OS + "\n"
+    }
+  };
+  
   return (
     <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
       <div className="flex justify-between">
@@ -25,6 +35,7 @@ const Employees = () => {
       </div>
       <GridComponent
       id='grid'
+      pdfQueryCellInfo={exportQueryCellInfo}
       allowPaging
       allowSorting
       allowPdfExport
@@ -36,7 +47,7 @@ const Employees = () => {
       ref={g => grid = g}>
         <ColumnsDirective >
         {vmGrid.map((item, index) => (
-          <ColumnDirective key={index}{...item} />
+          <ColumnDirective key={index}{...item}/>
           ))}
         </ColumnsDirective>
         <Inject services={[Page, Search, Toolbar, PdfExport]}/>
