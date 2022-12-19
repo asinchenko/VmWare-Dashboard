@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
+import {HiSwitchVertical} from 'react-icons/hi'
+import {CgServer} from 'react-icons/cg'
+import {BsServer} from 'react-icons/bs'
+import {CiRouter} from 'react-icons/ci'
+import {GiFirewall} from 'react-icons/gi'
+import {GrStatusUnknown} from 'react-icons/gr'
 import {GridComponent, ColumnsDirective, ColumnDirective, Resize, Sort, 
   ContextMenu, Filter, Page, ExcelExport, PdfExport, Edit, Inject, Selection} from '@syncfusion/ej2-react-grids'
 import HP from '../data/hp.png'
@@ -120,6 +126,24 @@ const Equipment = () => {
         return <div><img src={UNKNOWN} alt="" className="rounded-full"/></div>
       }
   };
+  const gridTypeProfile = (props) => {
+    if (props.type.toLowerCase() == "switch") {
+      return <div className="flex items-center gap-1"><HiSwitchVertical/> {props.type.charAt(0).toUpperCase() + props.type.slice(1)}</div>
+    }
+    if (props.type.toLowerCase() == "server"){
+      return <div className="flex items-center gap-1"><CgServer/> {props.type.charAt(0).toUpperCase() + props.type.slice(1)}</div>
+    }
+    if (props.type.toLowerCase() == "database"){
+      return <div className="flex items-center gap-1"><BsServer/> {props.type.charAt(0).toUpperCase() + props.type.slice(1)}</div>
+    }
+    if (props.type.toLowerCase() == "router"){
+      return <div className="flex items-center gap-1"><CiRouter/> {props.type.charAt(0).toUpperCase() + props.type.slice(1)}</div>
+    }
+    if (props.type.toLowerCase() == "firewall"){
+      return <div className="flex items-center gap-1"><GiFirewall/> {props.type.charAt(0).toUpperCase() + props.type.slice(1)}</div>
+    }
+    return <div className="flex items-center gap-1"><GrStatusUnknown/> {props.type.charAt(0).toUpperCase() + props.type.slice(1)}</div>
+  };
   const gridOrderStatus = (props) => (
     <button
       type="button"
@@ -145,6 +169,7 @@ const Equipment = () => {
       width: '150',
     },
     { field: 'type',
+      template: gridTypeProfile,
       headerText: 'Type',
       width: '100',
     },
