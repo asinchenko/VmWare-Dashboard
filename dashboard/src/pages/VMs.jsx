@@ -1,5 +1,5 @@
 import React from 'react'
-import {GridComponent, ColumnsDirective, ColumnDirective, Page, Search, Edit, Inject, Toolbar, PdfExport} from '@syncfusion/ej2-react-grids'
+import {GridComponent, ColumnsDirective, ColumnDirective, Page, Search, Inject, Toolbar, PdfExport, ExcelExport} from '@syncfusion/ej2-react-grids'
 import {vmData, vmGrid} from '../data/vmData';
 import {Header} from '../components';
 import {VirtualMachinesHeader} from '../components/'
@@ -14,8 +14,11 @@ const Employees = () => {
   const toolbarClick = (args) => {
     if (grid && args.item.id === 'grid_pdfexport') {
     grid.pdfExport();
-
     }
+    if (grid && args.item.id === 'grid_excelexport') {
+      console.log(args)
+      grid.excelExport();
+      }
   };
   function exportQueryCellInfo(args) { //pdfExcelQueryCellInfo event
     if (args.column.headerText.includes("torage")) {
@@ -36,12 +39,14 @@ const Employees = () => {
       <GridComponent
       id='grid'
       pdfQueryCellInfo={exportQueryCellInfo}
+      excelQueryCellInfo={exportQueryCellInfo}
       allowPaging
       allowSorting
       allowPdfExport
+      allowExcelExport
       toolbarClick={toolbarClick}
       sortSettings={sortingOptions}
-      toolbar={['Search', 'PdfExport']}
+      toolbar={['Search', 'PdfExport', 'ExcelExport']}
       width="auto"
       dataSource={searchLatestVM}
       ref={g => grid = g}>
@@ -50,7 +55,7 @@ const Employees = () => {
           <ColumnDirective key={index}{...item}/>
           ))}
         </ColumnsDirective>
-        <Inject services={[Page, Search, Toolbar, PdfExport]}/>
+        <Inject services={[Page, Search, Toolbar, PdfExport, ExcelExport]}/>
       </GridComponent>
     </div>
   )
