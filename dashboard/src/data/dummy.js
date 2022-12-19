@@ -52,11 +52,11 @@ export const links = [
   {
     title: 'Pages',
     links: [
-      // {
-      //   name: 'Ресурсы',
-      //   url: 'customers',
-      //   icon: <AiOutlineShoppingCart />,
-      // },
+      {
+        name: 'Клиенты',
+        url: 'customers',
+        icon: <AiOutlineShoppingCart />,
+      },
       {
         name: 'Виртуальные Машины',
         url: 'vms',

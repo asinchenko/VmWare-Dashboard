@@ -133,7 +133,7 @@ const Equipment = () => {
     if (props.type.toLowerCase() == "server"){
       return <div className="flex items-center gap-1"><CgServer/> {props.type.charAt(0).toUpperCase() + props.type.slice(1)}</div>
     }
-    if (props.type.toLowerCase() == "database"){
+    if (props.type.toLowerCase() == "storage"){
       return <div className="flex items-center gap-1"><BsServer/> {props.type.charAt(0).toUpperCase() + props.type.slice(1)}</div>
     }
     if (props.type.toLowerCase() == "router"){

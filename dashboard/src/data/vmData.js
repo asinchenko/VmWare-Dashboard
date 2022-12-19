@@ -1,4 +1,4 @@
-import { GrLocation } from 'react-icons/gr';
+
 const gridStorageProfile = (props) => (
   <div className="grid gap-2 grid-cols-1 grid-rows-3 divide-y divide-gray-300">
       <p className="">SSD: {props.storage.ssd}</p>
