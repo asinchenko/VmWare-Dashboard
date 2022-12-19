@@ -1,8 +1,7 @@
 import React from 'react'
 import {GridComponent, ColumnsDirective, ColumnDirective, Page, Search, Inject, Toolbar, PdfExport, ExcelExport} from '@syncfusion/ej2-react-grids'
-import {vmData, vmGrid} from '../data/vmData';
+import {vmGrid} from '../data/vmData';
 import {Header} from '../components';
-import {VirtualMachinesHeader} from '../components/'
 import {useStateContext} from '../contexts/ContextProvider';
 
 var grid;
@@ -25,7 +24,6 @@ const Employees = () => {
       args.value = "SSD :" + args.data.storage.ssd + "\n"  + "FC :" + args.data.storage.fc + "\n"  + "NL :" + args.data.storage.nl; //here we can set our customized value based on our requirement
     }
     if (args.column.headerText.includes("etails")) {
-      console.log(args.data.details.value)
       args.value = "OS: " + "\n" + args.data.details.value.guest_OS + "\n"
     }
   };

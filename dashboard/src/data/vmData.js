@@ -6,7 +6,11 @@ const gridStorageProfile = (props) => (
       <p>NL: {props.storage.nl}</p>
   </div>
 );
-
+const gridDetailsProfile = (props) => (
+  <div className="">
+      <p className="">{props.details.value.guest_OS}</p>
+  </div>
+);
 const customerGridStatus = (props) => (
   props.state === "POWERED_ON" ? <div>
     <button
@@ -54,6 +58,7 @@ export const vmGrid = [
       width: '100',
       },
     { field: 'details',
+      template: gridDetailsProfile,
       headerText: '  Details',
       width: '100',
       },
