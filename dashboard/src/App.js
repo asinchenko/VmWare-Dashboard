@@ -7,6 +7,7 @@ import {Dashboard, Equipment, Calendar, VMs, Stacked, Pyramid, Customers, Kanban
 import {useStateContext} from './contexts/ContextProvider';
 import VMsDataService from "./services/vms";
 import HWDataService from "./services/hws";
+import ClientDataService from "./services/clnts";
 import {useAuthContext} from './services/useAuthContext'
 import './App.css'
 
@@ -22,15 +23,16 @@ const App = () => {
     storageTotalSSDAmount , setStoragaTotalSSDAmount,
     storageTotalFCAmount, setStorageTotalFCAmount,
     storageTotalNLAmount, setStorageTotalNLAmount,
-    hardWareDevices, setHardWareDevices
+    hardWareDevices, setHardWareDevices,
+    clientList, setClientList
   } = useStateContext();
   const {user} = useAuthContext();
     const {getLatest} = VMsDataService();
     const {getAll} = HWDataService();
+    const {getClientAll} = ClientDataService();
 
     var clientResourcesArray = [];
     const retrieveResults = () => {
-      
       getLatest()
         .then(response => {
             let updatedResponse = response.data[0].vmList;
@@ -47,7 +49,15 @@ const App = () => {
       getAll()
         .then(response => {
           setHardWareDevices(response.data.hardWare)
-        })
+        }).catch(e => {
+          console.log(e, "getAll function");
+      });
+      getClientAll()
+        .then(response => {
+          setClientList(response.data.clients)
+        }).catch(e => {
+          console.log(e, "getClientAll function");
+      });
     }
   useEffect(() => {
     if (user) {

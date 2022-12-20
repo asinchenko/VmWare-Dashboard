@@ -19,7 +19,7 @@ export default class ClientController {
         })
 
         let response = {
-            hardWare: clientList,
+            clients: clientList,
             page: page,
             filters,
             entries_per_page: clientPerPage,

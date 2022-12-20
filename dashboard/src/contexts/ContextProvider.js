@@ -35,7 +35,7 @@ export const ContextProvider = ({children}) => {
             localStorage.setItem('latestVM', vm);
     };
     const [latestTimeUpdate, setlatestTimeUpdate] = useState(0)
-    const [resourcesToCustomers, setResourcesToCustomers] = useState({})
+    const [resourcesToCustomers, setResourcesToCustomers] = useState([])
 
     //values in GB
     const [cpuTotalAmount, setCPUTotalAmount] = useState(0)
@@ -45,6 +45,8 @@ export const ContextProvider = ({children}) => {
     const [storageTotalNLAmount, setStorageTotalNLAmount] = useState(0)
 
     const [hardWareDevices, setHardWareDevices] = useState([]);
+
+    const [clientList, setClientList] = useState([]);
 
     const [postImage, setPostImage] = useState({myFile : ""});
 
@@ -70,7 +72,7 @@ export const ContextProvider = ({children}) => {
             storageTotalNLAmount, setStorageTotalNLAmount,
 
             hardWareDevices, setHardWareDevices,
-
+            clientList, setClientList,
             postImage, setPostImage
         }}>
             {children}

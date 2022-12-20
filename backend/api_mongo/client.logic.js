@@ -1,20 +1,20 @@
 import mongodb from "mongodb";
 const ObjectId = mongodb.ObjectId;
-let client;
+let clnt;
 export default class Client {
     static async injectDB(conn) {
-        if (client) {
+        if (clnt) {
             return
         }
         try{
-            client = await conn.db(process.env.DB_NAME).collection("client")
+            clnt = await conn.db(process.env.DB_NAME).collection("client")
         }catch(e){
             console.error(
-                `Unable to establish a collection handle in hardware.logic: ${e}`
+                `Unable to establish a collection handle in clients.logic: ${e}`
             )
         }
     };
-    static async getHardWare({
+    static async getClient({
         filters = null,
         page = 0,
         clientPerPage = 20,
@@ -31,7 +31,7 @@ export default class Client {
     }
     let cursor
     try {
-        cursor = await client
+        cursor = await clnt
             .find(query)
     }catch(e){
         console.error(`Unable to find command, ${e}`)
@@ -41,7 +41,7 @@ export default class Client {
 
     try {
         const clientList = await displayCursor.toArray();
-        const totalNumberClients = await client.countDocuments(query)
+        const totalNumberClients = await clnt.countDocuments(query)
         return {clientList, totalNumberClients}
     }catch(e) {
         console.error(
@@ -62,7 +62,7 @@ export default class Client {
                 rate, 
                 date, 
             };
-            return await client.insertOne(addDoc)
+            return await clnt.insertOne(addDoc)
         }catch (e) {
             console.error(`Unable to add a CLIENT: ${e}`)
             return {error: e}
@@ -71,7 +71,7 @@ export default class Client {
 
     static async updateClient(_id,client,document, type, contract, used,rate,date){
         try{
-            const updateClient = await client.updateOne(
+            const updateClient = await clnt.updateOne(
                 {_id: ObjectId(_id)},
                 {$set: {
                     _id,client,document, type, contract, used,rate,date}},
@@ -85,7 +85,7 @@ export default class Client {
 
     static async deleteClient(_id){
         try{
-            const deleteClient = await client.deleteOne(
+            const deleteClient = await clnt.deleteOne(
                 {_id: ObjectId(_id)},
             )
             return deleteClient
@@ -97,7 +97,7 @@ export default class Client {
 
     static async getClientByID(_id) {
         try{
-            const findClient = await client.findOne(
+            const findClient = await clnt.findOne(
                 {_id: ObjectId(_id)},
             )
             return findClient

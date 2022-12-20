@@ -1,30 +1,53 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {GridComponent, ColumnsDirective, ColumnDirective, Selection, Sort,
   Filter, Page, Edit, Inject, Toolbar, Search} from '@syncfusion/ej2-react-grids';
 import {customerGrid} from '../data/customerData';
 import {Header} from '../components';
 import {useStateContext} from '../contexts/ContextProvider';
-import {useUploadEquipment} from '../services/useUploadEquipment'
+import {useUploadCustomers} from '../services/useUploadCustomers'
 import { useNavigate } from "react-router-dom";
+import useAxios from '../services/useAxios'
 
 const Customers = () => {
   const navigate = useNavigate();
-  const {resourcesToCustomers} = useStateContext();
-  const {upload, error, isLoading, setError, deleteHW, update} = useUploadEquipment()
-  const {hardWareDevices, currentColor} = useStateContext();
+  const [rerender, setRerender] = useState(false);
+  const {uploadClient, error, isLoading, setError, deleteClient, updateClient} = useUploadCustomers()
+  const {resourcesToCustomers, currentColor, clientList} = useStateContext();
   const [deviceForm, setDeviceForm] = useState(false);
   const [deleteDeviceForm, setDeleteDeviceForm] = useState(false);
-  const [vendor, setVendor] = useState('');
-  const [name, setName] = useState('');
+  const [clientLoaded, setClientLoaded] = useState(false)
+  const [client, setClient] = useState('');
+  const [contract, setContract] = useState('');
   const [type, setType] = useState('');
-  const [status, setStatus] = useState('');
-  const [cpu, setCPU] = useState('');
-  const [ram, setRAM] = useState('');
-  const [description, setDescription] = useState('');
+  const [document, setDocument] = useState('');
+  const [used, setUsed] = useState('');
+  const [date, setDate] = useState('');
+  const [rate, setRate] = useState('');
   const [deleteError, setDeleteError] = useState(false)
   const [_id, setID] = useState(false);
+  const [finalClientList, setFinalClientList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [deleteHardwareDetails, setDeleteHardwareDetails] = useState('')
+
+  const calculateFinalList = () => {
+    resourcesToCustomers.map(resCustomer => {
+      clientList.map(dbCustomer => {
+        if (Object.keys(resCustomer)[0].toLowerCase() === dbCustomer.client.toLowerCase()){
+          dbCustomer.contract = resCustomer[Object.keys(resCustomer)[0]].storage_contract;
+          dbCustomer.contract.cpu = resCustomer[Object.keys(resCustomer)[0]].cpu_contract;
+          dbCustomer.contract.ram = resCustomer[Object.keys(resCustomer)[0]].ram_contract;
+          setFinalClientList((oldArray => [...oldArray, dbCustomer]))
+          setClientLoaded(true);
+        }
+      })
+    });
+  };
+  useEffect(() => {
+    if (!clientLoaded){
+      calculateFinalList();
+    }
+  });
+
   const handleClick = () => {
     setDeviceForm(!deviceForm)
   }
@@ -33,10 +56,10 @@ const Customers = () => {
    }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (vendor, type, status, cpu, ram, description) {
+    if (client,document) {
       try {
-        await upload(capitalize(vendor), name, capitalize(type), capitalize(status), cpu, ram, capitalize(description))
-        setVendor(''); setName(''); setType(''); setStatus(''); setCPU(''); setRAM(''); setDescription('');
+        await uploadClient(capitalize(client), document)
+        setClient(''); setType(''); setContract(''); setUsed(''); setDate(''); setRate('');
         navigate(0);
       }catch(e){
         setError(true)
@@ -83,7 +106,13 @@ const rowSelected = (grid) => {
       setID(false)
       setDeleteHardwareDetails("")
     }
-  }
+  };
+  if (clientList === []){
+    return (
+      <div>
+      </div>
+    )
+  }else {
   return (
     <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
       <div className="flex justify-between mb-6">
@@ -98,7 +127,8 @@ const rowSelected = (grid) => {
             </button>
           </div>
       </div>
-      {deviceForm ?
+      <div>
+        {deviceForm ?
           <div className="mb-8">
             <div className="flex justify-between mb-4">
               <div className="">
@@ -108,8 +138,8 @@ const rowSelected = (grid) => {
                   className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
                   '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
                   placeholder="ex. Business Algorithms"
-                  onChange={(e) => setVendor(e.target.value)}
-                  value={vendor} 
+                  onChange={(e) => setClient(e.target.value)}
+                  value={client} 
                 />
               </div>
               <div className="">
@@ -119,30 +149,8 @@ const rowSelected = (grid) => {
                   className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
                   '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
                   placeholder="12345"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name} 
-                />
-              </div>
-              <div className="">
-              <a className="text-gray-500">Status</a>
-                <input
-                  type="text"
-                  className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
-                  '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-400 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
-                  placeholder="ex. Active, Inactive"
-                  onChange={(e) => setType(e.target.value)}
-                  value={type} 
-                />
-              </div>
-              <div className="">
-              <a className="text-gray-500">Dates</a>
-                <input
-                  type="text"
-                  className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
-                  '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
-                  placeholder="10.08.2022-10.09.2023"
-                  onChange={(e) => setDescription(e.target.value)}
-                  value={description} 
+                  onChange={(e) => setDocument(e.target.value)}
+                  value={document} 
                 />
               </div>
             </div>
@@ -168,7 +176,7 @@ const rowSelected = (grid) => {
       toolbar={['Search']}
       editSettings={{allowDeleting: true, allowEditing: true}}
       width="auto"
-      dataSource={resourcesToCustomers}>
+      dataSource={finalClientList}>
         <ColumnsDirective >
         {customerGrid.map((item, index) => (
           <ColumnDirective key={index} {...item} />
@@ -254,7 +262,7 @@ const rowSelected = (grid) => {
                     type="button"
                     onClick={() => {
                       setShowModal(false);
-                      deleteHW(_id);  
+                      deleteClient(_id);  
                       navigate(0);
                     }}
                   >
@@ -265,7 +273,7 @@ const rowSelected = (grid) => {
                     type="button"
                     onClick={() => {
                       setShowModal(false);
-                      update(deleteHardwareDetails._id, deleteHardwareDetails.vendor, deleteHardwareDetails.hwName, deleteHardwareDetails.type, deleteHardwareDetails.status, deleteHardwareDetails.ram, deleteHardwareDetails.cpu, deleteHardwareDetails.description);  
+                      updateClient(deleteHardwareDetails._id, deleteHardwareDetails.vendor, deleteHardwareDetails.hwName, deleteHardwareDetails.type, deleteHardwareDetails.status, deleteHardwareDetails.ram, deleteHardwareDetails.cpu, deleteHardwareDetails.description);  
                       navigate(0);
                     }}
                   >
@@ -280,6 +288,7 @@ const rowSelected = (grid) => {
       ) : null}
           </div>
     </div>
-  )
+    </div>
+  )}
 }
 export default Customers
