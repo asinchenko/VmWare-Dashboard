@@ -36,6 +36,11 @@ const Customers = () => {
           dbCustomer.contract = resCustomer[Object.keys(resCustomer)[0]].storage_contract;
           dbCustomer.contract.cpu = resCustomer[Object.keys(resCustomer)[0]].cpu_contract;
           dbCustomer.contract.ram = resCustomer[Object.keys(resCustomer)[0]].ram_contract;
+          dbCustomer.used = resCustomer[Object.keys(resCustomer)[0]].storage;
+          dbCustomer.used.cpu = resCustomer[Object.keys(resCustomer)[0]].cpu;
+          dbCustomer.used.ram = resCustomer[Object.keys(resCustomer)[0]].ram;
+          dbCustomer.used.vm = resCustomer[Object.keys(resCustomer)[0]].vm_amount;
+          console.log(resCustomer[Object.keys(resCustomer)[0]])
           setFinalClientList((oldArray => [...oldArray, dbCustomer]))
           setClientLoaded(true);
         }
