@@ -8,6 +8,11 @@ import {IoDocumentText} from 'react-icons/io5'
 import {BsCalendarDate} from 'react-icons/bs'
 const gridContractProfile = (props) => {
   if (props.contract){
+    if (!props.contract.cpu && !props.contract.ram && !props.contract.ssd && !props.contract.nl && !props.contract.fc){
+      return (  
+        <div className="text-gray-300">No contract values</div>
+      )
+    }
     return (
     <div className="grid grid-cols-1 divide-y">
       <div className="hover:font-extrabold flex justify-between">
@@ -47,7 +52,7 @@ const gridContractProfile = (props) => {
       </div>
     </div>)
   }
-  return <div></div>
+  return <div className="text-gray-300">Not specified</div>
 };
 const gridUsedProfile = (props) => {
   if (props.used){
@@ -97,7 +102,7 @@ const gridUsedProfile = (props) => {
       </div>
     </div>)
   }
-  return <div></div>
+  return <div className="text-gray-300">No such client in vmWare</div>
 };
 const gridDocumentProfile = (props) => {
   if (props.document){
@@ -163,6 +168,14 @@ const gridTypeProfile = (props) => {
         </button>
       </div>)
     }
+    return ( 
+    <div className="">
+      <button
+      type="button"
+      className="text-white py-1 px-2 capitalize rounded-2xl text-md bg-gray-300">
+      Unknown
+      </button>
+    </div>)
   }
   else {
     return (

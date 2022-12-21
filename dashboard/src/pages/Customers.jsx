@@ -40,9 +40,9 @@ const Customers = () => {
           dbCustomer.used.cpu = resCustomer[Object.keys(resCustomer)[0]].cpu;
           dbCustomer.used.ram = resCustomer[Object.keys(resCustomer)[0]].ram;
           dbCustomer.used.vm = resCustomer[Object.keys(resCustomer)[0]].vm_amount;
-          setFinalClientList((oldArray => [...oldArray, dbCustomer]))
+        } 
+          setFinalClientList((oldArray => oldArray.indexOf(dbCustomer) === -1 ? [...oldArray, dbCustomer] : [...oldArray]));
           setClientLoaded(true);
-        }
       })
     });
   };
@@ -121,7 +121,7 @@ const rowSelected = (grid) => {
   return (
     <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
       <div className="flex justify-between mb-6">
-          <Header category="Page" title="Clients"></Header>
+          <Header category="Page" title="Клиенты"></Header>
           <div className="flex items-center">
           <button 
             className="hover:bg-gray-50 text-white py-2 px-4 rounded text-3xl"
