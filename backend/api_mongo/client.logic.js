@@ -51,15 +51,12 @@ export default class Client {
     }
     };
 
-    static async addClient(client,document, type, contract, used,rate,date){
+    static async addClient(client,document, type,date){
         try{
             const addDoc = {
                 client,
                 document, 
                 type,
-                contract, 
-                used,
-                rate, 
                 date, 
             };
             return await clnt.insertOne(addDoc)
@@ -69,12 +66,12 @@ export default class Client {
         };
     };
 
-    static async updateClient(_id,client,document, type, contract, used,rate,date){
+    static async updateClient(_id,client,document, type,date){
         try{
             const updateClient = await clnt.updateOne(
                 {_id: ObjectId(_id)},
                 {$set: {
-                    _id,client,document, type, contract, used,rate,date}},
+                    client,document, type,date}},
             )
             return updateClient
         }catch (e) {

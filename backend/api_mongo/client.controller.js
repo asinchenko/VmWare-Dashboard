@@ -33,12 +33,9 @@ export default class ClientController {
         const client = req.body.client;
         const document = req.body.document;
         const type = req.body.type;
-        const contract = req.body.contract;
-        const used = req.body.used;
-        const rate = req.body.rate;
         const date = req.body.date;
         const clientPost = await Client.addClient(
-            client,document, type, contract, used,rate,date
+            client,document, type,date
         );
         res.json({status:"success post"});
     }catch(e) {
@@ -52,13 +49,10 @@ export default class ClientController {
             const client = req.body.client;
             const document = req.body.document;
             const type = req.body.type;
-            const contract = req.body.contract;
-            const used = req.body.used;
-            const rate = req.body.rate;
             const date = req.body.date;
     
             const clientUpdate = await Client.updateClient(
-                _id, client,document, type, contract, used,rate,date
+                _id, client,document, type,date
             );
             
             var {error} = clientUpdate

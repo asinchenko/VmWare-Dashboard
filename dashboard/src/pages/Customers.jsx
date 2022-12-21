@@ -27,7 +27,7 @@ const Customers = () => {
   const [_id, setID] = useState(false);
   const [finalClientList, setFinalClientList] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [deleteHardwareDetails, setDeleteHardwareDetails] = useState('')
+  const [deleteClientDetails, setDeleteClientDetails] = useState('')
 
   const calculateFinalList = () => {
     resourcesToCustomers.map(resCustomer => {
@@ -63,7 +63,7 @@ const Customers = () => {
     e.preventDefault()
     if (client,document) {
       try {
-        await uploadClient(capitalize(client), document)
+        await uploadClient(capitalize(client), document, capitalize(type), date)
         setClient(''); setType(''); setContract(''); setUsed(''); setDate(''); setRate('');
         navigate(0);
       }catch(e){
@@ -100,7 +100,7 @@ const rowSelected = (grid) => {
     if (grid){
       setDeleteDeviceForm(true)
       setID(grid.data._id)
-      setDeleteHardwareDetails(grid.data)
+      setDeleteClientDetails(grid.data)
     }else {
       setDeleteDeviceForm(false)
     }
@@ -109,12 +109,13 @@ const rowSelected = (grid) => {
     if(grid){
       setDeleteDeviceForm(false)
       setID(false)
-      setDeleteHardwareDetails("")
+      setDeleteClientDetails("")
     }
   };
   if (clientList === []){
     return (
       <div>
+        Loading...
       </div>
     )
   }else {
@@ -239,16 +240,13 @@ const rowSelected = (grid) => {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   {showModal==="delete"?<p className="my-4 text-slate-500 text-lg leading-relaxed">
-                  Запись об оборудовании: {deleteHardwareDetails.hwName} будет удалена
+                  Запись о Клиенте: {deleteClientDetails.client} будет удалена
                   </p>:""}
                   {showModal==="update"?<div className="my-4 text-slate-500 text-lg leading-relaxed">
-                  <p>Vendor: {deleteHardwareDetails.vendor}</p>
-                  <p>Name: {deleteHardwareDetails.hwName}</p>
-                  <p>Type: {deleteHardwareDetails.type}</p>
-                  <p>Status: {deleteHardwareDetails.status}</p>
-                  <p>RAM: {deleteHardwareDetails.ram}</p>
-                  <p>CPU: {deleteHardwareDetails.cpu}</p>
-                  <p>Description: {deleteHardwareDetails.description}</p>
+                  <p>Client: {deleteClientDetails.client}</p>
+                  <p>Document Number: {deleteClientDetails.document}</p>
+                  <p>Status: {deleteClientDetails.type}</p>
+                  <p>Dates: {deleteClientDetails.date}</p>
                   </div>:""}
                 </div>
                 {/*footer*/}
@@ -278,8 +276,8 @@ const rowSelected = (grid) => {
                     type="button"
                     onClick={() => {
                       setShowModal(false);
-                      updateClient(deleteHardwareDetails._id, deleteHardwareDetails.vendor, deleteHardwareDetails.hwName, deleteHardwareDetails.type, deleteHardwareDetails.status, deleteHardwareDetails.ram, deleteHardwareDetails.cpu, deleteHardwareDetails.description);  
-                      navigate(0);
+                      updateClient(deleteClientDetails._id, deleteClientDetails.client, deleteClientDetails.document, deleteClientDetails.type, deleteClientDetails.date);  
+                      // navigate(0);
                     }}
                   >
                     Обновить

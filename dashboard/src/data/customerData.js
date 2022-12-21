@@ -37,7 +37,7 @@ const gridUsedProfile = (props) => {
       </p>
       <p className="hover:font-extrabold flex justify-between">
         <a>RAM:</a>
-        <a>{props.used.ram}</a>
+        <a>{props.used.ram/1024}</a>
       </p>
       <p className="hover:font-extrabold flex justify-between">
         <a>SSD:</a> 
