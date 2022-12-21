@@ -40,7 +40,6 @@ const Customers = () => {
           dbCustomer.used.cpu = resCustomer[Object.keys(resCustomer)[0]].cpu;
           dbCustomer.used.ram = resCustomer[Object.keys(resCustomer)[0]].ram;
           dbCustomer.used.vm = resCustomer[Object.keys(resCustomer)[0]].vm_amount;
-          console.log(resCustomer[Object.keys(resCustomer)[0]])
           setFinalClientList((oldArray => [...oldArray, dbCustomer]))
           setClientLoaded(true);
         }
@@ -61,7 +60,7 @@ const Customers = () => {
    }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (client,document) {
+    if (client) {
       try {
         await uploadClient(capitalize(client), document, capitalize(type), date)
         setClient(''); setType(''); setContract(''); setUsed(''); setDate(''); setRate('');
@@ -159,6 +158,28 @@ const rowSelected = (grid) => {
                   value={document} 
                 />
               </div>
+              <div className="">
+                <a className="text-gray-500">Type</a>
+                <input
+                  type="text"
+                  className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
+                  '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
+                  placeholder="ex. Active / Inactive"
+                  onChange={(e) => setType(e.target.value)}
+                  value={type} 
+                />
+              </div>
+              <div className="">
+                <a className="text-gray-500">End Date</a>
+                <input
+                  type="text"
+                  className={error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 
+                  '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
+                  placeholder="ex. 01.02.2024"
+                  onChange={(e) => setDate(e.target.value)}
+                  value={date} 
+                />
+              </div>
             </div>
             
             <div className= {error? "flex justify-between":"flex justify-end"}>
@@ -246,7 +267,7 @@ const rowSelected = (grid) => {
                   <p>Client: {deleteClientDetails.client}</p>
                   <p>Document Number: {deleteClientDetails.document}</p>
                   <p>Status: {deleteClientDetails.type}</p>
-                  <p>Dates: {deleteClientDetails.date}</p>
+                  <p>Date: {deleteClientDetails.date}</p>
                   </div>:""}
                 </div>
                 {/*footer*/}
@@ -277,7 +298,7 @@ const rowSelected = (grid) => {
                     onClick={() => {
                       setShowModal(false);
                       updateClient(deleteClientDetails._id, deleteClientDetails.client, deleteClientDetails.document, deleteClientDetails.type, deleteClientDetails.date);  
-                      // navigate(0);
+                      navigate(0);
                     }}
                   >
                     Обновить

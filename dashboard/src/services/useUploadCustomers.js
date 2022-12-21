@@ -39,7 +39,6 @@ export const useUploadCustomers = () => {
     const updateClient = async(_id, client,document,type,date) => {
         setIsLoading(true);
         setError(null);
-        console.log(_id, client,document,type,date)
         await http.put(`/client/client`, {
             _id, client,document,type,date
         }, {
