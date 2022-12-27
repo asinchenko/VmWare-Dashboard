@@ -118,14 +118,14 @@ const Dashboard = () => {
       background: 'blue',
       fill: "#1984c5"
     },
-    { dataSource: cpuChartDataNew[1],
-      xName: 'x',
-      yName: 'y',
-      name: 'Прописано',
-      type: 'StackingColumn',
-      background: 'red',
-      fill: "#a7d5ed"
-    }
+    // { dataSource: cpuChartDataNew[1],
+    //   xName: 'x',
+    //   yName: 'y',
+    //   name: 'Прописано',
+    //   type: 'StackingColumn',
+    //   background: 'red',
+    //   fill: "#a7d5ed"
+    // }
   ];
 
   const ramPrimaryXAxis = {
@@ -161,14 +161,14 @@ const Dashboard = () => {
       background: 'blue',
       fill: "#4C9A2A"
     },
-    { dataSource: ramChartDataNew[1],
-      xName: 'x',
-      yName: 'y',
-      name: 'Прописано',
-      type: 'StackingColumn',
-      background: 'red',
-      fill: "#ACDF87"
-    }
+    // { dataSource: ramChartDataNew[1],
+    //   xName: 'x',
+    //   yName: 'y',
+    //   name: 'Прописано',
+    //   type: 'StackingColumn',
+    //   background: 'red',
+    //   fill: "#ACDF87"
+    // }
   ];
   const storageCustomSeries = [
     { dataSource: storageChartDataNew[0],
@@ -179,15 +179,15 @@ const Dashboard = () => {
       background: 'blue',
       fill: '#0184c7'
     },
-    { dataSource: storageChartDataNew[3],
-      xName: 'x',
-      yName: 'y',
-      name: 'SSD Договор',
-      type: 'StackingColumn',
-      background: 'red',
-      fill: "#38bdf8"
+    // { dataSource: storageChartDataNew[3],
+    //   xName: 'x',
+    //   yName: 'y',
+    //   name: 'SSD Договор',
+    //   type: 'StackingColumn',
+    //   background: 'red',
+    //   fill: "#38bdf8"
   
-    },
+    // },
     { dataSource: storageChartDataNew[2],
       xName: 'x',
       yName: 'y',
@@ -196,14 +196,14 @@ const Dashboard = () => {
       background: 'red',
       fill: "#0d9488"
     },
-    { dataSource: storageChartDataNew[5],
-      xName: 'x',
-      yName: 'y',
-      name: 'Nl Договор',
-      type: 'StackingColumn',
-      background: 'red',
-      fill: "#2ed4c0"
-    },
+    // { dataSource: storageChartDataNew[5],
+    //   xName: 'x',
+    //   yName: 'y',
+    //   name: 'Nl Договор',
+    //   type: 'StackingColumn',
+    //   background: 'red',
+    //   fill: "#2ed4c0"
+    // },
     { dataSource: storageChartDataNew[1],
       xName: 'x',
       yName: 'y',
@@ -212,14 +212,14 @@ const Dashboard = () => {
       background: 'red',
       fill: "#ca8a04"
     },
-    { dataSource: storageChartDataNew[4],
-      xName: 'x',
-      yName: 'y',
-      name: 'FC Договор',
-      type: 'StackingColumn',
-      background: 'red',
-      fill: "#facc15"
-    },
+    // { dataSource: storageChartDataNew[4],
+    //   xName: 'x',
+    //   yName: 'y',
+    //   name: 'FC Договор',
+    //   type: 'StackingColumn',
+    //   background: 'red',
+    //   fill: "#facc15"
+    // },
   ];
   const storagePrimaryXAxis = {
     majorGridLines: { width: 0 },
@@ -416,9 +416,9 @@ const Dashboard = () => {
   storageChartDataNew.push(temp_list_ssd);
   storageChartDataNew.push(temp_list_fc);
   storageChartDataNew.push(temp_list_nl);
-  storageChartDataNew.push(temp_list_contract_ssd);
-  storageChartDataNew.push(temp_list_contract_fc);
-  storageChartDataNew.push(temp_list_contract_nl);
+  // storageChartDataNew.push(temp_list_contract_ssd);
+  // storageChartDataNew.push(temp_list_contract_fc);
+  // storageChartDataNew.push(temp_list_contract_nl);
 };
 
 function correctChartData(anyChart, props) {

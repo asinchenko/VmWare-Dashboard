@@ -422,7 +422,7 @@ const Equipment = () => {
                     type="button"
                     onClick={() => {
                       setShowModal(false);
-                      update(deleteHardwareDetails._id, deleteHardwareDetails.vendor, deleteHardwareDetails.hwName, deleteHardwareDetails.type, deleteHardwareDetails.status, deleteHardwareDetails.ram, deleteHardwareDetails.cpu, deleteHardwareDetails.description);  
+                      update(deleteHardwareDetails._id, deleteHardwareDetails.vendor, deleteHardwareDetails.hwName, deleteHardwareDetails.type, deleteHardwareDetails.status, deleteHardwareDetails.cpu, deleteHardwareDetails.ram,  deleteHardwareDetails.description);  
                       navigate(0);
                     }}
                   >
