@@ -8,12 +8,6 @@ import {GiFirewall} from 'react-icons/gi'
 import {GrStatusUnknown} from 'react-icons/gr'
 import {GridComponent, ColumnsDirective, ColumnDirective, Resize, Sort, 
   ContextMenu, Filter, Page, ExcelExport, PdfExport, Edit, Inject, Selection} from '@syncfusion/ej2-react-grids'
-import HP from '../data/hp.png'
-import DELL from '../data/DELL.png'
-import HPE from '../data/HPE.png'
-import CISCO from '../data/CISCO.png'
-import HUAWEI from '../data/HUAWEI.png'
-import UNKNOWN from '../data/UNKNOWN.png'
 import {Header} from '../components';
 import {useStateContext} from '../contexts/ContextProvider';
 import {useUploadEquipment} from '../services/useUploadEquipment'
@@ -113,17 +107,17 @@ const Equipment = () => {
 
   const gridOrderImage = (props) => {
       if (props.vendor.toLowerCase() === "hp"){
-        return <div><img src={HP} alt="" className="rounded-full"/></div>
+        return <div><img src='/hp.png' alt="" className="rounded-full"/></div>
       }else if (props.vendor.toLowerCase() === "hpe"){
-        return <div><img src={HPE} alt="" className="rounded-full"/></div>
+        return <div><img src='/HPE.png' alt="" className="rounded-full"/></div>
       } else if (props.vendor.toLowerCase() === "dell"){
-        return <div><img src={DELL} alt="" className="rounded-full"/></div>
+        return <div><img src='/DELL.png' alt="" className="rounded-full"/></div>
       } else if (props.vendor.toLowerCase() === "cisco"){
-        return <div><img src={CISCO} alt="" className="rounded-full"/></div>
+        return <div><img src='/CISCO.png' alt="" className="rounded-full"/></div>
       } else if (props.vendor.toLowerCase() === "huawei"){
-        return <div><img src={HUAWEI} alt="" className="rounded-full"/></div>
+        return <div><img src='/HUAWEI.png' alt="" className="rounded-full"/></div>
       } else {
-        return <div><img src={UNKNOWN} alt="" className="rounded-full"/></div>
+        return <div><img src='/UNKNOWN.png' alt="" className="rounded-full"/></div>
       }
   };
   const gridTypeProfile = (props) => {
