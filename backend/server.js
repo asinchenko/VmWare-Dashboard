@@ -11,9 +11,13 @@ import usersRouter from "./routes/user.route.js";
 import VirtualMachines from './api_mongo/vms.logic.js';
 import vcenterGetVMData from './api_vcenter/vms.vcenter.js'
 import dotenv from "dotenv";
+import nocache from 'nocache';
 dotenv.config();
 // enable CORS
 const app = express();
+app.use(nocache());
+app.set('etag', false)
+app.disable('view cache');
 app.use(cors());
 app.use(express.json({limit: '30mb'}));
 app.use(express.urlencoded({limit: '30mb'}));

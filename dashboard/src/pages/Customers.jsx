@@ -287,7 +287,7 @@ const rowSelected = (grid) => {
                     onClick={() => {
                       setShowModal(false);
                       deleteClient(_id);  
-                      navigate(0);
+                      setTimeout(navigate(0), 1500);
                     }}
                   >
                     Удалить
@@ -298,7 +298,7 @@ const rowSelected = (grid) => {
                     onClick={() => {
                       setShowModal(false);
                       updateClient(deleteClientDetails._id, deleteClientDetails.client, deleteClientDetails.document, deleteClientDetails.type, deleteClientDetails.date);  
-                      navigate(0);
+                      setTimeout(navigate(0), 1500);
                     }}
                   >
                     Обновить

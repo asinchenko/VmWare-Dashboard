@@ -152,6 +152,11 @@ const Equipment = () => {
       {props.status}
     </button>
   );
+  const gridVendorTitle = (props) => (
+    <div className="">
+    {props.vendor.toUpperCase()}
+    </div>
+  );
   const ordersGrid = [
     { field: 'vendor',
       headerText: '',
@@ -162,6 +167,7 @@ const Equipment = () => {
       field: 'vendor',
       headerText: 'Vendor',
       width: '60',
+      template: gridVendorTitle,
       editType: 'dropdownedit',
     },
     { field: 'hwName',
