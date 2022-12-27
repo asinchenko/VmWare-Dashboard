@@ -8,5 +8,5 @@ export function CalculateMainPageResources(
     let cpuPercentage = cpu/cpu_total;
     let ramPercentage = ram/ram_total;
     let storagePercentage = (ssd+fc+nl)/(ssd_total+fc_total+nl_total);
-    return ((cpuPercentage+ ramPercentage + storagePercentage)/3*100)
+    return (Math.ceil((cpuPercentage+ ramPercentage + storagePercentage)/3*100))
 }

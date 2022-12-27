@@ -65,8 +65,8 @@ const App = () => {
         retrieveResults();
         setCPUTotalAmount(17400);
         setRAMTotalAmount(2432);
-        setStoragaTotalSSDAmount(100096);
-        setStorageTotalFCAmount(44640);
+        setStoragaTotalSSDAmount(168430);
+        setStorageTotalFCAmount(41160);
         setStorageTotalNLAmount(238320);
   }}});
   if (!user) {
