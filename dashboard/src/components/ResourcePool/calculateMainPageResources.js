@@ -7,8 +7,6 @@ export function CalculateMainPageResources(
     ram = ram/1024;
     let cpuPercentage = cpu/cpu_total;
     let ramPercentage = ram/ram_total;
-    let ssdPercentage = ssd/ssd_total;
-    let fcPercentage = fc/fc_total;
-    let nlPercentage = nl/nl_total;
-    return ((cpuPercentage+ ramPercentage + ssdPercentage + fcPercentage + nlPercentage)/5*100)
+    let storagePercentage = (ssd+fc+nl)/(ssd_total+fc_total+nl_total);
+    return ((cpuPercentage+ ramPercentage + storagePercentage)/3*100)
 }

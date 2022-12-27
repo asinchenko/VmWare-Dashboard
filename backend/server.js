@@ -43,7 +43,7 @@ if (process.env.NODE_ENV === 'dev'){
 }else {
     vmWareToken = await getVMWareToken();
     helloTimeout = 150000;
-    requestTimeout = 43200000;
+    requestTimeout = 600000;
 }
 
 async function getVMWareToken(){

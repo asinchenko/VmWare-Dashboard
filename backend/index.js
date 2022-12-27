@@ -18,7 +18,7 @@ MongoClient.connect(
     }
 )
 .catch(err => {
-    console.log(err.stack).
+    console.log(err.stack)
     process.exit(1)
 })
 .then(async client => {
