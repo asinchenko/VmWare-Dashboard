@@ -9,7 +9,7 @@ const ResourcePool = ({
   datasource, stackedPrimaryXAxis, stackedPrimaryYAxis,
   totalSSD, totalFC, totalNL,
   freeSSD,  freeFC,  freeNL,
-  usedSSD,  usedFC,  usedNL
+  usedSSD,  usedFC,  usedNL, totalContractValues
   }) => {
   return (
     <div>
@@ -58,6 +58,29 @@ const ResourcePool = ({
               <div className="flex-col">
               <div>
                 <div className="mt-8">
+                {totalContractValues != undefined ? 
+                  <div className="">
+                    {maintitle != "vCPU" && maintitle != "Оперативная Память" ? 
+                    <p className="flex justify-around">
+                    {totalContractValues.ssdFormated != undefined ?<span className="text-xs text-gray-400">SSD</span>: ""}
+                    {totalContractValues.fcFormated != undefined ?<span className="text-xs text-gray-400">FC</span>: ""}
+                    {totalContractValues.nlFormated != undefined ?<span className="text-xs text-gray-400">NL</span>: ""}
+                    </p>:""}
+                  </div>:""}
+                <p className={totalContractValues != undefined ? "flex justify-between":""}>
+                    {maintitle == "vCPU" ? <span className="text-3xl font-semibold">{totalContractValues.cpu}</span>: ""}
+                    {maintitle === "Оперативная Память" ? <span className="text-3xl font-semibold">{totalContractValues.ramFormated}</span>: ""}
+                    {maintitle === "Системы Хранения Данных" ? <span className="text-2xl p-2 font-semibold">{totalContractValues.ssdFormated}</span>: <span></span>}
+                    {maintitle === "Системы Хранения Данных" ? <span className="text-2xl p-2 font-semibold">{totalContractValues.fcFormated}</span>:<span></span>}
+                    {maintitle === "Системы Хранения Данных" ? <span className="text-2xl p-2 font-semibold">{totalContractValues.nlFormated}</span>: <span></span>}
+                  </p>
+                  <p className={freeSSD != undefined ? "mt-1 text-gray-500":"text-gray-500 mt-1"}>
+                    Требуется
+                  </p>
+                </div>
+              </div>
+              <div>
+                <div className="mt-8">
                 {totalSSD != undefined ? 
                   <div className="">
                     <p className={totalSSD != undefined ? "flex justify-around":""}>
@@ -73,7 +96,7 @@ const ResourcePool = ({
                     {freeNL != undefined ? <span className="text-2xl p-2 font-semibold">{freeNL}</span>: <span></span>}
                   </p>
                   <p className={freeSSD != undefined ? "mt-1 text-gray-500":"text-gray-500 mt-1"}>
-                    Свободно
+                    Не задействовано
                   </p>
                 </div>
               </div>
@@ -94,7 +117,7 @@ const ResourcePool = ({
                   {usedNL != undefined ? <span className="text-2xl p-2 font-semibold">{usedNL}</span>: <span></span>}
                 </p>
                 <p className={usedSSD != undefined ? "mt-3 text-gray-500":"text-gray-500 mt-1"}>
-                  Занято
+                  Используется
                 </p>
                 </div>
                 {usedamount != undefined ? <div className="ml-4">

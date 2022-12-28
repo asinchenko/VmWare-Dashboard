@@ -37,9 +37,7 @@ const Dashboard = () => {
   cpuPieChart=[]; cpuChartDataNew=[]; ramPieChart=[]; ramChartDataNew=[]; ramPieChart=[]; storagePieChart=[]; storageChartDataNew=[];
 
   var cpuConsumedAmount = 0;
-  //Put value in GBs
   var ramConsumedAmount = 0;
-  //put values in GBs
   var storageConsumedSSDAmount = 0;
   var storageConsumedFCAmount = 0;
   var storageConsumedNLAmount = 0;
@@ -54,7 +52,7 @@ const Dashboard = () => {
   var ramConsumedAmountFormated = formatBytes(ramConsumedAmount)
   var ramEmptyAmountFormated = formatBytes(ramTotalAmount*1024 - ramConsumedAmount)
   //from GB into Formated GB/TB
-  var storageTotalSSDAmountFormated = formatBytes(storageTotalSSDAmount*1024);
+  var storageTotalSSDAmountFormated = formatBytes(storageTotalSSDAmount*1024);  
   var storageTotalFCAmountFormated = formatBytes(storageTotalFCAmount*1024);
   var storageTotalNLAmountFormated = formatBytes(storageTotalNLAmount*1024);
   var storageFreeSSDAmountFormated = formatBytes(storageTotalSSDAmount*1024 - storageConsumedSSDAmount*1024);
@@ -63,6 +61,24 @@ const Dashboard = () => {
   var storageUsedSSDAmountFormated = formatBytes(storageConsumedSSDAmount*1024);
   var storageUsedFCAmountFormated = formatBytes(storageConsumedFCAmount*1024);
   var storageUsedNLAmountFormated = formatBytes(storageConsumedNLAmount*1024);
+
+  let totalContractValues = {cpu:0, ram:0, ssd:0, fc:0, nl:0};
+  if (resourcesToCustomers.length != undefined) {
+    let clientName;
+    resourcesToCustomers.map((client, index) => {
+      clientName = Object.keys(client)[0];
+      totalContractValues.cpu += client[clientName].contract.cpu;
+      totalContractValues.ram += client[clientName].contract.ram;
+      totalContractValues.ssd += client[clientName].contract.ssd;
+      totalContractValues.nl += client[clientName].contract.nl;
+      totalContractValues.fc += client[clientName].contract.fc;
+    });
+    totalContractValues.ssdFormated = formatBytes(totalContractValues.ssd*1024);
+    totalContractValues.fcFormated = formatBytes(totalContractValues.fc*1024);
+    totalContractValues.nlFormated = formatBytes(totalContractValues.nl*1024);
+    totalContractValues.ramFormated = formatBytes(totalContractValues.ram*1024);
+  };
+  console.log(totalContractValues)
   const stackedPrimaryXAxis = {
     majorGridLines: { width: 0 },
     minorGridLines: { width: 0 },
@@ -299,6 +315,7 @@ const Dashboard = () => {
           widthstacked="260px"
           heightstacked="360px"
           maintitle="vCPU"
+          totalContractValues={totalContractValues}
           totalamount={cpuTotalAmount}
           freeamount={cpuTotalAmount - cpuConsumedAmount}
           usedamount={cpuConsumedAmount}
@@ -317,7 +334,8 @@ const Dashboard = () => {
           idstacked="ramStacked"
           widthstacked="260px"
           heightstacked="360px"
-          maintitle="Оперативная память"
+          maintitle="Оперативная Память"
+          totalContractValues={totalContractValues}
           totalamount={ramTotalAmountFormated}
           freeamount={ramEmptyAmountFormated}
           usedamount={ramConsumedAmountFormated}
@@ -338,6 +356,7 @@ const Dashboard = () => {
           widthstacked="300px"
           heightstacked="360px"
           maintitle="Системы Хранения Данных"
+          totalContractValues={totalContractValues}
           totalSSD={storageTotalSSDAmountFormated}
           totalFC={storageTotalFCAmountFormated}
           totalNL={storageTotalNLAmountFormated}
@@ -357,28 +376,22 @@ const Dashboard = () => {
   
   function calculateCPURAM(props) {
       let temp_list = [];
-      let temp_list_contract = [];
     if (resourcesToCustomers.length > 0){
       resourcesToCustomers.map(customer => {
       let cusomterName = Object.keys(customer)[0];
       props === "cpu" ? cpuConsumedAmount += customer[cusomterName].cpu: ramConsumedAmount += customer[cusomterName].ram;
       temp_list.push({x: Object.keys(customer)[0], y: props==="cpu" ? customer[cusomterName].cpu:customer[cusomterName].ram});
-      temp_list_contract.push({x: Object.keys(customer)[0], y: props==="cpu" ? customer[cusomterName].contract.cpu : customer[cusomterName].contract.ram});
       props === "cpu" ? cpuPieChart.push({x: Object.keys(customer)[0], y: customer[cusomterName].cpu}) : ramPieChart.push({x: Object.keys(customer)[0], y: customer[cusomterName].ram});
       
     });
   };
     props==="cpu" ? cpuChartDataNew.push(temp_list) : ramChartDataNew.push(temp_list);
-    props==="cpu" ? cpuChartDataNew.push(temp_list_contract) : ramChartDataNew.push(temp_list_contract)
   };
 
   function calculateStorage() {
     let temp_list_ssd = [];
     let temp_list_fc = [];
     let temp_list_nl = [];
-    let temp_list_contract_ssd = [];
-    let temp_list_contract_fc = [];
-    let temp_list_contract_nl = [];
   if (resourcesToCustomers.length > 0){
     resourcesToCustomers.map(customer => {
     let cusomterName = Object.keys(customer)[0];
@@ -395,11 +408,7 @@ const Dashboard = () => {
     });
     temp_list_nl.push({
       x: Object.keys(customer)[0], y: customer[cusomterName].storage.nl
-    });
-
-    temp_list_contract_ssd.push({x: Object.keys(customer)[0], y: customer[cusomterName].contract.ssd - customer[cusomterName].storage.ssd});
-    temp_list_contract_fc.push({x: Object.keys(customer)[0], y: customer[cusomterName].contract.fc - customer[cusomterName].storage.fc});
-    temp_list_contract_nl.push({x: Object.keys(customer)[0], y: customer[cusomterName].contract.nl - customer[cusomterName].storage.nl});
+    })
 
     storagePieChart.push({
       x: Object.keys(customer)[0] + " SSD", y: customer[cusomterName].storage.ssd
@@ -416,9 +425,6 @@ const Dashboard = () => {
   storageChartDataNew.push(temp_list_ssd);
   storageChartDataNew.push(temp_list_fc);
   storageChartDataNew.push(temp_list_nl);
-  // storageChartDataNew.push(temp_list_contract_ssd);
-  // storageChartDataNew.push(temp_list_contract_fc);
-  // storageChartDataNew.push(temp_list_contract_nl);
 };
 
 function correctChartData(anyChart, props) {
