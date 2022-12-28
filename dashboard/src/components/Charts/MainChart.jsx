@@ -28,9 +28,14 @@ const MainChart = ({width, height}) => {
       clientName = Object.keys(client)[0];
       let resultValue = CalculateMainPageResources(client[clientName].cpu, client[clientName].ram, client[clientName].storage.ssd, client[clientName].storage.fc, client[clientName].storage.nl, 
       cpuTotalAmount, ramTotalAmount, storageTotalSSDAmount, storageTotalFCAmount, storageTotalNLAmount);
-      totalContractValues = totalContractValues + CalculateMainPageResources(client[clientName].contract.cpu, client[clientName].contract.ram, client[clientName].contract.ssd, client[clientName].contract.fc, client[clientName].contract.nl, 
-          cpuTotalAmount, ramTotalAmount, storageTotalSSDAmount, storageTotalFCAmount, storageTotalNLAmount);
-      console.log(totalContractValues, client[clientName].contract)
+      totalContractValues = totalContractValues + CalculateMainPageResources(
+          Math.max(0,client[clientName].contract.cpu - client[clientName].cpu) || 0, 
+          Math.max(0,client[clientName].contract.ram - client[clientName].ram) || 0,
+          Math.max(0,client[clientName].contract.ssd - client[clientName].storage.ssd) || 0,
+          Math.max(0,client[clientName].contract.fc - client[clientName].storage.fc) || 0,
+          Math.max(0,client[clientName].contract.nl - client[clientName].storage.nl) || 0,
+          cpuTotalAmount, ramTotalAmount, storageTotalSSDAmount, storageTotalFCAmount, storageTotalNLAmount
+      );
       stackedMainData.push([{x:'Astana DC', y: resultValue}]);
       stackedMainSeries.push({ dataSource: stackedMainData[index+1],
         xName: 'x',  
@@ -56,6 +61,12 @@ const MainChart = ({width, height}) => {
       opacity:'0.5',
       fill: '#FFBB00',
     });
+    let fillChart = '#D0D0D0';
+    if (100-(usedResources+totalContractValues) < 15){
+      fillChart = '#FF2400'
+    }else if (100-(usedResources+totalContractValues) < 25){
+      fillChart = '#FF5F00'
+    }
     stackedMainSeries.push({ dataSource: stackedMainData[stackedMainData.length - 1],
       xName: 'x',  
       yName: 'y',
@@ -63,7 +74,7 @@ const MainChart = ({width, height}) => {
       type: 'StackingBar',
       background: 'blue',
       opacity:'0.5',
-      fill: '#D0D0D0',
+      fill: fillChart,
     });
   }
       
