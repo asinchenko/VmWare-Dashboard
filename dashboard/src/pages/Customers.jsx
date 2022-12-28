@@ -33,9 +33,7 @@ const Customers = () => {
     resourcesToCustomers.map(resCustomer => {
       clientList.map(dbCustomer => {
         if (Object.keys(resCustomer)[0].toLowerCase() === dbCustomer.client.toLowerCase()){
-          dbCustomer.contract = resCustomer[Object.keys(resCustomer)[0]].storage_contract;
-          dbCustomer.contract.cpu = resCustomer[Object.keys(resCustomer)[0]].cpu_contract;
-          dbCustomer.contract.ram = resCustomer[Object.keys(resCustomer)[0]].ram_contract;
+          dbCustomer.contract = resCustomer[Object.keys(resCustomer)[0]].contract;
           dbCustomer.used = resCustomer[Object.keys(resCustomer)[0]].storage;
           dbCustomer.used.cpu = resCustomer[Object.keys(resCustomer)[0]].cpu;
           dbCustomer.used.ram = resCustomer[Object.keys(resCustomer)[0]].ram;

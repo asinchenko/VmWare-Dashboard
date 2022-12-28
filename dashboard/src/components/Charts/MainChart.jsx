@@ -23,11 +23,14 @@ const MainChart = ({width, height}) => {
   const newColor = currentMode === 'Dark' ? 'rgb(51,55,62)' : 'white';
   if (resourcesToCustomers.length != undefined) {
     let clientName;
+    let totalContractValues = 0;
     resourcesToCustomers.map((client, index) => {
       clientName = Object.keys(client)[0];
-      let resultValue = Math.round(CalculateMainPageResources(client[clientName].cpu, client[clientName].ram, client[clientName].storage.ssd, client[clientName].storage.fc, client[clientName].storage.nl, 
-      cpuTotalAmount, ramTotalAmount, storageTotalSSDAmount, storageTotalFCAmount, storageTotalNLAmount));
-      console.log(clientName, resultValue, client[clientName].cpu, client[clientName].ram, client[clientName].storage.ssd, client[clientName].storage.fc, client[clientName].storage.nl)
+      let resultValue = CalculateMainPageResources(client[clientName].cpu, client[clientName].ram, client[clientName].storage.ssd, client[clientName].storage.fc, client[clientName].storage.nl, 
+      cpuTotalAmount, ramTotalAmount, storageTotalSSDAmount, storageTotalFCAmount, storageTotalNLAmount);
+      totalContractValues = totalContractValues + CalculateMainPageResources(client[clientName].contract.cpu, client[clientName].contract.ram, client[clientName].contract.ssd, client[clientName].contract.fc, client[clientName].contract.nl, 
+          cpuTotalAmount, ramTotalAmount, storageTotalSSDAmount, storageTotalFCAmount, storageTotalNLAmount);
+      console.log(totalContractValues, client[clientName].contract)
       stackedMainData.push([{x:'Astana DC', y: resultValue}]);
       stackedMainSeries.push({ dataSource: stackedMainData[index+1],
         xName: 'x',  
@@ -42,7 +45,17 @@ const MainChart = ({width, height}) => {
       if (value[0].y != NaN){
         usedResources += value[0].y
       }});
-    stackedMainData.push([{x:'Astana DC', y: 100-usedResources}]);
+    stackedMainData.push([{x:'Astana DC', y: totalContractValues}]);
+    stackedMainData.push([{x:'Astana DC', y: 100-(usedResources+totalContractValues)}]);
+    stackedMainSeries.push({ dataSource: stackedMainData[stackedMainData.length - 2],
+      xName: 'x',  
+      yName: 'y',
+      name: 'Резерв Клиенты',
+      type: 'StackingBar',
+      background: 'blue',
+      opacity:'0.5',
+      fill: '#FFBB00',
+    });
     stackedMainSeries.push({ dataSource: stackedMainData[stackedMainData.length - 1],
       xName: 'x',  
       yName: 'y',

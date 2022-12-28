@@ -363,7 +363,7 @@ const Dashboard = () => {
       let cusomterName = Object.keys(customer)[0];
       props === "cpu" ? cpuConsumedAmount += customer[cusomterName].cpu: ramConsumedAmount += customer[cusomterName].ram;
       temp_list.push({x: Object.keys(customer)[0], y: props==="cpu" ? customer[cusomterName].cpu:customer[cusomterName].ram});
-      temp_list_contract.push({x: Object.keys(customer)[0], y: props==="cpu" ? customer[cusomterName].cpu_contract : customer[cusomterName].ram_contract});
+      temp_list_contract.push({x: Object.keys(customer)[0], y: props==="cpu" ? customer[cusomterName].contract.cpu : customer[cusomterName].contract.ram});
       props === "cpu" ? cpuPieChart.push({x: Object.keys(customer)[0], y: customer[cusomterName].cpu}) : ramPieChart.push({x: Object.keys(customer)[0], y: customer[cusomterName].ram});
       
     });
@@ -397,9 +397,9 @@ const Dashboard = () => {
       x: Object.keys(customer)[0], y: customer[cusomterName].storage.nl
     });
 
-    temp_list_contract_ssd.push({x: Object.keys(customer)[0], y: customer[cusomterName].storage_contract.ssd - customer[cusomterName].storage.ssd});
-    temp_list_contract_fc.push({x: Object.keys(customer)[0], y: customer[cusomterName].storage_contract.fc - customer[cusomterName].storage.fc});
-    temp_list_contract_nl.push({x: Object.keys(customer)[0], y: customer[cusomterName].storage_contract.nl - customer[cusomterName].storage.nl});
+    temp_list_contract_ssd.push({x: Object.keys(customer)[0], y: customer[cusomterName].contract.ssd - customer[cusomterName].storage.ssd});
+    temp_list_contract_fc.push({x: Object.keys(customer)[0], y: customer[cusomterName].contract.fc - customer[cusomterName].storage.fc});
+    temp_list_contract_nl.push({x: Object.keys(customer)[0], y: customer[cusomterName].contract.nl - customer[cusomterName].storage.nl});
 
     storagePieChart.push({
       x: Object.keys(customer)[0] + " SSD", y: customer[cusomterName].storage.ssd

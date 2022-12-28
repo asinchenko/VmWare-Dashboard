@@ -13,8 +13,8 @@ services:
   #     - backend
   
   backend:
-    depends_on:
-      - mongodb
+    # depends_on:
+    #   - mongodb
     build: ./backend
     restart: unless-stopped
     ports:

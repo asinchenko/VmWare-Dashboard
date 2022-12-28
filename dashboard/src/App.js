@@ -155,72 +155,52 @@ const App = () => {
 function segmentClients(value, clientResourcesArray){
   if (value.name == "vcenter"){
     value.customer = "Vcenter";
-    value.cpu_contract = 100;
-    value.ram_contract = 100;
-    value.storage_contract = {ssd: 100, fc: 100, nl:600};
+    value.contract = {cpu:100, ram:100, ssd: 100, fc: 100, nl:600};
     value.document = 11;
     calculateResources(value, clientResourcesArray);
   } else if (value.name.includes("TestVM1")) {
     value.customer = "WS Home";
-    value.cpu_contract = 50;
-    value.ram_contract = 50;
-    value.storage_contract = {ssd: 200, fc: 200, nl:300};
+    value.contract = {cpu:50, ram:50, ssd: 200, fc: 200, nl:300};
     value.document = 12;
     calculateResources(value, clientResourcesArray);
   } else if (value.name.includes("TestVM2")) {
     value.customer = "Home Customer";
-    value.cpu_contract = 10;
-    value.ram_contract = 10;
-    value.storage_contract = {ssd: 0, fc: 0, nl:10};
+    value.contract = {cpu:10, ram:10 ,ssd: 0, fc: 0, nl:10};
     value.document = 13;
     calculateResources(value, clientResourcesArray);
   } else if (value.name.includes("BA") || value.name.includes("PA-VM")) {
     value.customer = "Business Algorithm";
-    value.cpu_contract = 8;
-    value.ram_contract = 24;
-    value.storage_contract = {ssd: 180, fc: 0, nl:0};
+    value.contract = {cpu:8, ram:24, ssd: 180, fc: 0, nl:0};
     value.document = 14;
     calculateResources(value, clientResourcesArray);
   } else if (value.name.includes("kaztol")) {
     value.customer = "KazAvtoZhol";
-    value.cpu_contract = 188;
-    value.ram_contract = 2008;
-    value.storage_contract = {ssd: 8192, fc: 0, nl:261872};
+    value.contract = {cpu:188, ram:2008, ssd: 8192, fc: 0, nl:261872};
     value.document = 15;
     calculateResources(value, clientResourcesArray);
   } else if (value.name.includes("frp")) {
     value.customer = "Фонд Развития";
-    value.cpu_contract = 8;
-    value.ram_contract = 12;
-    value.storage_contract = {ssd: 100, fc: 0, nl:30000};
+    value.contract = {cpu:8, ram: 12, ssd: 100, fc: 0, nl:30000};
     value.document = 16;
     calculateResources(value, clientResourcesArray);
   } else if (value.name.includes("Megacam") || value.name.includes("mikrotik-")) {
     value.customer = "Перспектива";
-    value.cpu_contract = 0;
-    value.ram_contract = 0;
-    value.storage_contract = {ssd: 0, fc: 0, nl:0};
+    value.contract = {cpu:0, ram:0 ,ssd: 0, fc: 0, nl:0};
     value.document = 17;
     calculateResources(value, clientResourcesArray);
   } else if (value.name.toLowerCase().includes("smax") || value.name.includes("OPB-age")) {
     value.customer = "SMAX";
-    value.cpu_contract = 0;
-    value.ram_contract = 0;
     value.document = 18;
-    value.storage_contract = {ssd: 0, fc: 0, nl:0};
+    value.contract = {cpu:0, ram:0 ,ssd: 0, fc: 0, nl:0};
     calculateResources(value, clientResourcesArray);
   } else if (value.name.includes("cuba") || value.name.includes("tovma") || value.name.includes("TB-ege") || value.name.includes("db-srv")) {
     value.customer = "Tovma";
-    value.cpu_contract = 0;
-    value.ram_contract = 0;
-    value.storage_contract = {ssd: 0, fc: 0, nl:0};
+    value.contract = {cpu:0, ram:0, ssd: 0, fc: 0, nl:0};
     value.document = 19;
     calculateResources(value, clientResourcesArray);
   } else {
     value.customer = "Остальные";
-    value.cpu_contract = 0;
-    value.ram_contract = 0;
-    value.storage_contract = {ssd: 0, fc: 0, nl:0};
+    value.contract = {cpu:0, ram:0, ssd: 0, fc: 0, nl:0};
     value.document = 20;
     calculateResources(value, clientResourcesArray);
     
@@ -251,9 +231,7 @@ function calculateResources(value, clientResourcesArray){
           fc: storage.fc + clientResourcesArray[objIndex][value.customer].storage.fc,
           nl: storage.nl + clientResourcesArray[objIndex][value.customer].storage.nl,
         },
-        cpu_contract : value.cpu_contract,
-        ram_contract : value.ram_contract,
-        storage_contract : value.storage_contract,
+        contract : value.contract,
         document: value.document,
       };
   }else {
@@ -261,9 +239,7 @@ function calculateResources(value, clientResourcesArray){
       vm_amount: 1, 
       cpu: value.cpu, 
       ram: value.ram, storage: storage,
-      ram_contract : value.ram_contract,
-      cpu_contract : value.cpu_contract,
-      storage_contract : value.storage_contract,
+      contract : value.contract,
       document: value.document,
     };
   }
