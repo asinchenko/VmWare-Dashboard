@@ -34,7 +34,7 @@ const ResourcePool = ({
               </p> */}
             </div>
           </div>
-          <div className=" gap-10 flex flex-wrap justify-center">
+          <div className=" gap-10 flex flex-wrap justify-center items-center">
             <div className="border-r-1 border-color m-4 pr-4">
             {totalSSD != undefined ? 
             <div className="">
@@ -67,13 +67,15 @@ const ResourcePool = ({
                     {totalContractValues.nlFormated != undefined ?<span className="text-xs text-gray-400">NL</span>: ""}
                     </p>:""}
                   </div>:""}
-                <p className={totalContractValues != undefined ? "flex justify-between":""}>
+                  <div>
+                  <p className={totalContractValues != undefined ? "flex justify-between":""}>
                     {maintitle == "vCPU" ? <span className="text-3xl font-semibold">{totalContractValues.cpu}</span>: ""}
                     {maintitle === "Оперативная Память" ? <span className="text-3xl font-semibold">{totalContractValues.ramFormated}</span>: ""}
                     {maintitle === "Системы Хранения Данных" ? <span className="text-2xl p-2 font-semibold">{totalContractValues.ssdFormated}</span>: <span></span>}
                     {maintitle === "Системы Хранения Данных" ? <span className="text-2xl p-2 font-semibold">{totalContractValues.fcFormated}</span>:<span></span>}
                     {maintitle === "Системы Хранения Данных" ? <span className="text-2xl p-2 font-semibold">{totalContractValues.nlFormated}</span>: <span></span>}
                   </p>
+                  </div>
                   <p className={freeSSD != undefined ? "mt-1 text-gray-500":"text-gray-500 mt-1"}>
                     Требуется
                   </p>
