@@ -47,9 +47,9 @@ const ResourcePool = ({
               <div>
               <p className={totalSSD != undefined ? "flex justify-between":""}>
                   {totalamount != undefined ?<span className="text-3xl font-semibold">{totalamount}</span>:""}
-                  {totalSSD != undefined ?<span className="text-2xl p-2 font-semibold">{totalSSD}</span>: <span></span>}
-                  {totalFC != undefined ?<span className="text-2xl p-2 font-semibold">{totalFC}</span>:<span></span>}
-                  {totalNL != undefined ? <span className="text-2xl font-semibold p-2">{totalNL}</span>: <span></span>}
+                  {totalSSD != undefined ?<span className="text-xl p-2 font-semibold">{totalSSD}</span>: <span></span>}
+                  {totalFC != undefined ?<span className="text-xl p-2 font-semibold">{totalFC}</span>:<span></span>}
+                  {totalNL != undefined ? <span className="text-xl font-semibold p-2">{totalNL}</span>: <span></span>}
                 </p>
                 <p className={totalSSD != undefined ? "mt-1 text-gray-500":"text-gray-500 mt-1"}>
                   Общее количество
@@ -76,9 +76,18 @@ const ResourcePool = ({
                     {maintitle === "Системы Хранения Данных" ? <span className="text-2xl p-2 font-semibold">{totalContractValues.nlFormated}</span>: <span></span>}
                   </p>
                   </div>
-                  <p className={freeSSD != undefined ? "mt-1 text-gray-500":"text-gray-500 mt-1"}>
-                    Требуется
-                  </p>
+                  <div className="flex">
+                    <p className="text-gray-500 mt-1">
+                      Требуется
+                    </p>
+                    {/* <p className={totalContractValues != undefined ? "flex justify-between":""}>
+                      {maintitle == "vCPU" ? <span className="text-3xl font-semibold">{totalamount - totalContractValues.cpu}</span>: ""}
+                      {maintitle === "Оперативная Память" ? <span className="text-3xl font-semibold">{totalamount - totalContractValues.ramFormated}</span>: ""}
+                      {maintitle === "Системы Хранения Данных" ? <span className="text-2xl p-2 font-semibold">{totalContractValues.ssdFormated}</span>: <span></span>}
+                      {maintitle === "Системы Хранения Данных" ? <span className="text-2xl p-2 font-semibold">{totalContractValues.fcFormated}</span>:<span></span>}
+                      {maintitle === "Системы Хранения Данных" ? <span className="text-2xl p-2 font-semibold">{totalContractValues.nlFormated}</span>: <span></span>}
+                    </p> */}
+                  </div>
                 </div>
               </div>
               <div>
@@ -93,9 +102,9 @@ const ResourcePool = ({
                   </div>:""}
                 <p className={freeSSD != undefined ? "flex justify-between":""}>
                     {freeamount != undefined ? <span className="text-3xl font-semibold">{freeamount}</span>: ""}
-                    {freeSSD != undefined ?<span className="text-2xl p-2 font-semibold">{freeSSD}</span>: <span></span>}
-                    {freeFC != undefined ?<span className="text-2xl p-2 font-semibold">{freeFC}</span>:<span></span>}
-                    {freeNL != undefined ? <span className="text-2xl p-2 font-semibold">{freeNL}</span>: <span></span>}
+                    {freeSSD != undefined ?<span className="text-xl p-2 font-semibold">{freeSSD}</span>: <span></span>}
+                    {freeFC != undefined ?<span className="text-xl p-2 font-semibold">{freeFC}</span>:<span></span>}
+                    {freeNL != undefined ? <span className="text-xl p-2 font-semibold">{freeNL}</span>: <span></span>}
                   </p>
                   <p className={freeSSD != undefined ? "mt-1 text-gray-500":"text-gray-500 mt-1"}>
                     Не задействовано
@@ -114,9 +123,9 @@ const ResourcePool = ({
                   </div>:""}
                 <p className={usedSSD != undefined ? "flex justify-between":""}>
                   {usedamount != undefined ? <span className="text-3xl font-semibold">{usedamount}</span>: ""}
-                  {usedSSD != undefined ?<span className="text-2xl p-2 font-semibold">{usedSSD}</span>: <span></span>}
-                  {usedFC != undefined ?<span className="text-2xl p-2 font-semibold">{usedFC}</span>:<span></span>}
-                  {usedNL != undefined ? <span className="text-2xl p-2 font-semibold">{usedNL}</span>: <span></span>}
+                  {usedSSD != undefined ?<span className="text-xl p-2 font-semibold">{usedSSD}</span>: <span></span>}
+                  {usedFC != undefined ?<span className="text-xl p-2 font-semibold">{usedFC}</span>:<span></span>}
+                  {usedNL != undefined ? <span className="text-xl p-2 font-semibold">{usedNL}</span>: <span></span>}
                 </p>
                 <p className={usedSSD != undefined ? "mt-3 text-gray-500":"text-gray-500 mt-1"}>
                   Используется
