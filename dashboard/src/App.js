@@ -63,11 +63,11 @@ const App = () => {
     if (user) {
       if (searchLatestVM.length == 0 || latestTimeUpdate === 0 ){
         retrieveResults();
-        setCPUTotalAmount(17400);
-        setRAMTotalAmount(2432);
-        setStoragaTotalSSDAmount(168430);
-        setStorageTotalFCAmount(41160);
-        setStorageTotalNLAmount(238320);
+        setCPUTotalAmount(7648);
+        setRAMTotalAmount(4300);
+        setStoragaTotalSSDAmount(185000);
+        setStorageTotalFCAmount(44000);
+        setStorageTotalNLAmount(500000);
   }}});
   if (!user) {
     return (<div>
@@ -188,7 +188,7 @@ function segmentClients(value, clientResourcesArray){
     value.contract = {cpu:0, ram:0 ,ssd: 0, fc: 0, nl:0};
     value.document = 17;
     calculateResources(value, clientResourcesArray);
-  } else if (value.name.toLowerCase().includes("smax") || value.name.includes("OPB-age")) {
+  } else if (value.name.toLowerCase().includes("smax") || value.name.includes("OPB-age") || value.name.includes("OpsB-")){
     value.customer = "SMAX";
     value.document = 18;
     value.contract = {cpu:0, ram:0 ,ssd: 0, fc: 0, nl:0};
@@ -198,12 +198,16 @@ function segmentClients(value, clientResourcesArray){
     value.contract = {cpu:0, ram:0, ssd: 0, fc: 0, nl:0};
     value.document = 19;
     calculateResources(value, clientResourcesArray);
+  } else if (value.name.toLowerCase() === 'admin-laptop' || value.name.toLowerCase() === 'alex-laptop' || value.name.toLowerCase() === 'DC_Mail' || value.name.toLowerCase() === 'KSC' || value.name.toLowerCase() === 'proxy' || value.name.toLowerCase() === 'SB' || value.name.toLowerCase() === 'web' || value.name.toLowerCase() === 'router'){
+    value.customer = "PlusMicro";
+    value.contract = {cpu:58, ram:122, ssd:1024, fc:0, nl:381};
+    value.document = 20;
+    calculateResources(value, clientResourcesArray);
   } else {
     value.customer = "Остальные";
     value.contract = {cpu:0, ram:0, ssd: 0, fc: 0, nl:0};
-    value.document = 20;
+    value.document = 21;
     calculateResources(value, clientResourcesArray);
-    
   } 
 }
 
