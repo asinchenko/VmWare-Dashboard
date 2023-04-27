@@ -62,7 +62,14 @@ const Dashboard = () => {
   var storageUsedFCAmountFormated = formatBytes(storageConsumedFCAmount*1024);
   var storageUsedNLAmountFormated = formatBytes(storageConsumedNLAmount*1024);
 
-  let totalContractValues = {cpu:0, ram:0, ssd:0, fc:0, nl:0};
+  let totalContractValues = {
+    cpu:0, ram:0, ssd:0, fc:0, nl:0,
+    cpuTotal:storageTotalSSDAmount || 0, 
+    fcTotal: storageTotalFCAmount || 0,
+    nlTotal: storageTotalNLAmount || 0,
+    cpuTotal: cpuTotalAmount || 0,
+    ramTotal: ramTotalAmount || 0,
+  };
   if (resourcesToCustomers.length != undefined) {
     let clientName;
     resourcesToCustomers.map((client, index) => {
@@ -78,7 +85,6 @@ const Dashboard = () => {
     totalContractValues.nlFormated = formatBytes(totalContractValues.nl*1024);
     totalContractValues.ramFormated = formatBytes(totalContractValues.ram*1024);
   };
-  console.log(totalContractValues)
   const stackedPrimaryXAxis = {
     majorGridLines: { width: 0 },
     minorGridLines: { width: 0 },

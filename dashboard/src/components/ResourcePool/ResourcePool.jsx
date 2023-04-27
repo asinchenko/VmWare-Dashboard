@@ -1,6 +1,6 @@
 import React from 'react'
 import {Stacked, PieChart} from '..'
-import {GoPrimitiveDot} from 'react-icons/go';
+import ToolTipHelper from './ToolTipHelper'
 
 const ResourcePool = ({
   idpie,widthpie,heightpie,datapie,typepie,
@@ -51,13 +51,15 @@ const ResourcePool = ({
                   {totalFC != undefined ?<span className="text-xl p-2 font-semibold">{totalFC}</span>:<span></span>}
                   {totalNL != undefined ? <span className="text-xl font-semibold p-2">{totalNL}</span>: <span></span>}
                 </p>
-                <p className={totalSSD != undefined ? "mt-1 text-gray-500":"text-gray-500 mt-1"}>
-                  Общее количество
-                </p>
+                <div className="mt-1 text-gray-500 flex gap-2 items-center">
+                  <p>Общее количество</p>
+                  {/* <div className="transition duration-500 hover:scale-125 bg-green-300 hover:bg-green-400 text-white font-semibold px-2 rounded-full"> */}
+                  <ToolTipHelper color="green"> </ToolTipHelper> 
+                </div>
               </div>
               <div className="flex-col">
               <div>
-                <div className="mt-8">
+                <div className="mt-6">
                 {totalContractValues != undefined ? 
                   <div className="">
                     {maintitle != "vCPU" && maintitle != "Оперативная Память" ? 

@@ -15,7 +15,6 @@ const Employees = () => {
     grid.pdfExport();
     }
     if (grid && args.item.id === 'grid_excelexport') {
-      console.log(args)
       grid.excelExport();
       }
   };
