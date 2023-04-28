@@ -14,7 +14,7 @@ const gridContractProfile = (props) => {
       )
     }
     return (
-    <div className="grid grid-cols-1 divide-y">
+    <div className="grid grid-cols-1 divide-y " >
       <div className="hover:font-extrabold flex justify-between">
         <div className="flex gap-1">
           <a><HiOutlineCpuChip/></a>
@@ -50,6 +50,14 @@ const gridContractProfile = (props) => {
         </div>
         <a>{props.contract.nl}</a>
       </div>
+      <div className="hover:font-extrabold flex justify-between">
+        <div className="flex gap-1">
+          <a><GrVirtualMachine/></a>
+          <a>VM: </a> 
+        </div>
+        <a>{props.contract.vm}</a>
+      </div>
+      
     </div>)
   }
   return <div className="text-gray-300">Not specified</div>
@@ -107,7 +115,7 @@ const gridUsedProfile = (props) => {
 const gridDocumentProfile = (props) => {
   if (props.document){
     return (
-      <div className="flex justify-start gap-4">
+      <div className="flex justify-start items-center gap-4">
         <a className=""><IoDocumentText/></a>
         <a className="">{props.document}</a>
 
@@ -244,11 +252,11 @@ export const customerGrid = [
       allowEditing: false,
     },
     { headerText: '   Tags',
+      field: 'tags',
       template: gridTagsProfile,
       width: '80',
       },
     { field: 'date',
-      //template: gridDetailsProfile,
       headerText: '  Dates',
       width: '100',
       template: gridDateProfile,

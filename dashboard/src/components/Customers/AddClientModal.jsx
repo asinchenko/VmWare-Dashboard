@@ -4,6 +4,13 @@ import './addclient.css';
 import {useStateContext} from '../../contexts/ContextProvider';
 import {useUploadCustomers} from '../../services/useUploadCustomers'
 import {useNavigate} from "react-router-dom";
+import {HiOutlineCpuChip} from 'react-icons/hi2'
+import {CgSmartphoneRam} from 'react-icons/cg'
+import {CiHardDrive} from 'react-icons/ci'
+import {FiHardDrive} from 'react-icons/fi'
+import {TfiHarddrive} from 'react-icons/tfi'
+import {GrVirtualMachine} from 'react-icons/gr'
+import {IoDocumentText} from 'react-icons/io5'
 
 
 function ClientModal(props) {
@@ -49,19 +56,6 @@ function ClientModal(props) {
     let buttons;
     const [display, setDisplay] = useState('none');
 
-    const animationSettings = {
-        effect: 'None'
-    };
-    buttons = [{
-            click: dlgButtonClick,
-            buttonModel: {
-                content: 'Learn More',
-                isPrimary: true
-            }
-        },];
-    function dlgButtonClick() {
-        window.open('https://www.syncfusion.com/company/about-us');
-    }
     const closeModal = () => {
       setDeviceForm(false);
     };
@@ -69,27 +63,26 @@ function ClientModal(props) {
         <DialogComponent id="modalDialog"
             isModal={true}
             showCloseIcon={true}
-            animationSettings={animationSettings}
             width="500px"
-            header="About SYNCFUSION Succinctly Series"
+            header="Add new client to database"
             visible={deviceForm}
-            buttons={buttons}
             close={closeModal}>
-            <div className="flex justify-between mb-4 overscroll-auto">
-                <div className="">
-                    <a className="text-gray-500">Customer</a>
+            <div className="mb-4 overscroll-auto">
+                <div className="gap-4">
+                    <div className="text-gray-800 text-xl"><a>Customer Name</a></div>
+                    <div className="text-gray-400 hover:text-gray-800 mb-2"><a className="flex gap-x-2">Введите наименование заказчика на латинице. Например: <p className="hover:text-blue-500 underline">ClientVehi</p></a></div>
                     <input type="text"
                         className={
                             error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
                         }
-                        placeholder="ex. Business Algorithms"
+                        placeholder="ClientVehi..."
                         onChange={
                             (e) => setClient(e.target.value)
                         }
                         value={client}/>
                 </div>
-                <div className="">
-                    <a className="text-gray-500">Project Number</a>
+                <div className="pt-4 pb-4 gap-2 ">
+                    <div className="mb-2"><a className="text-gray-800 text-xl">Project Number</a></div>
                     <input type="text"
                         className={
                             error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
@@ -100,8 +93,8 @@ function ClientModal(props) {
                         }
                         value={document}/>
                 </div>
-                <div className="">
-                    <a className="text-gray-500">Type</a>
+                <div className="pb-4 gap-2">
+                <div className="mb-2"><a className="text-gray-800 text-xl">Status</a></div>
                     <input type="text"
                         className={
                             error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
@@ -112,11 +105,103 @@ function ClientModal(props) {
                         }
                         value={type}/>
                 </div>
-                <div className="">
-                    <a className="text-gray-500">End Date</a>
+                <div className="pb-4 gap-2 divide-y-1">
+                <div className=""><a className="text-gray-800 text-xl">Contract Resources</a></div>
+                    <div className = "text-gray-400 hover:text-gray-800 mb-2 grid grid-cols-4 grid-rows-1" > 
+                        <div className="gap-x-2 col-span-3 ">Введите количество ресурсов заключеных в договоре. RAM, SSD, FC, HDD учитываются в гигабайте Например:</div> 
+                            <div className = "auto-rows-min pl-8" > 
+                                <p className="hover:text-blue-500 underline">CPU: 64</p>
+                                <p className="hover:text-blue-500 underline">RAM: 1024</p>
+                                <p className="hover:text-blue-500 underline">SSD: 512</p>
+                                <p className="hover:text-blue-500 underline">FC: 0</p>
+                                <p className="hover:text-blue-500 underline">NL: 300</p>
+                            </div>
+                    </div>
+
+                    <div className="flex gap-2 justify-between pt-2">
+                        <div>
+                            <div className="flex place-content-center gap-x-1">
+                                <HiOutlineCpuChip/>
+                                <p className="">CPU</p>
+                            </div>
+                           
+                            <input type="text"
+                                className={
+                                    error ? "form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
+                                }
+                                placeholder="16"
+                                onChange={
+                                    (e) => setDate(e.target.value)
+                                }
+                                value={date}/>
+                        </div>
+                        <div>
+                        <div className="flex place-content-center gap-x-1">
+                                <CgSmartphoneRam/>
+                                <p className="">RAM</p>
+                            </div>
+                            <input type="text"
+                                className={
+                                    error ? "form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
+                                }
+                                placeholder="32"
+                                onChange={
+                                    (e) => setDate(e.target.value)
+                                }
+                                value={date}/>
+                        </div>
+                        <div>
+                        <div className="flex place-content-center gap-x-1">
+                                <TfiHarddrive/>
+                                <p className="">SSD</p>
+                            </div>
+                            <input type="text"
+                                className={
+                                    error ? "form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
+                                }
+                                placeholder="64"
+                                onChange={
+                                    (e) => setDate(e.target.value)
+                                }
+                                value={date}/>
+                        </div>
+                        <div>
+                            <div className="flex place-content-center gap-x-1">
+                                <FiHardDrive/>
+                                <p className="">FC</p>
+                            </div>
+                            <input type="text"
+                                className={
+                                    error ? "form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
+                                }
+                                placeholder="128"
+                                onChange={
+                                    (e) => setDate(e.target.value)
+                                }
+                                value={date}/>
+                        </div>
+                        <div>
+                            <div className="flex place-content-center gap-x-1">
+                                <CiHardDrive/>
+                                <p className="">NL</p>
+                            </div>
+                            <input type="text"
+                                className={
+                                    error ? "form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
+                                }
+                                placeholder="256"
+                                onChange={
+                                    (e) => setDate(e.target.value)
+                                }
+                                value={date}/>
+                        </div>
+                    </div>
+                </div>
+                <div className="pb-4 gap-2">
+                <div className="mb-2"><a className="text-gray-800 text-xl">End Date</a></div>
                     <input type="text"
                         className={
-                            error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
+                            error ? "form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
                         }
                         placeholder="ex. 01.02.2024"
                         onChange={

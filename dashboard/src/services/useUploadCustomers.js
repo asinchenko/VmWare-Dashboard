@@ -36,11 +36,11 @@ export const useUploadCustomers = () => {
             throw Error(e.response.data.error)
     });
     }
-    const updateClient = async(_id, client,document,type,date) => {
+    const updateClient = async(_id, client,document,type,tags,date) => {
         setIsLoading(true);
         setError(null);
         await http.put(`/client/client`, {
-            _id, client,document,type,date
+            _id, client,document,type,tags,date
         }, {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'

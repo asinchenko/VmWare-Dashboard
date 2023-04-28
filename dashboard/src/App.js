@@ -159,8 +159,14 @@ async function segmentClients(value, clientResourcesArray, clientsContract){
     for (const client of clientsContract){
       const tagsArray = client.tags.split(',')
       if (tagsArray.some(tag=>value.name.includes(tag)) && client.client != "Other") {
+          const deStringifyContract = {cpu:0, ram:0, ssd:0, fc:0, nl:0}
+          deStringifyContract.cpu = Number(client.contract.cpu);
+          deStringifyContract.ram = Number(client.contract.ram);
+          deStringifyContract.ssd = Number(client.contract.ssd);
+          deStringifyContract.fc = Number(client.contract.fc)
+          deStringifyContract.nl = Number(client.contract.nl)
           value.customer = client.client;
-          value.contract = client.contract;
+          value.contract = deStringifyContract;
           value.document = client.document;
           calculateResources(value, clientResourcesArray);
           reset = true;

@@ -56,10 +56,11 @@ export default class ClientController {
             const client = req.body.client;
             const document = req.body.document;
             const type = req.body.type;
+            const tags = req.body.tags;
             const date = req.body.date;
     
             const clientUpdate = await Client.updateClient(
-                _id, client,document, type,date
+                _id, client,document, type,tags,date
             );
             
             var {error} = clientUpdate

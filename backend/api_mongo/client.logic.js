@@ -65,12 +65,12 @@ export default class Client {
         };
     };
 
-    static async updateClient(_id,client,document, type,date){
+    static async updateClient(_id,client,document, type,tags,date){
         try{
             const updateClient = await clnt.updateOne(
                 {_id: ObjectId(_id)},
                 {$set: {
-                    client,document, type,date}},
+                    client,document, type,tags,date}},
             )
             return updateClient
         }catch (e) {
