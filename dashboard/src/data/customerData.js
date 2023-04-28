@@ -107,9 +107,10 @@ const gridUsedProfile = (props) => {
 const gridDocumentProfile = (props) => {
   if (props.document){
     return (
-      <div className="flex gap-2">
-        <a><IoDocumentText/></a>
-        <a>{props.document}</a>
+      <div className="flex justify-start gap-4">
+        <a className=""><IoDocumentText/></a>
+        <a className="">{props.document}</a>
+
       </div>
     )
   }else {
@@ -120,6 +121,27 @@ const gridDocumentProfile = (props) => {
     )
   }
 };
+
+const gridTagsProfile = (props) => {
+  if (props.tags){
+    const tagArray = props.tags.split(",");
+    // {tagArray.map(tag => {
+    //   <a key={tagArray.indexOf(tag)}>tag</a>
+    // })}
+    return (
+      <div className="gap-2">
+        <div className="grid grid-cols-1 divide-y">{tagArray.map(tag => <a key={tagArray.indexOf(tag)}>{tag}<br/></a>)}</div >
+      </div>
+    )
+  }else {
+    return (
+      <div>
+        <a className="text-gray-300">Not specified</a>
+      </div>
+    )
+  }
+};
+
 const gridDateProfile = (props) => {
   if (props.date){
     return (
@@ -198,33 +220,32 @@ export const customerGrid = [
     },
     {
       headerText: '  Project Document Number',
-      width: '120',
+      width: '80',
       field: 'document',
       template: gridDocumentProfile,
     },
 
     { headerText: '  Status',
-      width: '110',
+      width: '60',
       field: 'type',
       template: gridTypeProfile,
     },
     { headerText: '  Contract Values',
       field: 'contract',   
-      width: '60',
+      width: '100',
       template: gridContractProfile,
       allowEditing: false,
       },
       
     { headerText: '  Used Values',
       field: 'used',
-      width: '60',
+      width: '100',
       template: gridUsedProfile,
       allowEditing: false,
     },
-    { headerText: '  Rate',
-      field: 'rate',
-      //template: gridStorageProfile,
-      width: '100',
+    { headerText: '   Tags',
+      template: gridTagsProfile,
+      width: '80',
       },
     { field: 'date',
       //template: gridDetailsProfile,

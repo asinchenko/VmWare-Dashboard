@@ -51,7 +51,6 @@ const Customers = () => {
     const calculateFinalList = () => {
         resourcesToCustomers.map(resCustomer => {
             clientList.map(dbCustomer => {
-                console.log(dbCustomer)
                 if (Object.keys(resCustomer)[0].toLowerCase() === dbCustomer.client.toLowerCase()) {
                     dbCustomer.contract = resCustomer[Object.keys(resCustomer)[0]].contract;
                     dbCustomer.used = resCustomer[Object.keys(resCustomer)[0]].storage;

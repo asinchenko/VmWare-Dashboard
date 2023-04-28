@@ -32,16 +32,12 @@ const App = () => {
     const {getClientAll} = ClientDataService();
 
     var clientResourcesArray = [];
-    
-    const retrieveResults = async () => {
-      await getLatest()
+    const retrieveResults = () => {
+      getLatest()
         .then(response => {
-            getClientAll().then(clients => {
-              const clientsContract = clients.data.clients;
-              setClientList(clientsContract)
-              let updatedResponse = response.data[0].vmList;
-              updatedResponse.map((value) =>{
-              segmentClients(value,clientResourcesArray,clientsContract);
+            let updatedResponse = response.data[0].vmList;
+            updatedResponse.map((value) =>{
+              segmentClients(value,clientResourcesArray);
             });
             let latestDate = response.data[0].date;
             setLatestVM(updatedResponse);
@@ -50,16 +46,18 @@ const App = () => {
         }).catch(e => {
             console.log(e, "getLatest function");
         });
-        }).catch(e => {
-              console.log(e, "getClientAll function");
-            });
       getAll()
         .then(response => {
           setHardWareDevices(response.data.hardWare)
         }).catch(e => {
           console.log(e, "getAll function");
       });
-      
+      getClientAll()
+        .then(response => {
+          setClientList(response.data.clients);
+        }).catch(e => {
+          console.log(e, "getClientAll function");
+      });
     }
   useEffect(() => {
     if (user) {
@@ -154,78 +152,63 @@ const App = () => {
   )
 }
 
-async function segmentClients(value, clientResourcesArray, clientsContract){
-    let reset = false;
-    for (const client of clientsContract){
-      const tagsArray = client.tags.split(',')
-      if (tagsArray.some(tag=>value.name.includes(tag)) && client.client != "Other") {
-          value.customer = client.client;
-          value.contract = client.contract;
-          value.document = client.document;
-          calculateResources(value, clientResourcesArray);
-          reset = true;
-      }
-    }
-    if (!reset) {
-      value.customer = "Other";
-      value.contract = {cpu:0, ram:0, ssd: 0, fc: 0, nl:0};
-      calculateResources(value, clientResourcesArray);
-    } 
-  // if (value.name == "vcenter"){
-  //   value.customer = "Vcenter";
-  //   value.contract = {cpu:100, ram:100, ssd: 100, fc: 100, nl:600};
-  //   value.document = 11;
-  //   calculateResources(value, clientResourcesArray);
-  // } else if (value.name.includes("TestVM1")) {
-  //   value.customer = "WS Home";
-  //   value.contract = {cpu:50, ram:50, ssd: 200, fc: 200, nl:300};
-  //   value.document = 12;
-  //   calculateResources(value, clientResourcesArray);
-  // } else if (value.name.includes("TestVM2")) {
-  //   value.customer = "Home Customer";
-  //   value.contract = {cpu:10, ram:10 ,ssd: 0, fc: 0, nl:10};
-  //   value.document = 13;
-  //   calculateResources(value, clientResourcesArray);
-  // } else if (value.name.includes("BA") || value.name.includes("PA-VM")) {
-  //   value.customer = "Business Algorithm";
-  //   value.contract = {cpu:8, ram:24, ssd: 180, fc: 0, nl:0};
-  //   value.document = 14;
-  //   calculateResources(value, clientResourcesArray);
-  // } else if (value.name.includes("kaztol")) {
-  //   value.customer = "KazAvtoZhol";
-  //   value.contract = {cpu:188, ram:2008, ssd: 8192, fc: 0, nl:261872};
-  //   value.document = 15;
-  //   calculateResources(value, clientResourcesArray);
-  // } else if (value.name.includes("frp")) {
-  //   value.customer = "Фонд Развития";
-  //   value.contract = {cpu:8, ram: 12, ssd: 100, fc: 0, nl:30000};
-  //   value.document = 16;
-  //   calculateResources(value, clientResourcesArray);
-  // } else if (value.name.includes("Megacam") || value.name.includes("mikrotik-")) {
-  //   value.customer = "Перспектива";
-  //   value.contract = {cpu:0, ram:0 ,ssd: 0, fc: 0, nl:0};
-  //   value.document = 17;
-  //   calculateResources(value, clientResourcesArray);
-  // } else if (value.name.toLowerCase().includes("smax") || value.name.includes("OPB-age") || value.name.includes("OpsB-")){
-  //   value.customer = "SMAX";
-  //   value.document = 18;
-  //   value.contract = {cpu:0, ram:0 ,ssd: 0, fc: 0, nl:0};
-  //   calculateResources(value, clientResourcesArray);
-  // } else if (value.name.includes("cuba") || value.name.includes("tovma") || value.name.includes("TB-ege") || value.name.includes("db-srv")) {
-  //   value.customer = "Tovma";
-  //   value.contract = {cpu:0, ram:0, ssd: 0, fc: 0, nl:0};
-  //   value.document = 19;
-  //   calculateResources(value, clientResourcesArray);
-  // } else if (value.name.toLowerCase() === 'admin-laptop' || value.name.toLowerCase() === 'alex-laptop' || value.name.toLowerCase() === 'DC_Mail' || value.name.toLowerCase() === 'KSC' || value.name.toLowerCase() === 'proxy' || value.name.toLowerCase() === 'SB' || value.name.toLowerCase() === 'web' || value.name.toLowerCase() === 'router'){
-  //   value.customer = "PlusMicro";
-  //   value.contract = {cpu:58, ram:122, ssd:1024, fc:0, nl:381};
-  //   value.document = 20;
-  //   calculateResources(value, clientResourcesArray);
-  // } else {
-  //   value.customer = "Others";
-  //   value.contract = {cpu:0, ram:0, ssd: 0, fc: 0, nl:0};
-  //   calculateResources(value, clientResourcesArray);
-  // } 
+function segmentClients(value, clientResourcesArray){
+  if (value.name == "vcenter"){
+    value.customer = "Vcenter";
+    value.contract = {cpu:100, ram:100, ssd: 100, fc: 100, nl:600};
+    value.document = 11;
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.includes("TestVM1")) {
+    value.customer = "WS Home";
+    value.contract = {cpu:50, ram:50, ssd: 200, fc: 200, nl:300};
+    value.document = 12;
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.includes("TestVM2")) {
+    value.customer = "Home Customer";
+    value.contract = {cpu:10, ram:10 ,ssd: 0, fc: 0, nl:10};
+    value.document = 13;
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.includes("BA") || value.name.includes("PA-VM")) {
+    value.customer = "Business Algorithm";
+    value.contract = {cpu:8, ram:24, ssd: 180, fc: 0, nl:0};
+    value.document = 14;
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.includes("kaztol")) {
+    value.customer = "KazAvtoZhol";
+    value.contract = {cpu:188, ram:2008, ssd: 8192, fc: 0, nl:261872};
+    value.document = 15;
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.includes("frp")) {
+    value.customer = "Фонд Развития";
+    value.contract = {cpu:8, ram: 12, ssd: 100, fc: 0, nl:30000};
+    value.document = 16;
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.includes("Megacam") || value.name.includes("mikrotik-")) {
+    value.customer = "Перспектива";
+    value.contract = {cpu:0, ram:0 ,ssd: 0, fc: 0, nl:0};
+    value.document = 17;
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.toLowerCase().includes("smax") || value.name.includes("OPB-age") || value.name.includes("OpsB-")){
+    value.customer = "SMAX";
+    value.document = 18;
+    value.contract = {cpu:0, ram:0 ,ssd: 0, fc: 0, nl:0};
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.includes("cuba") || value.name.includes("tovma") || value.name.includes("TB-ege") || value.name.includes("db-srv")) {
+    value.customer = "Tovma";
+    value.contract = {cpu:0, ram:0, ssd: 0, fc: 0, nl:0};
+    value.document = 19;
+    calculateResources(value, clientResourcesArray);
+  } else if (value.name.toLowerCase() === 'admin-laptop' || value.name.toLowerCase() === 'alex-laptop' || value.name.toLowerCase() === 'DC_Mail' || value.name.toLowerCase() === 'KSC' || value.name.toLowerCase() === 'proxy' || value.name.toLowerCase() === 'SB' || value.name.toLowerCase() === 'web' || value.name.toLowerCase() === 'router'){
+    value.customer = "PlusMicro";
+    value.contract = {cpu:58, ram:122, ssd:1024, fc:0, nl:381};
+    value.document = 20;
+    calculateResources(value, clientResourcesArray);
+  } else {
+    value.customer = "Остальные";
+    value.contract = {cpu:0, ram:0, ssd: 0, fc: 0, nl:0};
+    value.document = 21;
+    calculateResources(value, clientResourcesArray);
+  } 
 }
 
 function calculateResources(value, clientResourcesArray){
