@@ -31,11 +31,18 @@ export default class ClientController {
     static async apiPostClient(req, res, next) {
     try {
         const client = req.body.client;
-        const document = req.body.document;
+        
         const type = req.body.type;
         const date = req.body.date;
+        const cpu  = req.body.cpu;
+        const ram  = req.body.ram;
+        const ssd  = req.body.ssd;
+        const fc   = req.body.fc;
+        const nl   = req.body.nl;
+        const contract = {cpu, ram, ssd, fc, nl}
+        const tags = req.body.tags;
         const clientPost = await Client.addClient(
-            client,document, type,date
+            client,contract, type,date, tags
         );
         res.json({status:"success post"});
     }catch(e) {

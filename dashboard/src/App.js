@@ -54,7 +54,7 @@ const App = () => {
       });
       getClientAll()
         .then(response => {
-          setClientList(response.data.clients)
+          setClientList(response.data.clients);
         }).catch(e => {
           console.log(e, "getClientAll function");
       });
