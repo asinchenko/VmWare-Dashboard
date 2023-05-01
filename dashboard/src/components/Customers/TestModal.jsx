@@ -35,11 +35,11 @@ export default function Modal(props) {
     const [document, setDocument] = useState('');
     const [used, setUsed] = useState('');
     const [date, setDate] = useState('');
-    const [cpu, setCPU] = useState(0);
-    const [ram, setRAM] = useState(0);
-    const [ssd, setSSD] = useState(0);
-    const [fc, setFC] = useState(0);
-    const [nl, setNL] = useState(0);
+    const [cpu, setCPU] = useState();
+    const [ram, setRAM] = useState();
+    const [ssd, setSSD] = useState();
+    const [fc, setFC] = useState();
+    const [nl, setNL] = useState();
     const [tags, setTags] = useState("");
 
     const [statusActiveButton, setStatusActiveButton] = useState("Active")
@@ -100,22 +100,30 @@ export default function Modal(props) {
                                             <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true"/>
                                         </div> */}
                                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left divide-y-2">
-                                            <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                                Add Clients
+                                            <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900 flex gap-1">
+                                                <p>Add Client </p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6 text-blue-400" aria-hidden="true">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
+                                                </svg>
                                             </Dialog.Title>
                                             <div className="mt-2">
                                               <div className="mb-4 overscroll-auto divide-y-1">
                                                     <div className="gap-4">
-                                                        <div className="flex gap-1 items-center">
-                                                            <div className="text-gray-800 text-xl">
+                                                        <div className="mt-4 flex gap-1 items-center justify-between">
+                                                            <div className="text-gray-800 text-xl flex gap-1 items-center">
                                                                 <a>Customer Name</a>
                                                             </div>
-                                                            <TooltipComponent content="Введите наименование заказчика на латинице. Например: Clientvehi"
-                                                                position={"TopCenter"}
-                                                                tabIndex={0}>
-                                                                <BiHelpCircle size={20}
-                                                                    tabIndex={-1}>Show Tooltip</BiHelpCircle>
-                                                            </TooltipComponent>
+                                                            <div>
+                                                                <TooltipComponent content="Введите наименование заказчика на латинице. Например: Clientvehi"
+                                                                    position={"TopCenter"}
+                                                                    tabIndex={0} className="hover:scale-125 opacity-50 hover:opacity-100">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                                        </svg>
+                                                                    {/* <BiHelpCircle size={16}
+                                                                        tabIndex={-1}/> */}
+                                                                </TooltipComponent>
+                                                            </div>
                                                         </div>
                                                         {/* <div className="text-gray-400 hover:text-gray-800 mb-2"><a className="flex gap-x-2">Введите наименование заказчика на латинице. Например: <p className="hover:text-blue-500 underline">ClientVehi</p></a></div> */}
 
@@ -129,16 +137,19 @@ export default function Modal(props) {
                                                             }
                                                             value={client}/>
                                                     </div>
-                                                    <div className="pt-4 pb-4 gap-2 ">
-                                                        <div className="flex gap-1 items-center">
+                                                    <div className="pt-4 pb-2 gap-2 ">
+                                                        <div className="flex gap-1 items-center justify-between">
                                                             <div className="text-gray-800 text-xl">
                                                                 <a>Porject Number</a>
                                                             </div>
                                                             <TooltipComponent content="Введите номер договора. Например: 123456"
                                                                 position={"TopCenter"}
-                                                                tabIndex={0}>
-                                                                <BiHelpCircle size={20}
-                                                                    tabIndex={-1}>Show Tooltip</BiHelpCircle>
+                                                                tabIndex={0} className="hover:scale-125 opacity-50 hover:opacity-100">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-4">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                                                    </svg>
+                                                                {/* <BiHelpCircle size={16} 
+                                                                    tabIndex={-1}/> */}
                                                             </TooltipComponent>
                                                         </div>
                                                         <input type="text"
@@ -151,16 +162,17 @@ export default function Modal(props) {
                                                             }
                                                             value={document}/>
                                                     </div>
-                                                    <div className="pb-4 gap-2">
-                                                        <div className="flex gap-1 items-center">
+                                                    <div className="pb-2  gap-2">
+                                                        <div className="flex gap-1 items-center mt-1 mb-1 justify-between">
                                                             <div className="text-gray-800 text-xl">
                                                                 <a>Status</a>
                                                             </div>
-                                                            <TooltipComponent content="Выберите статус проекта. Inactive не учитывается при просчете ресурсов DC. После указанной конечной даты проекты переходят в режим Inactive автоматически"
-                                                                position={"TopCenter"}
-                                                                tabIndex={0}>
-                                                                <BiHelpCircle size={20}
-                                                                    tabIndex={-1}>Show Tooltip</BiHelpCircle>
+                                                            <TooltipComponent content={
+                                                                "Выберите статус проекта. Inactive не учитывается при просчете ресурсов DC. После указанной конечной даты проекты переходят в режим Inactive автоматически"
+                                                            }position={"TopCenter"}
+                                                                tabIndex={0} className="hover:scale-125 opacity-50 hover:opacity-100 pr-0.5">
+                                                                <BiHelpCircle size={16}
+                                                                    tabIndex={-1}/> 
                                                             </TooltipComponent>
                                                         </div>
                                                         <div className="flex justify-between">
@@ -207,34 +219,34 @@ export default function Modal(props) {
                                                             </div>
                                                         </div>
                                                 </div>
-                                                    <div className="pb-4 gap-2 divide-y-1">
-                                                        <div className="grid grid-cols-8 grid-rows-2">
-                                                            <div className="flex gap-1 items-center col-start-1 col-end-6">
-                                                                <div className="text-gray-800 text-xl">
+                                                    <div className="pb-2 gap-2">
+                                                        <div className="grid grid-cols-5 grid-rows-1 items-center">
+                                                            <div className="flex gap-1 items-center col-start-1 col-end-4">
+                                                                <div className="text-gray-800 text-xl pt-1">
                                                                     <a>Contract Resources</a>
                                                                 </div>
-                                                                <TooltipComponent content="Введите количество ресурсов заключеных в договоре. RAM, SSD, FC, HDD учитываются в гигабайтах. Пример справа."
-                                                                    position={"TopCenter"}
-                                                                    tabIndex={0}>
-                                                                    <BiHelpCircle size={20}
-                                                                        tabIndex={-1}>Show Tooltip</BiHelpCircle>
-                                                                </TooltipComponent>
                                                             </div>
-                                                            <div className="text-gray-400 hover:text-gray-800 mb-2 col-start-6 col-end-8 row-span-2 text-xs ml-4">
-                                                                <div className=" pl-10">
-                                                                    <p className="hover:text-blue-500 underline">CPU: 64</p>
-                                                                    <p className="hover:text-blue-500 underline">RAM: 1024</p>
-                                                                    <p className="hover:text-blue-500 underline">SSD: 512</p>
-                                                                    <p className="hover:text-blue-500 underline">FC: 0</p>
-                                                                    <p className="hover:text-blue-500 underline">NL: 300</p>
-                                                                </div>
+                                                            <div className="pl-4 col-start-7 row-span-1">
+                                                                <TooltipComponent content={
+                                                                        `Введите количество ресурсов заключеных в договоре. RAM, SSD, FC, HDD учитываются в гигабайтах. \nПример:
+                                                                        CPU: 64, RAM:128, SSD: 256, FC: 512, NL:1024
+                                                                        `
+                                                                    }
+                                                                        position={"TopCenter"}
+                                                                        tabIndex={0} className="hover:scale-125 opacity-50 hover:opacity-100">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-4  ">
+                                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                                                            </svg>
+                                                                        {/* <BiHelpCircle size={16}
+                                                                            tabIndex={-1}/> */}
+                                                                </TooltipComponent>
                                                             </div>
                                                         </div>
                                                         <div className="flex gap-2 justify-between pt-2 ">
                                                             <div>
                                                                 <div className="flex place-content-center gap-x-1 items-center ">
-                                                                    <HiOutlineCpuChip/>
-                                                                    <p className="">CPU</p>
+                                                                    <HiOutlineCpuChip size={12}/>
+                                                                    <p className="text-xs">CPU</p>
                                                                 </div>
 
                                                                 <input id="cpu" type="text"
@@ -249,8 +261,8 @@ export default function Modal(props) {
                                                             </div>
                                                             <div>
                                                                 <div className="flex place-content-center gap-x-1 items-center ">
-                                                                    <CgSmartphoneRam/>
-                                                                    <p className="">RAM</p>
+                                                                    <CgSmartphoneRam size={12}/>
+                                                                    <p className="text-xs">RAM</p>
                                                                 </div>
                                                                 <input type="text"
                                                                     className={
@@ -264,8 +276,8 @@ export default function Modal(props) {
                                                             </div>
                                                             <div>
                                                                 <div className="flex place-content-center gap-x-1 items-center ">
-                                                                    <TfiHarddrive/>
-                                                                    <p className="">SSD</p>
+                                                                    <TfiHarddrive size={12}/>
+                                                                    <p className="text-xs">SSD</p>
                                                                 </div>
                                                                 <input type="text"
                                                                     className={
@@ -279,8 +291,8 @@ export default function Modal(props) {
                                                             </div>
                                                             <div>
                                                                 <div className="flex place-content-center gap-x-1 items-center ">
-                                                                    <FiHardDrive/>
-                                                                    <p className="">FC</p>
+                                                                    <FiHardDrive size={12}/>
+                                                                    <p className="text-xs">FC</p>
                                                                 </div>
                                                                 <input type="text"
                                                                     className={
@@ -294,8 +306,8 @@ export default function Modal(props) {
                                                             </div>
                                                             <div>
                                                                 <div className="flex place-content-center gap-x-1 items-center ">
-                                                                    <CiHardDrive/>
-                                                                    <p className="">NL</p>
+                                                                    <CiHardDrive size={12}/>
+                                                                    <p className="text-xs">NL</p>
                                                                 </div>
                                                                 <input type="text"
                                                                     className={
@@ -309,16 +321,20 @@ export default function Modal(props) {
                                                             </div>
                                                     </div>
                                                     </div>
-                                                    <div className="pt-2 pb-4 gap-2 ">
-                                                        <div className="flex gap-1 items-center">
-                                                            <div className="text-gray-800 text-xl">
+                                                    <div className="pt-2 pb-2 gap-2 ">
+                                                        <div className="flex gap-1 items-center justify-between">
+                                                            <div className="text-gray-800 text-xl pb-1">
                                                                 <a>Tags</a>
                                                             </div>
                                                             <TooltipComponent content="Введите Тэги клиента через запятую. Регистр букв влияет на результат. Например: BA,PA,BusinessAnalytics"
                                                                 position={"TopCenter"}
-                                                                tabIndex={0}>
-                                                                <BiHelpCircle size={20}
-                                                                    tabIndex={-1}>Show Tooltip</BiHelpCircle>
+                                                                tabIndex={0} className="hover:scale-125 opacity-50 hover:opacity-100">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
+                                                                    </svg>
+                                                                {/* <BiHelpCircle size={16}
+                                                                    tabIndex={-1}/> */}
                                                             </TooltipComponent>
                                                         </div>
                                                         <input type="text"
@@ -332,10 +348,22 @@ export default function Modal(props) {
                                                             value={tags}/>
                                                     </div>
                                                     <div className="pt-2 gap-2">
-                                                        <div className="mb-2">
+                                                        <div className="mb-2 flex justify-between items-center">
                                                             <a className="text-gray-800 text-xl">End Date</a>
+                                                            <TooltipComponent content={
+                                                                        "Введите день окончания проекта. По мере истечения времени статус изменится на Inactive"
+                                                                    }
+                                                                        position={"TopCenter"}
+                                                                        tabIndex={0} className="hover:scale-125 opacity-50 hover:opacity-100">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                                                                            </svg>
+                                                                        {/* <BiHelpCircle size={16}
+                                                                            tabIndex={-1}/> */}
+                                                                </TooltipComponent>
                                                         </div>
-                                                        <div className="pl-1">
+                                                        
+                                                        <div className="pl-1 w-[55%]">
                                                         <DatePickerComponent  id="datepicker"  format='dd-MM-yyyy'
                                                             placeholder="Выберите дату окончания проекта"
                                                             onChange={
@@ -350,8 +378,10 @@ export default function Modal(props) {
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <div className="bg-gray-50 px-4 py-3 gap-2 sm:flex sm:flex-row-reverse sm:px-6">
                                 <div className={
-                                    error ? "flex justify-between" : "flex justify-end"
+                                    error ? "flex justify-between" : "flex between"
                                 }>
                                     {
                                     error ? <p className="text-red-400 text-semibold">Не удалось загрузить данные на сервер. Убедитесь что все поля заполнены либо обратитесь к администратору</p> : ""
@@ -367,13 +397,6 @@ export default function Modal(props) {
                                         Upload
                                     </button>
                                 </div>
-                                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                    <button type="button" className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                                        onClick={
-                                            () => setDeviceForm(false)
-                                    }>
-                                        Deactivate
-                                    </button>
                                     <button type="button" className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                                         onClick={
                                             () => setDeviceForm(false)
