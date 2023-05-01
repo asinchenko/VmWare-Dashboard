@@ -4,6 +4,8 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "@headlessui/react": "^1.7.14",
+    "@heroicons/react": "^2.0.17",
     "@material-tailwind/react": "^1.2.5",
     "@popperjs/core": "2.9.1",
     "@syncfusion/ej2": "^19.4.48",

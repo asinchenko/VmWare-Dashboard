@@ -9,9 +9,11 @@ import {CgSmartphoneRam} from 'react-icons/cg'
 import {CiHardDrive} from 'react-icons/ci'
 import {FiHardDrive} from 'react-icons/fi'
 import {TfiHarddrive} from 'react-icons/tfi'
-import {GrVirtualMachine} from 'react-icons/gr'
+import {BiHelpCircle} from 'react-icons/bi'
 import {IoDocumentText} from 'react-icons/io5'
-
+import { TooltipComponent, Position } from '@syncfusion/ej2-react-popups';
+import { ButtonComponent } from '@syncfusion/ej2-react-buttons';
+ 
 
 function ClientModal(props) {
   const { deviceForm, setDeviceForm } = props;
@@ -31,9 +33,18 @@ function ClientModal(props) {
     const [document, setDocument] = useState('');
     const [used, setUsed] = useState('');
     const [date, setDate] = useState('');
+    const [cpu, setCPU] = useState(0);
+    const [ram, setRAM] = useState(0);
+    const [ssd, setSSD] = useState(0);
+    const [fc, setFC] = useState(0);
+    const [nl, setNL] = useState(0);
+
 
     const capitalize = (word) => {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    }
+    const reloadPage = () =>{
+        console.log(message, cpu, ram, ssd, fc, nl)
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -53,12 +64,52 @@ function ClientModal(props) {
             setError(true)
         }
     }
-    let buttons;
     const [display, setDisplay] = useState('none');
 
     const closeModal = () => {
       setDeviceForm(false);
     };
+    function handleActiveButton () {
+        console.log('You clicked submit.');
+    }
+    const [checked, setChecked] = useState(false);
+    const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        setMessage(checked ? "toggled" : "untoggled");
+        // Perform other effects here in response to changes in the state of the toggle button
+    }, [checked]);
+
+    const handleToggle = (event) => {
+        setChecked(event.target.checked);
+    };
+    const buttons = [
+        {
+            // Click the footer buttons to hide the Dialog
+            click: () => {
+                reloadPage();
+            },
+            // Accessing button component properties by buttonModel property
+            buttonModel: {
+                //Enables the primary button
+                isPrimary: true,
+                content: 'OK',
+            },
+        },
+        {
+            // Click the footer buttons to hide the Dialog
+            click: () => {
+                reloadPage();
+            },
+            // Accessing button component properties by buttonModel property
+            buttonModel: {
+                //Enables the primary button
+                type: 'submit',
+                isPrimary: true,
+                content: 'NOTOK',
+            },
+        },
+    ];
     return (
         <DialogComponent id="modalDialog"
             isModal={true}
@@ -66,28 +117,40 @@ function ClientModal(props) {
             width="500px"
             header="Add new client to database"
             visible={deviceForm}
+            buttons={buttons}
             close={closeModal}>
             <div className="mb-4 overscroll-auto">
                 <div className="gap-4">
-                    <div className="text-gray-800 text-xl"><a>Customer Name</a></div>
-                    <div className="text-gray-400 hover:text-gray-800 mb-2"><a className="flex gap-x-2">Введите наименование заказчика на латинице. Например: <p className="hover:text-blue-500 underline">ClientVehi</p></a></div>
+                    <div className="flex gap-1 items-center">
+                        <div className="text-gray-800 text-xl"><a>Customer Name</a></div>
+                        <TooltipComponent content="Введите наименование заказчика на латинице. Например: Clientvehi" position={"TopCenter"} tabIndex={0}>
+                            <BiHelpCircle size={20} tabIndex={-1}>Show Tooltip</BiHelpCircle>
+                        </TooltipComponent>
+                    </div>
+                    {/* <div className="text-gray-400 hover:text-gray-800 mb-2"><a className="flex gap-x-2">Введите наименование заказчика на латинице. Например: <p className="hover:text-blue-500 underline">ClientVehi</p></a></div> */}
+            
                     <input type="text"
                         className={
-                            error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
+                            error ? "form-control block w-full px-4 py-2 text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
                         }
-                        placeholder="ClientVehi..."
+                        placeholder="Client"
                         onChange={
                             (e) => setClient(e.target.value)
                         }
                         value={client}/>
                 </div>
                 <div className="pt-4 pb-4 gap-2 ">
-                    <div className="mb-2"><a className="text-gray-800 text-xl">Project Number</a></div>
+                    <div className="flex gap-1 items-center">
+                        <div className="text-gray-800 text-xl"><a>Porject Number</a></div>
+                        <TooltipComponent content="Введите номер договора. Например: 123456" position={"TopCenter"} tabIndex={0}>
+                            <BiHelpCircle size={20} tabIndex={-1}>Show Tooltip</BiHelpCircle>
+                        </TooltipComponent>
+                    </div>
                     <input type="text"
                         className={
-                            error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
+                            error ? "form-control block w-full px-4 py-2 text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
                         }
-                        placeholder="12345"
+                        placeholder="Project Number"
                         onChange={
                             (e) => setDocument(e.target.value)
                         }
@@ -95,7 +158,27 @@ function ClientModal(props) {
                 </div>
                 <div className="pb-4 gap-2">
                 <div className="mb-2"><a className="text-gray-800 text-xl">Status</a></div>
-                    <input type="text"
+                    <div className="sample-padding">
+                        {/* initialize default chip component */}
+                        <div className="col-xs-12 col-sm-12 col-lg-6 col-md-6">
+                            <label className="relative inline-flex items-center mr-5 cursor-pointer">
+                                <input type="checkbox" value="value" className="sr-only peer"  checked={type === "value"}  onChange={
+                                    (e) => {console.log("something");setType(e.target.checked ? "value" : "");}
+                                }/>
+                                <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+                                <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Green</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" checked={checked} onChange={handleToggle} />
+                            
+                        </label>
+                        {message ? "toggled" : "disabled"}
+                    </div>
+                    
+                    {/* <input type="text"
                         className={
                             error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
                         }
@@ -103,7 +186,7 @@ function ClientModal(props) {
                         onChange={
                             (e) => setType(e.target.value)
                         }
-                        value={type}/>
+                        value={type}/> */}
                 </div>
                 <div className="pb-4 gap-2 divide-y-1">
                 <div className=""><a className="text-gray-800 text-xl">Contract Resources</a></div>
@@ -125,15 +208,15 @@ function ClientModal(props) {
                                 <p className="">CPU</p>
                             </div>
                            
-                            <input type="text"
+                            <input id="cpu" type="text"
                                 className={
                                     error ? "form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
                                 }
                                 placeholder="16"
                                 onChange={
-                                    (e) => setDate(e.target.value)
+                                    (e) => setCPU(e.target.value)
                                 }
-                                value={date}/>
+                                value={cpu}/>
                         </div>
                         <div>
                         <div className="flex place-content-center gap-x-1">
@@ -146,9 +229,9 @@ function ClientModal(props) {
                                 }
                                 placeholder="32"
                                 onChange={
-                                    (e) => setDate(e.target.value)
+                                    (e) => setRAM(e.target.value)
                                 }
-                                value={date}/>
+                                value={ram}/>
                         </div>
                         <div>
                         <div className="flex place-content-center gap-x-1">
@@ -161,9 +244,9 @@ function ClientModal(props) {
                                 }
                                 placeholder="64"
                                 onChange={
-                                    (e) => setDate(e.target.value)
+                                    (e) => setSSD(e.target.value)
                                 }
-                                value={date}/>
+                                value={ssd}/>
                         </div>
                         <div>
                             <div className="flex place-content-center gap-x-1">
@@ -176,9 +259,9 @@ function ClientModal(props) {
                                 }
                                 placeholder="128"
                                 onChange={
-                                    (e) => setDate(e.target.value)
+                                    (e) => setFC(e.target.value)
                                 }
-                                value={date}/>
+                                value={fc}/>
                         </div>
                         <div>
                             <div className="flex place-content-center gap-x-1">
@@ -191,9 +274,9 @@ function ClientModal(props) {
                                 }
                                 placeholder="256"
                                 onChange={
-                                    (e) => setDate(e.target.value)
+                                    (e) => setNL(e.target.value)
                                 }
-                                value={date}/>
+                                value={nl}/>
                         </div>
                     </div>
                 </div>
@@ -203,7 +286,7 @@ function ClientModal(props) {
                         className={
                             error ? "form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
                         }
-                        placeholder="ex. 01.02.2024"
+                        placeholder="01.02.2024"
                         onChange={
                             (e) => setDate(e.target.value)
                         }
@@ -217,12 +300,13 @@ function ClientModal(props) {
                 error ? <p className="text-red-400 text-semibold">Не удалось загрузить данные на сервер. Убедитесь что все поля заполнены либо обратитесь к администратору</p> : ""
             }
                 <button type="submit"
+                    data-ripple="true"
                     disabled={isLoading}
                     className="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     style={
                         {backgroundColor: currentColor}
                     }
-                    onClick={handleSubmit}>
+                    onClick={reloadPage}>
                     Upload
                 </button>
             </div>
