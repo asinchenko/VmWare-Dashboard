@@ -46,6 +46,7 @@ const App = () => {
             let latestDate = response.data[0].date;
             setLatestVM(updatedResponse);
             setlatestTimeUpdate(latestDate);
+            updateWithReservedValues(clientResourcesArray, clientsContract)
             setResourcesToCustomers(clientResourcesArray);
         }).catch(e => {
             console.log(e, "getLatest function");
@@ -171,6 +172,10 @@ async function segmentClients(value, clientResourcesArray, clientsContract){
           calculateResources(value, clientResourcesArray);
           reset = true;
       }
+      
+    }
+    if (clientsContract === "Reserv"){
+      //
     }
     if (!reset) {
       value.customer = "Other";
@@ -280,5 +285,32 @@ function formatBytes(bytes, decimals = 2) {
   const dm = decimals < 0 ? 0 : decimals
   const i = Math.floor(bytes/k)
   return parseInt(`${parseFloat(i.toFixed(dm))}`)
+}
+
+function updateWithReservedValues(clientResourcesArray, clientsContract){
+  let customerVM = {};
+  for (let client of clientsContract){
+    if (client.type.toLowerCase() === 'reserv'){
+      const objIndex = clientResourcesArray.findIndex(e => Object.keys(e)[0] === client.client);
+      if (objIndex == -1){
+        const deStringifyContract = {cpu:0, ram:0, ssd:0, fc:0, nl:0}
+        deStringifyContract.cpu = Number(client.contract.cpu);
+        deStringifyContract.ram = Number(client.contract.ram);
+        deStringifyContract.ssd = Number(client.contract.ssd);
+        deStringifyContract.fc = Number(client.contract.fc)
+        deStringifyContract.nl = Number(client.contract.nl)
+        customerVM[client.client] = {
+          vm_amount: 0, 
+          cpu: 0, 
+          ram: 0, storage: {ssd: 0,fc: 0,nl: 0},
+          contract : deStringifyContract,
+          document: client.document,
+        };
+      }
+      if (Object.keys(customerVM).length > 0){
+        clientResourcesArray.push(customerVM)
+      }
+    }
+  }
 }
 export default App

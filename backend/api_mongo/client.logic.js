@@ -51,12 +51,14 @@ export default class Client {
     }
     };
 
-    static async addClient(client,contract, type,date, tags){
+    static async addClient(client,contract, document, type,date, tags){
         try{
-            const index = await clnt.find().count() + 1;
-            const document = index;
+            if (!document){
+                const index = await clnt.find().count() + 1;
+                document = index;
+            }
             const addDoc = {
-                client, document, contract, type,date, tags
+                client, document, contract, type, date, tags
             };
             return await clnt.insertOne(addDoc)
         }catch (e) {
@@ -102,4 +104,23 @@ export default class Client {
             return {error: e}
         };
     };
+
+    static async updateDBDateField(){
+        try{
+            const cursor = await clnt.find({});
+            await cursor.forEach(async (doc) => {
+                // do something with the document, e.g. update "type" field if date is exceeded
+                if (new Date(doc.date) < new Date()) {
+                  await clnt.updateOne(
+                    { _id: doc._id },
+                    { $set: { type: "inactive" } }
+                  );
+                }
+              });
+        }catch (e) {
+            console.error(`Unable to update type field based on Time: ${e}`)
+            return {error: e}
+        };
+    }
+    
 }

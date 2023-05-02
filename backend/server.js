@@ -10,6 +10,7 @@ import imgRouter from "./routes/img.route.js";
 import usersRouter from "./routes/user.route.js";
 import VirtualMachines from './api_mongo/vms.logic.js';
 import vcenterGetVMData from './api_vcenter/vms.vcenter.js'
+import Client from './api_mongo/client.logic.js';
 import dotenv from "dotenv";
 import nocache from 'nocache';
 dotenv.config();
@@ -147,6 +148,11 @@ app.get("/fetch", (req, res) => {
     // return the data without modification
     getVMData(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers, res)
 })
+
+setInterval(() => {
+    // Checks for Date fields in client collection to change the "type" field from Active to Inactive in case of old datetime
+    Client.updateDBDateField()
+}, 60 * 60 * 1000)
 
 app.use('/api/client', clientRouter);
 app.use('/api/vms', vmsRouter);

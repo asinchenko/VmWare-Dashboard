@@ -28,6 +28,7 @@ MongoClient.connect(
     await hws.injectDB(client)
     await imgs.injectDB(client)
     await user.injectDB(client)
+    
     app.listen(port, () => {
         console.log(`Server listening at http://localhost:${port}`);
     });

@@ -155,7 +155,7 @@ const gridTagsProfile = (props) => {
 
 const gridDateProfile = (props) => {
   if (props.date){
-    const formattedDate = moment.utc(props.date).format('MM/DD/YY');
+    const formattedDate = moment.utc(props.date).add(1,'d').format('DD/MM/YY');
     const fromNow = moment.utc(props.date).fromNow();   
     return (
       <div className="place-content-center">
