@@ -54,7 +54,7 @@ export default function Modal(props) {
         e.preventDefault()
         if (client) {
             try {
-                await uploadClient(client, document, statusActiveButton, cpu, ram, ssd, fc, nl, tags, date)
+                await uploadClient(client, document, statusActiveButton, cpu, ram, ssd, fc, nl,statusActiveButton === "Reserv"?"Reserved":tags, date)
                 setClient('');
                 setType('');
                 setContract('');
@@ -341,11 +341,12 @@ export default function Modal(props) {
                                                             className={
                                                                 error ? "form-control block w-full px-4 py-2 text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xs font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'
                                                             }
-                                                            placeholder="Cuba,Tovma,CUBA"
+                                                            placeholder={statusActiveButton === "Reserv" ? "Reserved": "Cuba,Tovma,CUBA"}
                                                             onChange={
-                                                                (e) => setTags(e.target.value)
+                                                                (e) => {statusActiveButton === "Reserv" ? setTags("Reserved") : setTags(e.target.value)}
                                                             }
-                                                            value={tags}/>
+                                                            value={statusActiveButton === "Reserv"? "Reserved": tags}
+                                                            disabled={statusActiveButton === "Reserv"}/>
                                                     </div>
                                                     <div className="pt-2 gap-2">
                                                         <div className="mb-2 flex justify-between items-center">
@@ -393,7 +394,7 @@ export default function Modal(props) {
                                         style={
                                             {backgroundColor: currentColor}
                                         }
-                                        onClick={reloadPage}>
+                                        onClick={handleSubmit}>
                                         Upload
                                     </button>
                                 </div>

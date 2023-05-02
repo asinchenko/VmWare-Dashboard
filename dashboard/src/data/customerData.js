@@ -6,6 +6,9 @@ import {TfiHarddrive} from 'react-icons/tfi'
 import {GrVirtualMachine} from 'react-icons/gr'
 import {IoDocumentText} from 'react-icons/io5'
 import {BsCalendarDate} from 'react-icons/bs'
+import {TooltipComponent} from '@syncfusion/ej2-react-popups';
+import moment from 'moment';
+
 const gridContractProfile = (props) => {
   if (props.contract){
     if (!props.contract.cpu && !props.contract.ram && !props.contract.ssd && !props.contract.nl && !props.contract.fc){
@@ -152,11 +155,19 @@ const gridTagsProfile = (props) => {
 
 const gridDateProfile = (props) => {
   if (props.date){
+    const formattedDate = moment.utc(props.date).format('MM/DD/YY');
+    const fromNow = moment.utc(props.date).fromNow();   
     return (
-      <div className="flex gap-2">
-        <a><BsCalendarDate/></a>
-        <a>{props.date}</a>
-      </div>
+      <div className="place-content-center">
+        <TooltipComponent content={fromNow}
+            position={"TopLeft"}
+            tabIndex={0} className="">
+          <div className="flex gap-1 items-center">
+            <a><BsCalendarDate/></a>
+            <a>{formattedDate}</a>
+          </div>
+          </TooltipComponent>
+        </div>
     )
   }else {
     return (
@@ -188,13 +199,13 @@ const gridTypeProfile = (props) => {
         </button>
       </div>)
     }
-    if (props.type.toLowerCase() === "request") {
+    if (props.type.toLowerCase() === "reserv") {
       return (
       <div className="">
         <button
         type="button"
         className="text-white py-1 px-2 capitalize rounded-2xl text-md bg-yellow-400">
-        Request
+        Reserv
         </button>
       </div>)
     }

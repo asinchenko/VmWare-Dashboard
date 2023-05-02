@@ -49,8 +49,8 @@ function ClientModal(props) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (client) {
-            try {
-                await uploadClient(capitalize(client), document, capitalize(type), date)
+            try { //(client, document, type, cpu, ram, ssd, fc, nl,tags, date
+                await uploadClient(client, document, type, date)
                 setClient('');
                 setType('');
                 setContract('');

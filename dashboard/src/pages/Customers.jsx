@@ -17,8 +17,7 @@ import { Header } from '../components';
 import { useStateContext } from '../contexts/ContextProvider';
 import { useUploadCustomers } from '../services/useUploadCustomers'
 import { useNavigate } from "react-router-dom";
-import ClientModal from '../components/Customers/AddClientModal'
-import TestModal from '../components/Customers/TestModal'
+import ClientModal from '../components/Customers/TestModal'
 const Customers = () => {
     const navigate = useNavigate();
     const [rerender, setRerender] = useState(false);
@@ -157,7 +156,7 @@ const Customers = () => {
                     </div>
                 </div>
                 <div>
-                    <TestModal deviceForm={deviceForm}
+                    <ClientModal deviceForm={deviceForm}
                         setDeviceForm={setDeviceForm} />
                     <GridComponent allowPaging allowSorting
                         rowSelected={rowSelected}

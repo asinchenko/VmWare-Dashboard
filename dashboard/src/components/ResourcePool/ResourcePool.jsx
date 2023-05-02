@@ -54,7 +54,7 @@ const ResourcePool = ({
                 <div className="mt-1 text-gray-500 flex gap-2 items-center">
                   <p>Общее количество</p>
                   {/* <div className="transition duration-500 hover:scale-125 bg-green-300 hover:bg-green-400 text-white font-semibold px-2 rounded-full"> */}
-                  <ToolTipHelper color="green"> </ToolTipHelper> 
+                  {/* <ToolTipHelper color="green"> </ToolTipHelper>  */}
                 </div>
               </div>
               <div className="flex-col">
@@ -80,7 +80,7 @@ const ResourcePool = ({
                   </div>
                   <div className="flex">
                     <p className="text-gray-500 mt-1">
-                      Требуется
+                      Зарезервировано
                     </p>
                     {/* <p className={totalContractValues != undefined ? "flex justify-between":""}>
                       {maintitle == "vCPU" ? <span className="text-3xl font-semibold">{totalamount - totalContractValues.cpu}</span>: ""}
