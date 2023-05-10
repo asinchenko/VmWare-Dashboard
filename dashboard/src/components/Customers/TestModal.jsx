@@ -13,8 +13,10 @@ import {TfiHarddrive} from 'react-icons/tfi'
 import {BiHelpCircle} from 'react-icons/bi'
 import {TooltipComponent} from '@syncfusion/ej2-react-popups';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
+import {useAuthContext} from '../../services/useAuthContext'
 
 export default function Modal(props) {
+    const {user} = useAuthContext();
     const {deviceForm, setDeviceForm} = props;
 
     const cancelButtonRef = useRef(null)
@@ -41,20 +43,17 @@ export default function Modal(props) {
     const [fc, setFC] = useState();
     const [nl, setNL] = useState();
     const [tags, setTags] = useState("");
-
+    const [manager, setManager] = useState((user.email).split('@')[0])
     const [statusActiveButton, setStatusActiveButton] = useState("Active")
 
     const capitalize = (word) => {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
     }
-    const reloadPage = () => {
-        console.log(client, document, statusActiveButton, cpu, ram, ssd, fc, nl, date)
-    }
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (client) {
             try {
-                await uploadClient(client, document, statusActiveButton, cpu, ram, ssd, fc, nl,statusActiveButton === "Reserv"?"Reserved":tags, date)
+                await uploadClient(client, document, statusActiveButton, cpu, ram, ssd, fc, nl,statusActiveButton === "Reserv"?"Reserved":tags, date, manager)
                 setClient('');
                 setType('');
                 setContract('');

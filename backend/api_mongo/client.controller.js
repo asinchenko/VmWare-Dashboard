@@ -41,8 +41,9 @@ export default class ClientController {
         const nl   = req.body.nl;
         const contract = {cpu, ram, ssd, fc, nl}
         const tags = req.body.tags;
+        const manager = req.body.manager;
         const clientPost = await Client.addClient(
-            client,contract, document, type,date, tags
+            client,contract, document, type,date, tags, manager
         );
         res.json({status:"success post"});
     }catch(e) {

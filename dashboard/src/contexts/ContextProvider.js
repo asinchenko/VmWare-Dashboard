@@ -14,7 +14,7 @@ export const ContextProvider = ({children}) => {
         setIsClicked({...initialState, [clicked]:true});
     };
     const [screenSize, setScreenSize] = useState(undefined);
-    const [currentColor, setCurrentColor] = useState('#03C9D7');
+    const [currentColor, setCurrentColor] = useState(localStorage.getItem('colorMode') || '#03C9D7');
     const [currentMode, setCurrentMode] = useState('Light');
     const setMode = (e) => {
         setCurrentMode(e.target.value);
@@ -32,7 +32,6 @@ export const ContextProvider = ({children}) => {
     const [searchLatestVM, setSearchLatestVM] = useState([]);
     const setLatestVM = (vm) => {
             setSearchLatestVM(vm);
-            localStorage.setItem('latestVM', vm);
     };
     const [latestTimeUpdate, setlatestTimeUpdate] = useState(0)
     const [resourcesToCustomers, setResourcesToCustomers] = useState([])

@@ -12,21 +12,32 @@ export default class UserController {
         const {email, password} = req.body;
         try {
             const loginUser = await User.loginUser(email, password);
-            const token = createToken(loginUser._id)
-            res.status(200).json({email, token})
+            const token = createToken(loginUser._id);
+            const role = loginUser.role;
+            res.status(200).json({email, token, role})
         }catch(e){
             res.status(400).json({error:e.message})
         }
     };
 
     static async apiSignupUser(req, res){
-        const {email, password} = req.body;
+        const {email, password, role} = req.body;
         try {
-            const newUser = await User.signupUserHashPassword(email, password)
+            const newUser = await User.signupUserHashPassword(email, password, role)
             
             //create token
             const token = createToken(newUser._id)
             res.status(200).json({email, token})
+        }catch(e){
+            res.status(400).json({error:e.message})
+        }
+    };
+
+    static async apiUpdateUser(req, res){
+        const {_id, description, role} = req.body;
+        try {
+            const updateUser = await User.updateUSER(_id,role, description)
+            res.status(200).json({_id, role})
         }catch(e){
             res.status(400).json({error:e.message})
         }

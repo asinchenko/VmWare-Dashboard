@@ -6,11 +6,11 @@ export const useUploadCustomers = () => {
     const [isLoading, setIsLoading] = useState(null);
     const http = useAxios();
 
-    const uploadClient = async(client, document, type, cpu, ram, ssd, fc, nl,tags, date) => {
+    const uploadClient = async(client, document, type, cpu, ram, ssd, fc, nl,tags, date, manager) => {
         setIsLoading(true);
         setError(null);
         await http.post(`/client/client`, {
-            client, document, type, cpu, ram, ssd, fc, nl,tags, date
+            client, document, type, cpu, ram, ssd, fc, nl,tags, date, manager
         }, {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'

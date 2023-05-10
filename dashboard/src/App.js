@@ -26,7 +26,7 @@ const App = () => {
     hardWareDevices, setHardWareDevices,
     clientList, setClientList
   } = useStateContext();
-  const {user} = useAuthContext();
+    const {user} = useAuthContext();
     const {getLatest} = VMsDataService();
     const {getAll} = HWDataService();
     const {getClientAll} = ClientDataService();

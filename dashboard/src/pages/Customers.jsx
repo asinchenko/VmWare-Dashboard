@@ -18,9 +18,11 @@ import { useStateContext } from '../contexts/ContextProvider';
 import { useUploadCustomers } from '../services/useUploadCustomers'
 import { useNavigate } from "react-router-dom";
 import ClientModal from '../components/Customers/TestModal'
+import {useAuthContext} from '../services/useAuthContext'
+
 const Customers = () => {
     const navigate = useNavigate();
-    const [rerender, setRerender] = useState(false);
+    const {user} = useAuthContext();
     const {
         uploadClient,
         error,
@@ -120,9 +122,11 @@ const Customers = () => {
     };
     const rowSelected = (grid) => {
         if (grid) {
-            setDeleteDeviceForm(true)
             setID(grid.data._id)
             setDeleteClientDetails(grid.data)
+            if ((user.email).includes(grid.data.manager) || user.role === "admin"){
+                setDeleteDeviceForm(true)
+            }
         } else {
             setDeleteDeviceForm(false)
         }
@@ -145,6 +149,7 @@ const Customers = () => {
             <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
                 <div className="flex justify-between mb-6">
                     <Header category="Page" title="Клиенты"></Header>
+                    {(user.role === 'admin' || user.role === 'manager') ?
                     <div className="flex items-center">
                         <button className="hover:bg-gray-50 text-white py-2 px-4 rounded text-3xl"
                             style={
@@ -154,10 +159,12 @@ const Customers = () => {
                             +
                         </button>
                     </div>
+                    :<></>}
                 </div>
                 <div>
-                    <ClientModal deviceForm={deviceForm}
-                        setDeviceForm={setDeviceForm} />
+                    {console.log(finalClientList)}
+                    {(user.role === 'admin' || user.role === 'manager') ? <ClientModal deviceForm={deviceForm}
+                        setDeviceForm={setDeviceForm} /> : <div></div>}
                     <GridComponent allowPaging allowSorting
                         rowSelected={rowSelected}
                         rowDeselected={rowDeselected}
@@ -194,7 +201,8 @@ const Customers = () => {
                         <div> {
                             deleteError ? <p>Can not delete item</p> : <p></p>
                         } </div>
-                        <div className="flex gap-4">
+                        {(user.role === 'admin' || user.role === 'manager') ? 
+                            <div className="flex gap-4">
                             {
                                 deleteDeviceForm ? <button type="button"
                                     disabled={isLoading}
@@ -211,6 +219,7 @@ const Customers = () => {
                                     Delete
                                 </button> : ""
                             } </div>
+                        : <></>}
                         {
                             showModal ? (
                                 <>

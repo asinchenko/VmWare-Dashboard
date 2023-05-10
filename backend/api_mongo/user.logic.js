@@ -53,11 +53,11 @@ export default class User {
     }
     };
 
-    static async updateUSER(userId, descripion,date){
+    static async updateUSER(userId, role="user", descripion="",){
         try{
             const updateUSER = await user.updateOne(
                 {_id: ObjectId(userId)},
-                {$set: {descripion: descripion, date: date}},
+                {$set: {role:role, descripion: descripion}},
             )
             return updateUSER
         }catch (e) {
@@ -111,7 +111,7 @@ export default class User {
         };
     };
 
-    static async signupUserHashPassword(email, password){
+    static async signupUserHashPassword(email, password, role='user'){
         const exists = await user.findOne({email})
 
         //validator
@@ -137,6 +137,7 @@ export default class User {
         const addDoc = {
             email,
             password: hash,
+            role,
             date,
         }
         return await user.insertOne(addDoc)

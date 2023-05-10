@@ -51,14 +51,14 @@ export default class Client {
     }
     };
 
-    static async addClient(client,contract, document, type,date, tags){
+    static async addClient(client,contract, document, type,date, tags, manager){
         try{
             if (!document){
                 const index = await clnt.find().count() + 1;
                 document = index;
             }
             const addDoc = {
-                client, document, contract, type, date, tags
+                client, document, contract, type, date, tags, manager
             };
             return await clnt.insertOne(addDoc)
         }catch (e) {

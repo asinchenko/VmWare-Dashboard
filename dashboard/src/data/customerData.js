@@ -233,13 +233,18 @@ const gridTypeProfile = (props) => {
 };
 export const customerGrid = [
     { headerText: '  Customer',
-      width: '120',
+      width: '90',
       field: 'client',
+      allowEditing: false,
+    },
+    { headerText: '  Manager',
+      width: '80',
+      field: 'manager',
       allowEditing: false,
     },
     {
       headerText: '  Project Document Number',
-      width: '80',
+      width: '60',
       field: 'document',
       template: gridDocumentProfile,
     },
