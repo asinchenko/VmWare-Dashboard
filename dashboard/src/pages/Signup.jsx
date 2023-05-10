@@ -14,8 +14,10 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (password === secondPassword) {
-            await signup(email, password)
-            navigate(0);
+            const signupResult = await signup(email, password)
+            if (signupResult){
+              navigate(0);
+            }
         }else {
             setPasswordError('Passwords do not match!')
         }
@@ -95,7 +97,7 @@ const Signup = () => {
           <div className="mb-6">
             <input
               type="text"
-              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className={ error ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-red-600 focus:outline-none" :"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"}
               placeholder="Email @vehi.kz address"
               onChange={(e) => setEmail(e.target.value)}
               value={email} 
@@ -104,14 +106,14 @@ const Signup = () => {
           <div className="flex justify-between mb-6">
             <input
               type={passwordShown ? "text" : "password"}
-              className={passwordError ? "border-r-0 form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 'border-r-0 form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'}
+              className={(passwordError) ? "border-r-0 form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : 'border-r-0 form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'}
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
             <button
                 type="button"
-                className={passwordError ? "border-l-0 form-control block px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700" : '" border-l-0 form-control block px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 "'}
+                className={(passwordError) ? "border-l-0 form-control block px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700" : '" border-l-0 form-control block px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 "'}
                 onClick={togglePassword}>
                     <svg 
                         width="32px" height="32px" fill="none" viewBox="0 0 24 24">
@@ -124,7 +126,7 @@ const Signup = () => {
           <div className="mb-6">
             <input
               type={passwordShown ? "text" : "password"}
-              className={passwordError ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
+              className={(passwordError) ? "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" : '"form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"'}
               placeholder="Confirm your password"
               onChange={(e) => setSecondPassword(e.target.value)}
               value={secondPassword}
@@ -155,7 +157,7 @@ const Signup = () => {
             </button>
             <p className="text-sm font-semibold mt-2 pt-1 mb-0">
               <a
-                href="#!"
+                href="javascript:window.location.href=window.location.href"
                 className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out">
                   {passwordError ? passwordError : error}
               </a>

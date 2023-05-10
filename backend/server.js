@@ -13,6 +13,7 @@ import vcenterGetVMData from './api_vcenter/vms.vcenter.js'
 import Client from './api_mongo/client.logic.js';
 import dotenv from "dotenv";
 import nocache from 'nocache';
+import nodemailer from "nodemailer";
 dotenv.config();
 // enable CORS
 const app = express();
@@ -147,6 +148,17 @@ app.get("/fetch", (req, res) => {
     //const backendUrl = "https://192.168.88.50/rest/com/vmware/cis/session"
     // return the data without modification
     getVMData(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers, res)
+})
+
+const yandex = 'sinchenko.a@vehi.kz';
+const yapass = 'agahygbvwryyredl'
+
+export const transporter = nodemailer.createTransport({
+    service: 'Yandex',
+    auth:{
+        user: yandex,
+        pass: yapass, 
+    }
 })
 
 setInterval(() => {

@@ -3,7 +3,7 @@ import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import {FiSettings} from 'react-icons/fi';
 import {TooltipComponent} from '@syncfusion/ej2-react-popups';
 import {Navbar, Footer, Sidebar, ThemeSettings} from './components';
-import {Dashboard, Equipment, Calendar, VMs, Stacked, Pyramid, Customers, Kanban, Area, Line, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, Login, Signup} from './pages';
+import {Dashboard, Equipment, Calendar, VMs, Stacked, Pyramid, Customers, Kanban, Area, Line, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, Login, Signup, AckPage} from './pages';
 import {useStateContext} from './contexts/ContextProvider';
 import VMsDataService from "./services/vms";
 import HWDataService from "./services/hws";
@@ -76,12 +76,21 @@ const App = () => {
     return (<div>
       <BrowserRouter>
       <Routes>
-        <Route path="/login" element={!user ? <Login/> : <Navigate to="/"/>}/>
+        <Route path="/login" element={!user ? <Login/> : <Navigate to="/"/>}/>/verify/:userId/:uniqueString
         <Route path="/signup" element={!user ? <Signup/> : <Navigate to="/"/> }/>
         <Route path="*" element={<Login/>}/>
       </Routes>
       </BrowserRouter>
     </div>)
+  }
+  if (user && !user.acknowledge) {
+    return (<div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="*" element={<AckPage/>}/>
+      </Routes>
+      </BrowserRouter>
+      </div>)
   }
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>

@@ -2,6 +2,7 @@ import mongodb from "mongodb";
 const ObjectId = mongodb.ObjectId;
 import bcrypt from "bcrypt";
 import validator from "validator";
+import {transporter} from '../server.js'
 let user;
 export default class User {
     static async injectDB(conn) {
@@ -68,12 +69,18 @@ export default class User {
 
     static async deleteUSER(userId){
         try{
+            const findUSER = await user.findOne(
+                {_id: ObjectId(userId)},
+            )
+            if (!findUSER) {
+                throw Error('Couldn`t find a user you are trying to delete')
+            }
             const deleteUSER = await user.deleteOne(
                 {_id: ObjectId(userId)},
             )
-            return deleteUSER
+            return findUSER
         }catch (e) {
-            console.error(`Unable to delee a USER: ${e}`)
+            console.error(`Unable to delete a USER: ${e}`)
             return {error: e}
         };
     };
@@ -111,7 +118,7 @@ export default class User {
         };
     };
 
-    static async signupUserHashPassword(email, password, role='user'){
+    static async signupUserHashPassword(email, password, role='user', uuid){
         const exists = await user.findOne({email})
 
         //validator
@@ -139,6 +146,8 @@ export default class User {
             password: hash,
             role,
             date,
+            verified:false,
+            uuid,
         }
         return await user.insertOne(addDoc)
     };
@@ -164,5 +173,36 @@ export default class User {
     static async findUser(_id){
         const find = await user.findOne({_id: ObjectId(_id)})
         return find
+    }
+
+    static async verifyEmailRequest(_id, email, uniqueString){
+        const currentUrl = process.env.BACKEND_API;
+        const mailOptions = {
+            from: 'sinchenko.a@vehi.kz',
+            to: email,
+            subject: "Verify your email",
+            html: `<p>Verify verify verify: <a href=${"http://"+currentUrl + ":4000/api/user/verify/" + _id + "/" + uniqueString}>${currentUrl + "/api/user/verify/" + _id + "/" + uniqueString}</a></p>`
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(uniqueString, salt);
+        const newVerification = {
+            userId: _id,
+            uniqueString: hash,
+            createdDate: Date.now(),
+            expiresIn: Date.now() + 21600000,
+        };
+        const sendEmail = await transporter.sendMail(mailOptions)
+        return sendEmail
+    }
+
+    static async verifyEmailLink(_id,uniqueString){
+        const find = await user.findOne({_id: ObjectId(_id)})
+        if (!find) {
+            throw Error("User doesn't exists")
+        }
+        const updateUSER = await user.updateOne(
+            {_id: find._id},
+            {$set: {verified:true}},
+        )
     }
 }
