@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {useSignup} from '../services/useSignup'
 import Welcomepage from '../data/WelcomePage.png'
 import { useNavigate } from "react-router-dom";
+import SignupModal from "../components/Signup/VerifyModal"
 
 const Signup = () => {
     const [email, setEmail] = useState('')
@@ -11,12 +12,13 @@ const Signup = () => {
     const {signup, error, isLoading} = useSignup();
     const [passwordError, setPasswordError] = useState('')
     const [passwordShown, setPasswordShown] = useState(false);
+    const [showSignupModal, setShowSignupModal] = useState(false)
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (password === secondPassword) {
             const signupResult = await signup(email, password)
             if (signupResult){
-              navigate(0);
+              setShowSignupModal(true)
             }
         }else {
             setPasswordError('Passwords do not match!')
@@ -27,7 +29,8 @@ const Signup = () => {
       };
     
   return (
-    <section className="h-screen">
+  <section className="h-screen">
+  <SignupModal showSignupModal={showSignupModal} setShowSignupModal={setShowSignupModal} email={email}/>
   <div className="px-6 h-full text-gray-800">
     <div
       className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
@@ -141,19 +144,18 @@ const Signup = () => {
                 id="checkSignup"
               />
               <label className="form-check-label inline-block text-gray-800"
-                >Remember me 
+                >Do Not Remember Me 
               </label>
             </div>
             <a href="#!" className="text-gray-800">Forgot password?</a>
           </div>
-
           <div className="text-center lg:text-left">
             <button
               type="submit"
               disabled={isLoading}
               className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
             >
-              Login
+              Signup
             </button>
             <p className="text-sm font-semibold mt-2 pt-1 mb-0">
               <a

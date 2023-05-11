@@ -158,7 +158,11 @@ export default class User {
         const userLogin = await user.findOne({email})
 
         if (!userLogin){
-            throw Error('Incorect email')
+            throw Error('Incorrect email')
+        };
+        console.log(userLogin)
+        if (!userLogin.verified){
+            throw Error('Please verify your email address')
         };
 
         const match = await  bcrypt.compare(password, userLogin.password);
