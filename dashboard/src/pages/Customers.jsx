@@ -162,7 +162,6 @@ const Customers = () => {
                     :<></>}
                 </div>
                 <div>
-                    {console.log(finalClientList)}
                     {(user.role === 'admin' || user.role === 'manager') ? <ClientModal deviceForm={deviceForm}
                         setDeviceForm={setDeviceForm} /> : <div></div>}
                     <GridComponent allowPaging allowSorting

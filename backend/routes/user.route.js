@@ -6,7 +6,7 @@ const router = express.Router();
 router
     .route('/')
     .get(UserController.apiGetUsers)
-    .post(UserController.apiUpdateUser)
+    .put(UserController.apiUpdateUser)
     .delete(UserController.apiDeleteUser)
 
 //login route

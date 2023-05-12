@@ -54,11 +54,11 @@ export default class User {
     }
     };
 
-    static async updateUSER(userId, role="user", descripion="",){
+    static async updateUSER(userId, role="user", description="",){
         try{
             const updateUSER = await user.updateOne(
                 {_id: ObjectId(userId)},
-                {$set: {role:role, descripion: descripion}},
+                {$set: {role:role, description: description}},
             )
             return updateUSER
         }catch (e) {
@@ -185,7 +185,7 @@ export default class User {
             from: 'sinchenko.a@vehi.kz',
             to: email,
             subject: "Verify your email",
-            html: `<p>Verify verify verify: <a href=${"http://"+currentUrl + ":4000/api/user/verify/" + _id + "/" + uniqueString}>${currentUrl + "/api/user/verify/" + _id + "/" + uniqueString}</a></p>`
+            html: `<p>Verify link: <a href=${"http://"+currentUrl + ":4000/api/user/verify/" + _id + "/" + uniqueString}>Click Here!</a></p>`
         }
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(uniqueString, salt);

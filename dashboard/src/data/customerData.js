@@ -121,7 +121,6 @@ const gridDocumentProfile = (props) => {
       <div className="flex justify-start items-center gap-4">
         <a className=""><IoDocumentText/></a>
         <a className="">{props.document}</a>
-
       </div>
     )
   }else {
@@ -143,6 +142,28 @@ const gridTagsProfile = (props) => {
       <div className="gap-2">
         <div className="grid grid-cols-1 divide-y">{tagArray.map(tag => <a key={tagArray.indexOf(tag)}>{tag}<br/></a>)}</div >
       </div>
+    )
+  }else {
+    return (
+      <div>
+        <a className="text-gray-300">Not specified</a>
+      </div>
+    )
+  }
+};
+
+const gridManagerProfile = (props) => {
+  if (props.manager){
+    return (
+      <div className="place-content-center">
+        <TooltipComponent content={props.manager.description}
+            position={"TopLeft"}
+            tabIndex={0} className="">
+          <div className="flex gap-1 items-center">
+            <a>{props.manager.email}</a>
+          </div>
+          </TooltipComponent>
+        </div>
     )
   }else {
     return (
@@ -241,6 +262,7 @@ export const customerGrid = [
       width: '80',
       field: 'manager',
       allowEditing: false,
+      template: gridManagerProfile,
     },
     {
       headerText: '  Project Document Number',

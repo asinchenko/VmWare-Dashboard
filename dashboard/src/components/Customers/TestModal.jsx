@@ -43,7 +43,7 @@ export default function Modal(props) {
     const [fc, setFC] = useState();
     const [nl, setNL] = useState();
     const [tags, setTags] = useState("");
-    const [manager, setManager] = useState((user.email).split('@')[0])
+    const [manager, setManager] = useState({email:(user.email).split('@')[0], description: user.description})
     const [statusActiveButton, setStatusActiveButton] = useState("Active")
 
     const capitalize = (word) => {

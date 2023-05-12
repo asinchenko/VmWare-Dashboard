@@ -18,7 +18,8 @@ export default class UserController {
             const token = createToken(loginUser._id);
             const role = loginUser.role;
             const acknowledge = loginUser.verified;
-            res.status(200).json({email, token, role, acknowledge})
+            const description = loginUser.description;
+            res.status(200).json({email, token, role, acknowledge,description})
         }catch(e){
             res.status(400).json({error:e.message})
         }
@@ -96,9 +97,9 @@ export default class UserController {
         const __dirname = path.resolve();
         try{
             const tryToVerify = await User.verifyEmailLink(userId,uniqueString);
-            res.sendFile(path.resolve(__dirname, "./verificationPage.html"));
+            res.sendFile(path.resolve(__dirname, "./verificationPage/email.html"));
         }catch(e){
-            res.status(400).json({error:e.message})
+            res.sendFile(path.resolve(__dirname, "./verificationPage/no_email.html"));
         }
         
 
