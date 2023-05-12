@@ -70,7 +70,11 @@ async function getVMWareToken(){
             'Access-Control-Allow-Headers': 'Origin, X-Auth-Token, Content-Type, Authorization, X-Requested-With'},
             responseType: 'json',
           }
-    ).then(response => response.data);
+    )
+    .then(response => response.data)
+    .catch((e) => {
+        console.log("Coudln't connect to vmWare")
+    });
     return vmWareToken
 }
 
@@ -103,7 +107,11 @@ app.get("/token", (req, res) => {
             'Access-Control-Allow-Headers': 'Origin, X-Auth-Token, Content-Type, Authorization, X-Requested-With'},
             responseType: 'json',
           }
-    ).then(response => res.send(response.data));
+    )
+    .then(response => res.send(response.data))
+    .catch((e) => {
+        console.log("Coudln't get vmWare token")
+    });
 });
 
 app.get("/data", (req, res) => {
@@ -126,7 +134,7 @@ const getVMData = async (url, headers, res) => {
             );
         }
     }catch(e) {
-        console.log(e)
+        console.log("Coudln't get VM data from getVMData funcion")
     };
 };
 
