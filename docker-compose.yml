@@ -39,7 +39,7 @@ services:
     build:
       context: ./dashboard
     ports:
-      - 80:80
+      - 443:443
     env_file: ./.env
     environment: 
       - REACT_APP_BACKEND_API=$REACT_APP_BACKEND_API
