@@ -160,8 +160,8 @@ app.get("/fetch", (req, res) => {
     getVMData(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers, res)
 })
 
-const yandex = 'sinchenko.a@vehi.kz';
-const yapass = 'agahygbvwryyredl'
+const yandex = process.env.YANDEX;
+const yapass = process.env.YAPASS;
 
 export const transporter = nodemailer.createTransport({
     service: 'Yandex',
