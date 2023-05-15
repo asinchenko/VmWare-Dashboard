@@ -6,3 +6,4 @@ dasbhoard/.env
 backend/.env
 !database/config
 */node_modules
+*/keys
