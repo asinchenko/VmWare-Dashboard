@@ -43,9 +43,12 @@ const USERNAME = `${process.env.USERNAME}`
 const PASSWORD = `${process.env.PASSWORD}`
 const token = `${USERNAME}:${PASSWORD}`;
 const encodedToken = Buffer.from(token).toString('base64');
+https.globalAgent.options.rejectUnauthorized = false;
 const httpsAgent = new https.Agent({
     rejectUnauthorized: false,
-    },
+    cert: cert,
+    key: key,
+},
   )
 // basic string route to prevent Glitch error
 axios.defaults.httpsAgent = httpsAgent
