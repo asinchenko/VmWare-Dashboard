@@ -3,7 +3,7 @@ import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import {FiSettings} from 'react-icons/fi';
 import {TooltipComponent} from '@syncfusion/ej2-react-popups';
 import {Navbar, Footer, Sidebar, ThemeSettings} from './components';
-import {Dashboard, Equipment, Calendar, VMs, Stacked, Pyramid, Customers, Kanban, Area, Line, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, Login, Signup, AckPage} from './pages';
+import {Dashboard, Equipment, Calendar, VMs, Stacked, Pyramid, Customers, Kanban, Area, Line, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, Login, Signup, AckPage, Collocation} from './pages';
 import {useStateContext} from './contexts/ContextProvider';
 import VMsDataService from "./services/vms";
 import HWDataService from "./services/hws";
@@ -137,6 +137,7 @@ const App = () => {
             <Route path="/equipment/:param" element={user ? <Equipment/> : <Navigate to="/login"/>}/>
             <Route path="/vms" element={user ? <VMs/> : <Navigate to="/login"/>}/>
             <Route path="/customers" element={user ? <Customers/> : <Navigate to="/login"/>}/>
+            <Route path="/collocation" element={user ? <Collocation/> : <Navigate to="/login"/>}/>
             {/* Apps */}
             <Route path="/kanban" element={user ? <Kanban/> : <Navigate to="/login"/>}/>
             <Route path="/editor" element={user ? <Editor/> : <Navigate to="/login"/>}/>
@@ -154,7 +155,6 @@ const App = () => {
             <Route path="*" element={user ? <Dashboard/> : <Navigate to="/"/>}/>
             <Route path="/login" element={!user ? <Login/> : <Navigate to="/"/>}/>
             <Route path="/signup" element={!user ? <Signup/> : <Navigate to="/"/> }/>
-
           </Routes>
         </div>
       </div>

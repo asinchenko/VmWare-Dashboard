@@ -14,7 +14,11 @@ import Client from './api_mongo/client.logic.js';
 import dotenv from "dotenv";
 import nocache from 'nocache';
 import nodemailer from "nodemailer";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 dotenv.config();
 // enable CORS
 const app = express();
@@ -170,6 +174,15 @@ export const transporter = nodemailer.createTransport({
         pass: yapass, 
     }
 })
+
+app.get('/api/downloadHardware', function(req, res){
+    const file = `${__dirname}/hardwareFile/HPE_DC-Astana.xlsx`;
+    res.download(file); // Set disposition and send it.
+  });
+app.get('/api/downloadCollocation', function(req, res){
+    const file = `${__dirname}/hardwareFile/DC_RACKS.xlsx`;
+    res.download(file); // Set disposition and send it.
+});
 
 setInterval(() => {
     // Checks for Date fields in client collection to change the "type" field from Active to Inactive in case of old datetime

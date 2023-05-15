@@ -7,7 +7,7 @@ const vcenerFetchVMDetails = async (url, headers) => {
     }
         
     catch (error) {
-        console.log(error);
+        console.log("vcenerFetchVMDetails fail");
     }
 };
 

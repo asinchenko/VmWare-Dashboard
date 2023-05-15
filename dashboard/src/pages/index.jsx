@@ -18,3 +18,4 @@ export { default as Stacked } from './Charts/Stacked';
 export { default as Signup } from './Signup';
 export { default as Login } from './Login';
 export { default as AckPage } from './AckPage';
+export { default as Collocation } from './Collocation';

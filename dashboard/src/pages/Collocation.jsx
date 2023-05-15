@@ -14,13 +14,13 @@ import {useUploadEquipment} from '../services/useUploadEquipment'
 import { useNavigate } from "react-router-dom";
 import { SpreadsheetComponent, SheetsDirective, SheetDirective, RangesDirective, RangeDirective } from '@syncfusion/ej2-react-spreadsheet';
 import { read, utils } from 'xlsx';
-import { data } from './../data/DC_HPE';
+import { data } from '../data/DC_HPE';
 
-const Equipment = () => {
+const Collocation = () => {
   const spreadsheetRef = useRef(null);
   useEffect(() => {
       const fetchData = async () => {
-          const response = await fetch('http://localhost:4000/api/downloadHardware'); // fetch the remote url
+          const response = await fetch('http://localhost:4000/api/downloadCollocation'); // fetch the remote url
           const fileBlob = await response.blob(); // convert the excel file to blob
           const file = new File([fileBlob], 'Sample.xlsx'); //convert the blob into file
           let spreadsheet = spreadsheetRef.current;
@@ -49,4 +49,4 @@ const Equipment = () => {
       </SpreadsheetComponent>
   );
 }
-export default Equipment
+export default Collocation
