@@ -38,6 +38,7 @@ services:
           #  - backend
     build:
       context: ./dashboard
+    restart: unless-stopped
     ports:
       - 443:443
       - 80:80

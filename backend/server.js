@@ -14,6 +14,7 @@ import Client from './api_mongo/client.logic.js';
 import dotenv from "dotenv";
 import nocache from 'nocache';
 import nodemailer from "nodemailer";
+import fs from "fs";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -31,7 +32,12 @@ app.use(express.urlencoded({limit: '30mb'}));
 app.use(express.static('verificationPage'))
 // set the port on which our app wil run
 // important to read from environment variable if deploying
-
+let key = fs.readFileSync(__dirname+'/keys/key.key','utf-8')
+let cert = fs.readFileSync(__dirname+'/keys/key.crt','utf-8')
+const parameters = {
+    key: key,
+    cert: cert
+  }
 
 const USERNAME = `${process.env.USERNAME}`
 const PASSWORD = `${process.env.PASSWORD}`
@@ -196,6 +202,6 @@ app.use('/api/img', imgRouter);
 app.use('/api/user', usersRouter);
 app.use('*',(req, res) => res.status(404).json({error: "not Found"}));
 
+const server = https.createServer(parameters,app)
 
-
-export default app
+export default server
