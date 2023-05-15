@@ -3,7 +3,6 @@ WORKDIR /backend
 COPY package.json .
 RUN apt update -y
 RUN apt upgrade -y
-RUN apt install nodejs npm
 RUN npm install --force
 RUN npm uninstall -g bcrypt --force
 RUN npm install bcrypt --force
