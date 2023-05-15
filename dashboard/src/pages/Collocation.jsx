@@ -20,7 +20,7 @@ const Collocation = () => {
   const spreadsheetRef = useRef(null);
   useEffect(() => {
       const fetchData = async () => {
-          const response = await fetch('http://localhost:4000/api/downloadCollocation'); // fetch the remote url
+          const response = await fetch(`http://${process.env.REACT_APP_BACKEND_API}:4000/api/downloadCollocation`); // fetch the remote url
           const fileBlob = await response.blob(); // convert the excel file to blob
           const file = new File([fileBlob], 'Sample.xlsx'); //convert the blob into file
           let spreadsheet = spreadsheetRef.current;
