@@ -1,6 +1,4 @@
 FROM node:16
-ENV http_proxy=http:...
-ENV https_proxy=http:...
 WORKDIR /backend
 COPY package.json .
 RUN npm install --force
