@@ -13,8 +13,8 @@ services:
   #     - backend
   
   backend:
-    depends_on:
-      - mongodb
+    #depends_on:
+    #  - mongodb
     build: ./backend
     restart: unless-stopped
     ports:
@@ -47,7 +47,7 @@ services:
     environment: 
       - REACT_APP_BACKEND_API=$REACT_APP_BACKEND_API
     networks:
-      - frontend  
+      - backend  
 
 volumes: 
   db:
