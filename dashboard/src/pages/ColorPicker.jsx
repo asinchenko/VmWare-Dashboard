@@ -5,7 +5,7 @@ import IMGDataService from '../services/imgs'
 import axios from 'axios'
 
 
-const url = `http://${process.env.REACT_APP_BACKEND_API}:4000/api/img/pic`
+const url = `https://${process.env.REACT_APP_BACKEND_API}:4000/api/img/pic`
 
 const ColorPicker = () => {
 

@@ -33,7 +33,7 @@ app.use(express.static('verificationPage'))
 // set the port on which our app wil run
 // important to read from environment variable if deploying
 let key = fs.readFileSync(__dirname+'/keys/key.key','utf-8')
-let cert = fs.readFileSync(__dirname+'/keys/key.crt','utf-8')
+let cert = fs.readFileSync(__dirname+'/keys/key.pem','utf-8')
 const parameters = {
     key: key,
     cert: cert
@@ -45,9 +45,10 @@ const token = `${USERNAME}:${PASSWORD}`;
 const encodedToken = Buffer.from(token).toString('base64');
 https.globalAgent.options.rejectUnauthorized = false;
 const httpsAgent = new https.Agent({
-    rejectUnauthorized: false,
     cert: cert,
     key: key,
+    requestCert: false,
+    rejectUnauthorized: false,
 },
   )
 // basic string route to prevent Glitch error
@@ -173,8 +174,8 @@ app.get("/fetch", (req, res) => {
     getVMData(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers, res)
 })
 
-const yandex = process.env.YANDEX;
-const yapass = process.env.YAPASS;
+const yandex = `${process.env.YANDEX}`;
+const yapass = `${process.env.YAPASS}`;
 
 export const transporter = nodemailer.createTransport({
     service: 'Yandex',
@@ -205,6 +206,6 @@ app.use('/api/img', imgRouter);
 app.use('/api/user', usersRouter);
 app.use('*',(req, res) => res.status(404).json({error: "not Found"}));
 
-const server = https.createServer(parameters,app)
-
+// const server = https.createServer(parameters,app)
+const server = app
 export default server
