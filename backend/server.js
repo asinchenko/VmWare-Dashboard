@@ -32,21 +32,12 @@ app.use(express.urlencoded({limit: '30mb'}));
 app.use(express.static('verificationPage'))
 // set the port on which our app wil run
 // important to read from environment variable if deploying
-let key = fs.readFileSync(__dirname+'/keys/key.key','utf-8')
-let cert = fs.readFileSync(__dirname+'/keys/key.pem','utf-8')
-const parameters = {
-    key: key,
-    cert: cert
-  }
-
 const USERNAME = `${process.env.USERNAME}`
 const PASSWORD = `${process.env.PASSWORD}`
 const token = `${USERNAME}:${PASSWORD}`;
 const encodedToken = Buffer.from(token).toString('base64');
 https.globalAgent.options.rejectUnauthorized = false;
 const httpsAgent = new https.Agent({
-    cert: cert,
-    key: key,
     requestCert: false,
     rejectUnauthorized: false,
 },
