@@ -12,30 +12,32 @@ services:
   #   networks:
   #     - backend
   
-        #backend:
-    # depends_on:
-    #   - mongodb
-    #build: ./backend
-    #restart: unless-stopped
-    #ports:
-    #  - 4000:4000
-    #env_file: ./.env
-    #environment:
-    #  - MONGODB_DOCKER_PORT=$MONGODB_DOCKER_PORT
-    #  - DB_NAME=$DB_NAME
-    #  - DB_URI=$DB_URI
-    #  - SECRET=$SECRET
-    #  - USERNAME=$USERNAME
-    #  - PASSWORD=$PASSWORD
-    #  - VCENTER=$VCENTER
-    #  - BACKEND_API=$BACKEND_API
-    #networks:
-    #  - backend
-    #  - frontend
+  backend:
+    depends_on:
+      - mongodb
+    build: ./backend
+    restart: unless-stopped
+    ports:
+     - 4000:4000
+    env_file: ./.env
+    environment:
+     - MONGODB_DOCKER_PORT=$MONGODB_DOCKER_PORT
+     - DB_NAME=$DB_NAME
+     - DB_URI=$DB_URI
+     - SECRET=$SECRET
+     - USERNAME=$USERNAME
+     - PASSWORD=$PASSWORD
+     - VCENTER=$VCENTER
+     - BACKEND_API=$BACKEND_API
+     - YANDEX=$YANDEX
+     - YAPASS=$YAPASS
+    networks:
+     - backend
+     - frontend
 
   frontend:
-          #depends_on:
-          #  - backend
+    depends_on:
+      - backend
     build:
       context: ./dashboard
     restart: unless-stopped
