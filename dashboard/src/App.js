@@ -253,9 +253,9 @@ function calculateResources(value, clientResourcesArray){
   const objIndex = clientResourcesArray.findIndex(e => Object.keys(e)[0] === value.customer);
   let storage = {ssd: 0,fc: 0,nl: 0};
   value.details.value.disks.map(disk => {
-    if (disk.value.backing.vmdk_file.includes("SSD")){
+    if (disk.value.backing.vmdk_file.toLowerCase().includes("ssd")){
       storage.ssd += formatBytes(disk.value.capacity);
-    }else if (disk.value.backing.vmdk_file.includes("FC")){
+    }else if (disk.value.backing.vmdk_file.toLowerCase().includes("fc")){
       storage.fc += formatBytes(disk.value.capacity);
     }else{
       storage.nl += formatBytes(disk.value.capacity)
@@ -287,7 +287,7 @@ function calculateResources(value, clientResourcesArray){
   if (Object.keys(customerVM).length > 0)
     clientResourcesArray.push(customerVM)
 };
-function formatBytes(bytes, decimals = 2) {
+export function formatBytes(bytes, decimals = 2) {
 
   if (!+bytes) return '0'
   const k = 1024*1024*1024

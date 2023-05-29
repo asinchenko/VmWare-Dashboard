@@ -20,7 +20,11 @@ const Employees = () => {
   };
   function exportQueryCellInfo(args) { //pdfExcelQueryCellInfo event
     if (args.column.headerText.includes("torage")) {
-      args.value = "SSD :" + args.data.storage.ssd + "\n"  + "FC :" + args.data.storage.fc + "\n"  + "NL :" + args.data.storage.nl; //here we can set our customized value based on our requirement
+      args.value = "SSD :" + args.data.storage.ssd + "\n"  + " FC :" + args.data.storage.fc + "\n"  + " NL :" + args.data.storage.nl; //here we can set our customized value based on our requirement
+    }
+    if (args.column.headerText.includes("RAM")) {
+      args.value =  formatBytes(args.data.ram*1024*1024)
+      console.log(args.data.ram)
     }
     if (args.column.headerText.includes("etails")) {
       args.value = "OS: " + "\n" + args.data.details.value.guest_OS + "\n"
@@ -57,5 +61,17 @@ const Employees = () => {
     </div>
   )
 }
+function formatBytes(bytes, decimals = 2) {
+  if (!+bytes) return '0 Bytes'
+
+  const k = 1024
+  const dm = decimals < 0 ? 0 : decimals
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+}
+
 
 export default Employees
