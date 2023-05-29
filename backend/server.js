@@ -4,6 +4,7 @@ import cors from 'cors';
 import axios from 'axios';
 import https from 'https';
 import clientRouter from "./routes/client.route.js";
+import excelRouter from "./routes/excel.route.js";
 import vmsRouter from "./routes/vms.route.js";
 import hwRouter from "./routes/hw.route.js";
 import imgRouter from "./routes/img.route.js";
@@ -15,6 +16,7 @@ import dotenv from "dotenv";
 import nocache from 'nocache';
 import nodemailer from "nodemailer";
 import fs from "fs";
+import multer from 'multer';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -176,9 +178,37 @@ export const transporter = nodemailer.createTransport({
     }
 })
 
+
+  const destinationFolder = `${__dirname}/hardwareFile/`;
+  // Configure multer to handle the file upload
+  const storage = multer.diskStorage({
+    destination: destinationFolder,
+    filename: function (req, file, cb) {
+      const fileName = file.originalname.toLowerCase().split(' ').join('-');
+      cb(null, fileName);
+    }
+  });
+  const upload = multer({
+    storage: storage,
+    fileFilter: function (req, file, cb) {
+      const ext = path.extname(file.originalname);
+      if (ext !== '.xlsx') {
+        return cb(new Error('Only XLSX files are allowed'));
+      }
+      cb(null, true);
+    }
+  });
+
 app.get('/api/downloadHardware', function(req, res){
     const file = `${__dirname}/hardwareFile/HPE_DC-Astana.xlsx`;
     res.download(file); // Set disposition and send it.
+  });
+app.post('/api/downloadHardware', upload.single('file'), (req, res, next) => {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).send('No file uploaded');
+    }
+    res.status(200).send('File uploaded successfully');
   });
 app.get('/api/downloadCollocation', function(req, res){
     const file = `${__dirname}/hardwareFile/DC_RACKS.xlsx`;
@@ -191,6 +221,7 @@ setInterval(() => {
 }, 60 * 60 * 1000)
 
 app.use('/api/client', clientRouter);
+app.use('/api/excel', excelRouter);
 app.use('/api/vms', vmsRouter);
 app.use('/api/hw', hwRouter);
 app.use('/api/img', imgRouter);
