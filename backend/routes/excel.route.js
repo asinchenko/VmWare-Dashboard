@@ -11,7 +11,7 @@ router.route("/name/:name").get(ExcelController.apiGetExcelByName)
 router.route("/latest").get(ExcelController.apiGetExcelByDate)
 
 router.
-    route('/excel')
+    route('/')
     .post(ExcelController.apiPostExcel)
     .put(ExcelController.apiUpdateExcel)
     .delete(ExcelController.apiDeleteExcel)

@@ -1,8 +1,8 @@
-import Excel from './excel.logic.js';
+import Collocation from './collocation.logic.js';
 
-export default class ExcelController {
-    static async apiGetExcels(req, res, next) {
-        const excelPerPage = req.query.excelPerPage ? parseInt(req.query.excelPerPage):0;
+export default class CollocationController {
+    static async apiGetCollocations(req, res, next) {
+        const collocationPerPage = req.query.collocationPerPage ? parseInt(req.query.collocationPerPage):0;
         const page = req.query.page ? parseInt(req.query.page, 10):0;
 
         let filters = {}
@@ -12,29 +12,29 @@ export default class ExcelController {
             filters.name = req.query.name
         }
 
-        const {excelList, totalNumberExcels} = await Excel.getExcel({
+        const {collocationList, totalNumberCollocations} = await Collocation.getCollocation({
             filters,
             page,
-            excelPerPage,
+            collocationPerPage,
         })
 
         let response = {
-            excels: excelList,
+            collocations: collocationList,
             page: page,
             filters,
-            entries_per_page: excelPerPage,
-            total_results: totalNumberExcels,
+            entries_per_page: collocationPerPage,
+            total_results: totalNumberCollocations,
         }
         res.json(response)
     };
 
-    static async apiPostExcel(req, res, next) {
+    static async apiPostCollocation(req, res, next) {
     try {
-        const excel = req.body.excel;
+        const collocation = req.body.collocation;
         const title = req.body.title;
         const modifiedBy = req.body.modifiedBy;
-        const excelPost = await Excel.addExcel(
-            excel, title, modifiedBy
+        const collocationPost = await Collocation.addCollocation(
+            collocation, title, modifiedBy
         );
         res.json({status:"Updated!"});
     }catch(e) {
@@ -42,24 +42,24 @@ export default class ExcelController {
     }
     };
 
-    static async apiUpdateExcel(req, res, next) {
+    static async apiUpdateCollocation(req, res, next) {
         try {
             const _id = req.body._id;
-            const excel = req.body.excel;
+            const collocation = req.body.collocation;
             const document = req.body.document;
             const type = req.body.type;
             const tags = req.body.tags;
             const date = req.body.date;
     
-            const excelUpdate = await Excel.updateExcel(
-                _id, excel,document, type,tags,date
+            const collocationUpdate = await Collocation.updateCollocation(
+                _id, collocation,document, type,tags,date
             );
             
-            var {error} = excelUpdate
+            var {error} = collocationUpdate
             if (error) {
                 res.status(400).json({error})
             }
-            if (excelUpdate.modifiedCount === 0) {
+            if (collocationUpdate.modifiedCount === 0) {
                 throw new Error(
                     `Unable to update review, data hasn't changed or user is not valid`
                 )
@@ -70,12 +70,12 @@ export default class ExcelController {
         }
         };
 
-        static async apiDeleteExcel(req, res, next) {
+        static async apiDeleteCollocation(req, res, next) {
             try {
-                const excelId = req.body._id;
+                const collocationId = req.body._id;
         
-                const excelUpdate = await Excel.deleteExcel(
-                    excelId, 
+                const collocationUpdate = await Collocation.deleteCollocation(
+                    collocationId, 
                 );
                 res.json({status:"success"})
             }catch(e) {
@@ -83,11 +83,11 @@ export default class ExcelController {
             }
         };
 
-        static async apiDeleteExcelById(req, res,next){
+        static async apiDeleteCollocationById(req, res,next){
             try {
                 let id = req.params.id || {}
-                let excel_list = await Excel.deleteExcel(id)
-                if (!excel_list) {
+                let collocation_list = await Collocation.deleteCollocation(id)
+                if (!collocation_list) {
                     res.status(404).json({error: "Not found!"})
                     return
                 }
@@ -97,39 +97,39 @@ export default class ExcelController {
             }
         };
 
-        static async apiGetExcelById(req, res,next){
+        static async apiGetCollocationById(req, res,next){
             try {
                 let id = req.params.id || {}
-                let excel_list = await Excel.getExcelByID(id)
-                if (!excel_list) {
+                let collocation_list = await Collocation.getCollocationByID(id)
+                if (!collocation_list) {
                     res.status(404).json({error: "Not found!"})
                     return
                 }
-                res.json(excel_list)
+                res.json(collocation_list)
             }catch(e) {
                 console.log(`api, ${e}`)
                 res.status(500).json({error:e})
             }
         };
-        static async apiGetExcelByName(req, res,next){
+        static async apiGetCollocationByName(req, res,next){
             try {
                 let name = req.params.name || {}
                 console.log(name)
-                let excel_list = await Excel.getExcelByName(name)
-                if (!excel_list) {
+                let collocation_list = await Collocation.getCollocationByName(name)
+                if (!collocation_list) {
                     res.status(404).json({error: "Not found!"})
                     return
                 }
-                res.json(excel_list)
+                res.json(collocation_list)
             }catch(e) {
                 console.log(`api, ${e}`)
                 res.status(500).json({error:e})
             }
         };
 
-        static async apiGetExcelByState(req, res,next) {
+        static async apiGetCollocationByState(req, res,next) {
             try {
-                let states = await Excel.getExcelByState()
+                let states = await Collocation.getCollocationByState()
                 res.json(states)
             }catch(e){
                 console.log(`api ${e}`)
@@ -137,9 +137,9 @@ export default class ExcelController {
             }
         };
 
-        static async apiGetExcelByDate(req, res,next) {
+        static async apiGetCollocationByDate(req, res,next) {
             try {
-                let lastUpdate = await Excel.getExcelByDate()
+                let lastUpdate = await Collocation.getCollocationByDate()
                 res.json(lastUpdate)
             }catch(e){
                 console.log(`api ${e}`)

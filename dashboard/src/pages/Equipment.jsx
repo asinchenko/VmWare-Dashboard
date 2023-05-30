@@ -1,49 +1,90 @@
 import React, {useRef, useState, useEffect} from 'react'
 import axios from 'axios';
-import {HiSwitchVertical} from 'react-icons/hi'
-import {CgServer} from 'react-icons/cg'
-import {BsServer} from 'react-icons/bs'
-import {CiRouter} from 'react-icons/ci'
-import {GiFirewall} from 'react-icons/gi'
-import {GrStatusUnknown} from 'react-icons/gr'
-import {GridComponent, ColumnsDirective, ColumnDirective, Resize, Sort, 
-  ContextMenu, Filter, Page, ExcelExport, PdfExport, Edit, Inject, Selection} from '@syncfusion/ej2-react-grids'
-import {Header} from '../components';
+import {ColumnsDirective, ColumnDirective,} from '@syncfusion/ej2-react-grids'
 import {useStateContext} from '../contexts/ContextProvider';
-import {useUploadEquipment} from '../services/useUploadEquipment'
-import { useNavigate } from "react-router-dom";
 import { SpreadsheetComponent, SheetsDirective, SheetDirective, RangesDirective, RangeDirective } from '@syncfusion/ej2-react-spreadsheet';
-import { read, utils } from 'xlsx';
-import { data } from './../data/DC_HPE';
+import {useAuthContext} from './../services/useAuthContext'
+import moment from 'moment';
 
 const Equipment = () => {
+  const {currentColor} = useStateContext();
+  const [savePushed, setSavePushed] = useState(false);
+  const [saveText, setSaveText] = useState("Save")
+  const [saveSuccess, setSaveSuccess] = useState(null)
   const spreadsheetRef = useRef(null);
+  const {user} = useAuthContext();
   const dataSourceChanged = async (args) => {
+    setSavePushed(true);
+    setSaveText("Loading")
     const excel = await spreadsheetRef.current.saveAsJson();
-    const title = 'HPE_DC-Astana.xlsx';
+    const title = 'Inventory_Astana_DC.xlsx';
+    const modifiedBy = user.description;
     const updateDatabase = await axios.post(`http://${process.env.REACT_APP_BACKEND_API}:4000/api/excel/`, {
-        excel, title
+        excel, title, modifiedBy
         }).then(res => {
-            let result = JSON.stringify(res.data);
+            setSavePushed(false)
+            setSaveText("Save")
+            setSaveSuccess(true)
         }).catch(e => {
             console.log(e.response.data.error)
+            setSavePushed(false)
+            setSaveText("Save")
+            setSaveSuccess(false)
         })
   }
   useEffect(() => {
       const fetchData = async () => {
-        const response = await fetch(`http://${process.env.REACT_APP_BACKEND_API}:4000/api/downloadHardware`); // fetch the remote url
-        const fileBlob = await response.blob(); // convert the excel file to blob
-        const file = new File([fileBlob], 'Sample.xlsx'); //convert the blob into file
+        const response = await axios.get(`http://${process.env.REACT_APP_BACKEND_API}:4000/api/excel/latest`); // fetch the remote url
+        const file = response.data[0].excelFile.jsonObject; // fetch
+        const version = response.data[0].index;
+        const modifiedBy = response.data[0].modifiedBy;
+        const modifiedDate = moment.utc(response.data[0].date).utcOffset(6).format('HH:mm:ss, MM.D.YY');
+        const modifiedFromNow = moment.utc(response.data[0].date).fromNow();  
+        file.Workbook.sheets[0].rows[0].cells[1].value = "Version " + version;
+        file.Workbook.sheets[0].rows[0].cells[4].value = "Last Modified by " + modifiedBy;
+        file.Workbook.sheets[0].rows[0].cells[8].value = modifiedDate;
+        file.Workbook.sheets[0].rows[0].cells[13].value = modifiedFromNow;
         let spreadsheet = spreadsheetRef.current;
-        spreadsheet?.open({ file }); // open the file into Spreadsheet
+        spreadsheet?.openFromJson({ file }); // open the file into Spreadsheet
       };
       fetchData();
   }, []);
   return (
-    <div>
-    <button onClick={dataSourceChanged}>
-        Save
-    </button>
+    <div className="ml-12">
+    <div className="flex gap-2 items-center">
+      <button
+          data-ripple="true"
+          disabled={savePushed}
+          className="hover:bg-blue-700 text-white font-bold py-2 px-40 rounded"
+          style={
+              {backgroundColor: savePushed ? "rgba(189, 195, 199)":currentColor}
+          }
+          onClick={dataSourceChanged}>
+          {saveText}
+      </button>
+      
+      <div className="flex items-center gap-2">
+        {saveSuccess == null ? <></> :
+        <div>
+          {saveSuccess == true ? 
+          <div className="flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 text-green-600">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <a className="text-2xl text-green-600">Saved!</a> <a className="text-gray-400">Reload Page to See Changes</a>
+          </div>
+          :
+          <div className="flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 text-red-600">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <a className="text-2xl text-red-600">Error!</a> <a className="text-gray-400">Try again, or ask administrator</a>
+          </div>
+          }
+        </div>
+      }
+      </div>
+    </div>
       <SpreadsheetComponent allowSave={true} saveUrl={`https://services.syncfusion.com/react/production/api/spreadsheet/save`} height={"90vh"} ref={spreadsheetRef}  openUrl='https://services.syncfusion.com/react/production/api/spreadsheet/open' allowOpen={true}>
         <SheetsDirective>
                 <SheetDirective>

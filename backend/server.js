@@ -5,6 +5,7 @@ import axios from 'axios';
 import https from 'https';
 import clientRouter from "./routes/client.route.js";
 import excelRouter from "./routes/excel.route.js";
+import collocationRouter from "./routes/collocation.route.js";
 import vmsRouter from "./routes/vms.route.js";
 import hwRouter from "./routes/hw.route.js";
 import imgRouter from "./routes/img.route.js";
@@ -222,6 +223,7 @@ setInterval(() => {
 
 app.use('/api/client', clientRouter);
 app.use('/api/excel', excelRouter);
+app.use('/api/collocation', collocationRouter);
 app.use('/api/vms', vmsRouter);
 app.use('/api/hw', hwRouter);
 app.use('/api/img', imgRouter);

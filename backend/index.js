@@ -7,6 +7,7 @@ import hws from "./api_mongo/hardware.logic.js"
 import imgs from "./api_mongo/images.logic.js"
 import user from "./api_mongo/user.logic.js"
 import excel from "./api_mongo/excel.logic.js"
+import collocation from "./api_mongo/collocation.logic.js"
 import dotenv from "dotenv";
 import https from 'https';
 
@@ -31,6 +32,7 @@ MongoClient.connect(
     await imgs.injectDB(client)
     await user.injectDB(client)
     await excel.injectDB(client)
+    await collocation.injectDB(client)
     server.listen(port, () => {
         console.log(`Server listening at http://localhost:${port}`);
     });

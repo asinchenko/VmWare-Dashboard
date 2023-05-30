@@ -76,7 +76,7 @@ const App = () => {
     return (<div>
       <BrowserRouter>
       <Routes>
-        <Route path="/login" element={!user ? <Login/> : <Navigate to="/"/>}/>/verify/:userId/:uniqueString
+        <Route path="/login" element={!user ? <Login/> : <Navigate to="/"/>}/>
         <Route path="/signup" element={!user ? <Signup/> : <Navigate to="/"/> }/>
         <Route path="*" element={<Login/>}/>
       </Routes>

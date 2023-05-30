@@ -31,8 +31,7 @@ export default class Excel {
     }
     let cursor
     try {
-        cursor = await excel
-            .find(query)
+        cursor = await excel.find(query)
     }catch(e){
         console.error(`Unable to find command, ${e}`)
         return {excelList:[], totalNumberExcels:0}
@@ -51,11 +50,12 @@ export default class Excel {
     }
     };
 
-    static async addExcel(excel, title){
+    static async addExcel(excelFile, title, modifiedBy){
         try{
+            const index = await excel.find().count() + 1;
             const date = new Date();
             const addDoc = {
-                excel, title, date
+                index, modifiedBy, excelFile, title, date
             };
             return await excel.insertOne(addDoc)
         }catch (e) {
@@ -64,12 +64,12 @@ export default class Excel {
         };
     };
 
-    static async updateExcel(_id,excel,document, type,tags,date){
+    static async updateExcel(_id,excelFile,document, type,tags,date){
         try{
             const updateExcel = await excel.updateOne(
                 {_id: ObjectId(_id)},
                 {$set: {
-                    excel,document, type,tags,date}},
+                    excelFile,document, type,tags,date}},
             )
             return updateExcel
         }catch (e) {
@@ -130,5 +130,14 @@ export default class Excel {
             return {error: e}
         };
     }
+    static async getExcelByDate() {
+        try{
+            const findVM = await excel.find().sort({date: -1}).limit(1).toArray()
+            return findVM
+        }catch (e) {
+            console.error(`Unable to get VM by date: ${e}`)
+            return {error: e}
+        };
+    };
     
 }
