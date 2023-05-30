@@ -42,9 +42,22 @@ const Collocation = () => {
       const modifiedFromNow = moment.utc(response.data[0].date).fromNow();  
       file.Workbook.sheets[0].rows[0].cells[0].value = "Version " + version;
       file.Workbook.sheets[0].rows[0].cells[3].value = "Last Modified by " + modifiedBy;
-      file.Workbook.sheets[0].rows[0].cells[9].value = modifiedDate;
+      file.Workbook.sheets[0].rows[0].cells[9].value = modifiedDate;    
       file.Workbook.sheets[0].rows[0].cells[11].value = modifiedFromNow;
-    console.log(file.Workbook.sheets[0].rows[0])
+      const columns = [3,4,6,7,9,10]
+      for (let i = 6; i < 30; i++) {
+        for (let y = 0; y < columns.length; y++) {
+            if(file.Workbook.sheets[0].rows[i].cells[y].value == "Резерв"){
+                file.Workbook.sheets[0].rows[i-1].cells[y].style.backgroundColor = '#FFF2CC'
+                file.Workbook.sheets[0].rows[i].cells[y].style.backgroundColor = '#FFF2CC'
+            }
+            if(file.Workbook.sheets[0].rows[i].cells[y].value == undefined && file.Workbook.sheets[0].rows[i].cells[y].format == "@"){
+                console.log(file.Workbook.sheets[0].rows[i].cells[y])
+                file.Workbook.sheets[0].rows[i-1].cells[y].style.backgroundColor = '#E3F0D9'
+                file.Workbook.sheets[0].rows[i].cells[y].style.backgroundColor = '#E3F0D9'
+            }
+        }
+    }
       let spreadsheet = spreadsheetRef.current;
       spreadsheet?.openFromJson({ file }); // open the file into Spreadsheet
     };
