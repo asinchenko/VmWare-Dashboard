@@ -50,7 +50,7 @@ export default class Collocation {
     }
     };
 
-    static async addCollocation(collocationFile, title, modifiedBy){
+    static async addCollocation(collocationFile, title, modifiedBy, rackAction, racksPositionModal, client, dateReserv){
         try{
             let index = 0;
             try{
@@ -60,8 +60,9 @@ export default class Collocation {
             }
             const date = new Date();
             const addDoc = {
-                index, modifiedBy, collocationFile, title, date
+                index, modifiedBy, collocationFile, title, date,
             };
+            //TODO add telegram bot update
             return await collocation.insertOne(addDoc)
         }catch (e) {
             console.error(`Unable to add a collocation: ${e}`)

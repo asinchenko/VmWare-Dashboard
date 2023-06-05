@@ -30,11 +30,15 @@ export default class CollocationController {
 
     static async apiPostCollocation(req, res, next) {
     try {
-        const collocation = req.body.collocation;
+        const collocationFile = req.body.collocation;
         const title = req.body.title;
         const modifiedBy = req.body.modifiedBy;
+        const rackAction = req.body.rackAction;
+        const racksPositionModal = req.body.racksPositionModal;
+        const client = req.body.client;
+        const dateReserv = req.body.date;
         const collocationPost = await Collocation.addCollocation(
-            collocation, title, modifiedBy
+            collocationFile, title, modifiedBy, rackAction, racksPositionModal, client, dateReserv
         );
         res.json({status:"Updated!"});
     }catch(e) {

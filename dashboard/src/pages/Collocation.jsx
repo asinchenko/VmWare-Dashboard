@@ -5,67 +5,125 @@ import {useStateContext} from '../contexts/ContextProvider';
 import { SpreadsheetComponent, SheetsDirective, SheetDirective, RangesDirective, RangeDirective } from '@syncfusion/ej2-react-spreadsheet';
 import {useAuthContext} from './../services/useAuthContext'
 import moment from 'moment';
-
+import CollocationModal from '../components/Collocation/CollocationModal';
+import CollocationFreeModal from '../components/Collocation/CollocationFree';
 const Collocation = () => {
   const {currentColor} = useStateContext();
+  const [openModalReserv, setOpenModalReserv] = useState(false);
+  const [openModalFree, setOpenModalFree] = useState(false);
+  const [racksModal, setRacksModal] = useState([]);
+  const [racksPositionModal, setRacksPositionModal] = useState([]);
   const [savePushed, setSavePushed] = useState(false);
   const [saveText, setSaveText] = useState("Save")
   const [saveSuccess, setSaveSuccess] = useState(null)
+  const [collcationaNewFIle, setCollcationaNewFIle] = useState(null)
+  const [rackAction, setRackAction] = useState(null)
   const spreadsheetRef = useRef(null);
   const {user} = useAuthContext();
   const dataSourceChanged = async (args) => {
     setSavePushed(true);
     setSaveText("Loading")
-    const collocation = await spreadsheetRef.current.saveAsJson();
-    const title = 'Collocation_DC_Astana.xlsx';
-    const modifiedBy = user.description;
-    const updateDatabase = await axios.post(`http://${process.env.REACT_APP_BACKEND_API}:4000/api/collocation/`, {
-        collocation, title, modifiedBy
-        }).then(res => {
-            setSavePushed(false)
-            setSaveText("Save")
-            setSaveSuccess(true)
-        }).catch(e => {
-            console.log(e.response.data.error)
-            setSavePushed(false)
-            setSaveText("Save")
-            setSaveSuccess(false)
-        })
+    const collocationPreview = await spreadsheetRef.current.saveAsJson();
+    const collocationOld = collocationPreview.jsonObject;
+    const file = collocationPreview.jsonObject;
+    const allEqual = arr => arr.every( v => v === arr[0] )
+    let rackNumbers = [];
+    let rackPosition = [];
+    let rackActions = [];
+    const columns = [3,4,6,7,9,10]
+    for (let i = 6; i < 51; i++) {
+      for (let y = 0; y < columns.length; y++) {
+          if(file.Workbook.sheets[0].rows[i].cells[columns[y]].value == "Резерв" && (file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor == '#E3F0D9' || file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor == '#F4B184' ) ){
+              file.Workbook.sheets[0].rows[i-1].cells[columns[y]].style.backgroundColor = '#FFF2CC';
+              file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor = '#FFF2CC';
+              file.Workbook.sheets[0].rows[i].cells[columns[y]].value = "Резерв";
+              file.Workbook.sheets[0].rows[i+1].cells[columns[y]].style.backgroundColor = '#FFF2CC';
+              file.Workbook.sheets[0].rows[i+2].cells[columns[y]].style.backgroundColor = '#FFF2CC';
+              rackNumbers.push(file.Workbook.sheets[0].rows[i-1].cells[columns[y]].value)
+              rackActions.push("Резерв")
+              rackPosition.push([i, columns[y]])
+          }
+          if(file.Workbook.sheets[0].rows[i].cells[columns[y]].value == "Свободно" && file.Workbook.sheets[0].rows[i].cells[columns[y]].format == "@" && (file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor == '#FFF2CC' || file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor == '#F4B184')){
+              file.Workbook.sheets[0].rows[i-1].cells[columns[y]].style.backgroundColor = '#E3F0D9'
+              file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor = '#E3F0D9'
+              file.Workbook.sheets[0].rows[i].cells[columns[y]].value = "Свободно";
+              file.Workbook.sheets[0].rows[i+1].cells[columns[y]].style.backgroundColor = '#E3F0D9'
+              file.Workbook.sheets[0].rows[i+1].cells[columns[y]].value = undefined;
+              file.Workbook.sheets[0].rows[i+2].cells[columns[y]].style.backgroundColor = '#E3F0D9'
+              file.Workbook.sheets[0].rows[i+2].cells[columns[y]].value = undefined;
+              rackNumbers.push(file.Workbook.sheets[0].rows[i-1].cells[columns[y]].value)
+              rackActions.push("Свободно")
+              rackPosition.push([i, columns[y]])
+            }
+          if(file.Workbook.sheets[0].rows[i].cells[columns[y]].value == "Занято" && (file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor == '#E3F0D9' || file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor == '#FFF2CC' ) ){
+              file.Workbook.sheets[0].rows[i-1].cells[columns[y]].style.backgroundColor = '#F4B184';
+              file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor = '#F4B184';
+              file.Workbook.sheets[0].rows[i].cells[columns[y]].value = "Занято";
+              file.Workbook.sheets[0].rows[i+1].cells[columns[y]].style.backgroundColor = '#F4B184';
+              file.Workbook.sheets[0].rows[i+2].cells[columns[y]].style.backgroundColor = '#F4B184';
+              rackNumbers.push(file.Workbook.sheets[0].rows[i-1].cells[columns[y]].value)
+              rackActions.push("Занято")
+              rackPosition.push([i, columns[y]])
+          }
+        }
+    }
+    if (rackActions.length > 0 && allEqual(rackActions)){
+      setRacksModal(String(rackNumbers))
+      setRacksPositionModal(rackPosition)
+      setRackAction(rackActions[0])
+      if (rackActions[0] === "Резерв" || rackActions[0] === "Занято") {
+        setOpenModalReserv(true)
+      }
+      if (rackActions[0] === "Свободно") {
+        setOpenModalFree(true)
+      }
+    }else {
+      setSavePushed(false);
+      setSaveText("Недопустимое действие")
+    }
+    setCollcationaNewFIle(file)
   }
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(`http://${process.env.REACT_APP_BACKEND_API}:4000/api/collocation/latest`); // fetch the remote url
-      const file = response.data[0].collocationFile.jsonObject; // fetch
+      const file = response.data[0].collocationFile; // fetch
       const version = response.data[0].index;
       const modifiedBy = response.data[0].modifiedBy;
       const modifiedDate = moment.utc(response.data[0].date).utcOffset(6).format('HH:mm:ss, MM.D.YY');
-      const modifiedFromNow = moment.utc(response.data[0].date).fromNow();  
+      const modifiedFromNow = moment.utc(response.data[0].date).fromNow();
       file.Workbook.sheets[0].rows[0].cells[0].value = "Version " + version;
       file.Workbook.sheets[0].rows[0].cells[3].value = "Last Modified by " + modifiedBy;
       file.Workbook.sheets[0].rows[0].cells[9].value = modifiedDate;    
       file.Workbook.sheets[0].rows[0].cells[11].value = modifiedFromNow;
       const columns = [3,4,6,7,9,10]
-      for (let i = 6; i < 30; i++) {
-        for (let y = 0; y < columns.length; y++) {
-            if(file.Workbook.sheets[0].rows[i].cells[y].value == "Резерв"){
-                file.Workbook.sheets[0].rows[i-1].cells[y].style.backgroundColor = '#FFF2CC'
-                file.Workbook.sheets[0].rows[i].cells[y].style.backgroundColor = '#FFF2CC'
-            }
-            if(file.Workbook.sheets[0].rows[i].cells[y].value == undefined && file.Workbook.sheets[0].rows[i].cells[y].format == "@"){
-                console.log(file.Workbook.sheets[0].rows[i].cells[y])
-                file.Workbook.sheets[0].rows[i-1].cells[y].style.backgroundColor = '#E3F0D9'
-                file.Workbook.sheets[0].rows[i].cells[y].style.backgroundColor = '#E3F0D9'
-            }
+    for (let i = 6; i < 51; i++) {
+      for (let y = 0; y < columns.length; y++) {
+        if (file.Workbook.sheets[0].rows[i].cells[columns[y]].value != undefined && file.Workbook.sheets[0].rows[i].cells[columns[y]].value.length > 4 && moment(file.Workbook.sheets[0].rows[i].cells[columns[y]].value, 'HH:mm, MM.D.YY').isValid()){
+          console.log(file.Workbook.sheets[0].rows[i].cells[columns[y]].value)
+          if (moment(file.Workbook.sheets[0].rows[i].cells[columns[y]].value, 'HH:mm, MM.D.YY').format('MM.D.YY') < moment(new Date).format('MM.D.YY'))
+            file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor = '#FF0F2F';
         }
+      }
     }
       let spreadsheet = spreadsheetRef.current;
       spreadsheet?.openFromJson({ file }); // open the file into Spreadsheet
     };
     fetchData();
 }, []);
+useEffect(() => {
+
+}, saveSuccess)
   return (
     <div className="ml-12">
-    <div className="flex gap-2 items-center">
+    <CollocationFreeModal openModalFree={openModalFree} setOpenModalFree={setOpenModalFree} 
+      setSavePushed={setSavePushed} setSaveText={setSaveText}  rackAction={rackAction}
+      setSaveSuccess={setSaveSuccess} spreadsheetRef={spreadsheetRef} collcationaNewFIle={collcationaNewFIle} racksModal={racksModal} racksPositionModal={racksPositionModal}/>
+    <CollocationModal 
+      openModalReserv={openModalReserv} setOpenModalReserv={setOpenModalReserv}
+      setSavePushed={setSavePushed} setSaveText={setSaveText}  rackAction={rackAction}
+      setSaveSuccess={setSaveSuccess} spreadsheetRef={spreadsheetRef} collcationaNewFIle={collcationaNewFIle} racksModal={racksModal} racksPositionModal={racksPositionModal}
+    />
+    <div className="flex gap-2 items-center"> 
       <button
           data-ripple="true"
           disabled={savePushed}
