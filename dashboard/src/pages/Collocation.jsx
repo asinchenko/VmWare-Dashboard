@@ -99,10 +99,14 @@ const Collocation = () => {
     for (let i = 6; i < 51; i++) {
       for (let y = 0; y < columns.length; y++) {
         if (file.Workbook.sheets[0].rows[i].cells[columns[y]].value != undefined && file.Workbook.sheets[0].rows[i].cells[columns[y]].value.length > 4 && moment(file.Workbook.sheets[0].rows[i].cells[columns[y]].value, 'HH:mm, MM.D.YY').isValid()){
-          console.log(file.Workbook.sheets[0].rows[i].cells[columns[y]].value)
-          if (moment(file.Workbook.sheets[0].rows[i].cells[columns[y]].value, 'HH:mm, MM.D.YY').format('MM.D.YY') < moment(new Date).format('MM.D.YY'))
+          if (moment(file.Workbook.sheets[0].rows[i].cells[columns[y]].value, 'HH:mm, MM.D.YY').format('MM.D.YY') < moment(new Date).format('MM.D.YY')){
             file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor = '#FF0F2F';
+          }
+          if (file.Workbook.sheets[0].rows[i].cells[columns[y]].value == "Invalid date"){
+            file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor = '#FF0F2F';
+          }
         }
+          
       }
     }
       let spreadsheet = spreadsheetRef.current;

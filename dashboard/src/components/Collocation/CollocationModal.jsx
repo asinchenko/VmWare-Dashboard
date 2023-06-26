@@ -107,7 +107,12 @@ export default function CollocationModal(props) {
                                             <div className="mt-2">
                                               <div className="mb-4 overscroll-auto">
                                                     <div className="gap-4 mb-2">
-                                                        <div className="mt-4 flex gap-1 items-center justify-between">
+                                                        <div>
+                                                            <p className="pt-4">Вы собираетесь заполнить следующие стойки: </p>
+                                                            <p className="font-bold">{racksModal}</p>
+                                                        </div>
+                                                        <div className="mt-2 flex gap-1 items-center justify-between">
+                                                            
                                                             <div className="text-gray-800 text-xl flex gap-1 items-center mt-2 mb-1">
                                                                 <a>Customer Name</a>
                                                             </div>
