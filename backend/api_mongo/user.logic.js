@@ -180,6 +180,9 @@ export default class User {
     }
 
     static async verifyEmailRequest(_id, email, uniqueString){
+        try{
+
+        
         const currentUrl = process.env.BACKEND_API;
         const mailOptions = {
             from: 'sinchenko.a@vehi.kz',
@@ -196,7 +199,12 @@ export default class User {
             expiresIn: Date.now() + 21600000,
         };
         const sendEmail = await transporter.sendMail(mailOptions)
+        
         return sendEmail
+    }
+    catch(e){
+        console.log(e)
+    }
     }
 
     static async verifyEmailLink(_id,uniqueString){
