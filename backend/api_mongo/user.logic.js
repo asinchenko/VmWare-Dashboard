@@ -198,8 +198,12 @@ export default class User {
             createdDate: Date.now(),
             expiresIn: Date.now() + 21600000,
         };
-        const sendEmail = await transporter.sendMail(mailOptions)
-        
+        const sendEmail = await transporter.sendMail(mailOptions, function (error, info) {
+            if(error) {
+                return console.log(error);
+            }
+            console.log("Message sent "+info.response)
+        });
         return sendEmail
     }
     catch(e){
