@@ -160,7 +160,7 @@ export default function CollocationModal(props) {
                                                         <DatePickerComponent  id="datepicker"  format='dd-MM-yyyy'
                                                             placeholder="Выберите дату окончания проекта"
                                                             onChange={
-                                                                (e) => setDate(e.target.value)
+                                                                (e) => setDate(e.target.value || null)
                                                             }
                                                             value={date} />
                                                         </div>

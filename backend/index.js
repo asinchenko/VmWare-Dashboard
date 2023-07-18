@@ -16,7 +16,7 @@ const port = process.env.PORT || 4000;
 const MongoClient = mongodb.MongoClient;
 
 MongoClient.connect(
-    process.env.DB_URI,{
+    `${process.env.DB_URI}`,{
         wtimeoutMS: 3000,
         useNewUrlParser: true,
     }

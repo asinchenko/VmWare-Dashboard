@@ -3,7 +3,7 @@ import axios from 'axios';
 import {ColumnsDirective, ColumnDirective,} from '@syncfusion/ej2-react-grids'
 import {useStateContext} from '../contexts/ContextProvider';
 import { SpreadsheetComponent, SheetsDirective, SheetDirective, RangesDirective, RangeDirective } from '@syncfusion/ej2-react-spreadsheet';
-import {useAuthContext} from './../services/useAuthContext'
+import {useAuthContext} from '../services/useAuthContext'
 import moment from 'moment';
 import CollocationModal from '../components/Collocation/CollocationModal';
 import CollocationFreeModal from '../components/Collocation/CollocationFree';
@@ -98,7 +98,7 @@ const Collocation = () => {
       const columns = [3,4,6,7,9,10]
     for (let i = 6; i < 51; i++) {
       for (let y = 0; y < columns.length; y++) {
-        if (file.Workbook.sheets[0].rows[i].cells[columns[y]].value != undefined && file.Workbook.sheets[0].rows[i].cells[columns[y]].value.length > 4 && moment(file.Workbook.sheets[0].rows[i].cells[columns[y]].value, 'HH:mm, MM.D.YY').isValid()){
+        if ((file.Workbook.sheets[0].rows[i].cells[columns[y]].value != undefined || file.Workbook.sheets[0].rows[i].cells[columns[y]].value != null) && file.Workbook.sheets[0].rows[i].cells[columns[y]].value.length > 4 && moment(file.Workbook.sheets[0].rows[i].cells[columns[y]].value, 'HH:mm, MM.D.YY').isValid()){
           if (moment(file.Workbook.sheets[0].rows[i].cells[columns[y]].value, 'HH:mm, MM.D.YY').format('MM.D.YY') < moment(new Date).format('MM.D.YY')){
             file.Workbook.sheets[0].rows[i].cells[columns[y]].style.backgroundColor = '#FF0F2F';
           }

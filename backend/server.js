@@ -81,7 +81,7 @@ async function getVMWareToken(){
     )
     .then(response => response.data)
     .catch((e) => {
-        console.log("Coudln't connect to vmWare", e)
+        console.log("Coudln't connect to vmWare. Error occured")
     });
     return vmWareToken
 }
