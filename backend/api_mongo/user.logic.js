@@ -54,11 +54,11 @@ export default class User {
     }
     };
 
-    static async updateUSER(userId, role="user", description="",){
+    static async updateUSER(userId, role="user", description="",verified=false){
         try{
             const updateUSER = await user.updateOne(
                 {_id: ObjectId(userId)},
-                {$set: {role:role, description: description}},
+                {$set: {role:role, description: description, verified:verified}},
             )
             return updateUSER
         }catch (e) {

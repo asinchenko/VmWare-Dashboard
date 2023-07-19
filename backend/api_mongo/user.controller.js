@@ -49,7 +49,7 @@ export default class UserController {
     static async apiUpdateUser(req, res){
         const {_id, description, role} = req.body;
         try {
-            const updateUser = await User.updateUSER(_id,role, description)
+            const updateUser = await User.updateUSER(_id,role, description, verified)
             res.status(200).json({_id, role})
         }catch(e){
             res.status(400).json({error:e.message})
