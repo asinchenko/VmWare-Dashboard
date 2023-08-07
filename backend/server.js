@@ -169,14 +169,15 @@ app.get('/fetch', (req, res) => {
 	getVMData(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers, res)
 })
 
-const yandex = `${process.env.YANDEX}`
-const yapass = `${process.env.YAPASS}`
+const gmail = `${process.env.GMAIL}`
+const gmailpass = `${process.env.GMAILPASS}`
 
 export const transporter = nodemailer.createTransport({
-	service: 'Yandex',
+	service: 'gmail',
+	host: 'smtp.gmail.com',
 	auth: {
-		user: yandex,
-		pass: yapass,
+		user: gmail,
+		pass: gmailpass,
 	},
 })
 
