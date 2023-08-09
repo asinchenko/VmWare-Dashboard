@@ -11,29 +11,29 @@ services:
   #     - db:/data/db
   #   networks:
   #     - backend
-  
+
   backend:
     #depends_on:
     #  - mongodb
     build: ./backend
-    restart: unless-stopped
+    restart: always
     ports:
-     - 4000:4000
+      - 4000:4000
     env_file: ./.env
     environment:
-     - MONGODB_DOCKER_PORT=$MONGODB_DOCKER_PORT
-     - DB_NAME=$DB_NAME
-     - DB_URI=$DB_URI
-     - SECRET=$SECRET
-     - USERNAME=$USERNAME
-     - PASSWORD=$PASSWORD
-     - VCENTER=$VCENTER
-     - BACKEND_API=$BACKEND_API
-     - YANDEX=$YANDEX
-     - YAPASS=$YAPASS
+      - MONGODB_DOCKER_PORT=$MONGODB_DOCKER_PORT
+      - DB_NAME=$DB_NAME
+      - DB_URI=$DB_URI
+      - SECRET=$SECRET
+      - USERNAME=$USERNAME
+      - PASSWORD=$PASSWORD
+      - VCENTER=$VCENTER
+      - BACKEND_API=$BACKEND_API
+      - YANDEX=$YANDEX
+      - YAPASS=$YAPASS
     networks:
-     - backend
-     - frontend
+      - backend
+      - frontend
 
   frontend:
     depends_on:
@@ -44,12 +44,12 @@ services:
     ports:
       - 80:80
     env_file: ./.env
-    environment: 
+    environment:
       - REACT_APP_BACKEND_API=$REACT_APP_BACKEND_API
     networks:
-      - backend  
+      - backend
 
-volumes: 
+volumes:
   db:
 
 networks:
