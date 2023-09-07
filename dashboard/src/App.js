@@ -105,7 +105,7 @@ const App = () => {
 				retrieveResults()
 				setCPUTotalAmount(26464)
 				setRAMTotalAmount(94328)
-				setStoragaTotalSSDAmount(64248)
+				setStoragaTotalSSDAmount(7424800)
 				setStorageTotalFCAmount(44000)
 				setStorageTotalNLAmount(512000)
 			}
