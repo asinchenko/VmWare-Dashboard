@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react'
-import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
-import {FiSettings} from 'react-icons/fi';
-import {TooltipComponent} from '@syncfusion/ej2-react-popups';
-import {Navbar, Footer, Sidebar, ThemeSettings} from './components';
-import {Dashboard, Equipment, Calendar, VMs, Stacked, Pyramid, Customers, Kanban, Area, Line, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, Login, Signup, AckPage, Collocation} from './pages';
-import {useStateContext} from './contexts/ContextProvider';
-import VMsDataService from "./services/vms";
-import HWDataService from "./services/hws";
-import ClientDataService from "./services/clnts";
-import {useAuthContext} from './services/useAuthContext'
+import { TooltipComponent } from '@syncfusion/ej2-react-popups'
+import React, { useEffect } from 'react'
+import { FiSettings } from 'react-icons/fi'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
+import { Navbar, Sidebar, ThemeSettings } from './components'
+import { useStateContext } from './contexts/ContextProvider'
+import { AckPage, Area, Bar, Calendar, Collocation, ColorMapping, ColorPicker, Customers, Dashboard, Editor, Equipment, Financial, Kanban, Line, Login, Pie, Pyramid, Signup, Stacked, VMs } from './pages'
+import ClientDataService from "./services/clnts"
+import HWDataService from "./services/hws"
+import { useAuthContext } from './services/useAuthContext'
+import VMsDataService from "./services/vms"
 
 
 const App = () => {
@@ -66,11 +66,11 @@ const App = () => {
     if (user) {
       if (searchLatestVM.length == 0 || latestTimeUpdate === 0 ){
         retrieveResults();
-        setCPUTotalAmount(7648);
-        setRAMTotalAmount(4300);
-        setStoragaTotalSSDAmount(185000);
+        setCPUTotalAmount(26464);
+        setRAMTotalAmount(94328);
+        setStoragaTotalSSDAmount(64248);
         setStorageTotalFCAmount(44000);
-        setStorageTotalNLAmount(500000);
+        setStorageTotalNLAmount(512000);
   }}});
   if (!user) {
     return (<div>

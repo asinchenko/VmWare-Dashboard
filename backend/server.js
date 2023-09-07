@@ -138,7 +138,7 @@ const getVMData = async (url, headers, res) => {
 			const vmPost = await VirtualMachines.addVM(result, date)
 		}
 	} catch (e) {
-		console.log("Coudln't get VM data from getVMData function")
+		console.log(new Date.now(), 'Could not get VM data from getVMData function')
 		vmWareToken = null
 		setTimeout(() => {
 			getVMData(`https://${process.env.VCENTER}/rest/vcenter/vm`, headers)
